@@ -101,7 +101,7 @@ def main():
     #Run
     use_graph.run()
 
-    #Merge use graph and run
+    #Merge 'use graph' and 'run' files
     merge_smf_file(use_graph, run_file[0], debug_mode)
 
 if __name__ == '__main__':
