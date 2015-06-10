@@ -9,9 +9,9 @@ from libs.xml_lib import is_a_valid_XML_document
 from libs.xml_lib import decompose_mutations
 
 from libs.exceptions.NoArgument import NoArgument
+from libs.exceptions.RunError import RunError
 
 from libs.use_graph_lib import UseGraph
-from libs.use_graph_lib import analyse_new_use_graph
 
 not_authorized_files = ['.DS_Store', '__init__.py']
 
