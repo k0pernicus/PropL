@@ -91,7 +91,7 @@ class UseGraph(object):
         j = 0
 
         #for all nodes...
-        for node in self.graph.nodes(data=True):
+        for node in self.graph.nodes(data = True):
 
             #type abbreviation of the node - default 'V' (Variable)
             type_abbr = "v"
@@ -138,7 +138,7 @@ class UseGraph(object):
         """
 
         #id_edge : (id_first_node, id_second_node)
-        for edge in self.graph.edges(data=True):
+        for edge in self.graph.edges(data = True):
             #decomposition of the tuple
             source_edge, target_edge, data_edge = edge
             #we keep the id of the edge (by data_edge)
