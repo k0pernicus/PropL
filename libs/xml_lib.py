@@ -61,7 +61,7 @@ def decompose_mutations(xml_document, debug_mode = False):
     tree = ET.parse(xml_document)
     root = tree.getroot()
 
-    mutants_table = {}
+    mutants_table = []
 
     good_mutants = 0
 
@@ -76,8 +76,8 @@ def decompose_mutations(xml_document, debug_mode = False):
             for mutant in simple_mutation.findall("mutant"):
                 #interesting if viable...
                 if mutant.get('viable') == "true":
+                    impacted_nodes = []
                     good_mutants = good_mutants + 1
-                    mutants_table[mutant.get('id')] = []
                     if debug_mode:
                         print("good mutant: {0}".format(mutant.get('id')))
                     #search after "failing tests"
@@ -85,11 +85,14 @@ def decompose_mutations(xml_document, debug_mode = False):
                         if child.tag == "failing":
                             #It's ok -> print out failing tests...
                             for child_failing in child:
-                                mutants_table[mutant.get('id')].append(child_failing.text)
-                                print("\t{0}".format(child_failing.text))
+                                impacted_nodes.append(child_failing.text)
+                    #append to the mutants table the real id of the mutant, and the impacted nodes
+                    mutants_table.append((mutant.get('in'), impacted_nodes))
                 else:
                     bad_mutants = bad_mutants + 1
                     if debug_mode:
                         print("bad mutant: {0}".format(mutant.get('id')))
 
     print(mutants_table)
+
+    return mutants_table
