@@ -116,9 +116,12 @@ class UseGraph(object):
 
             #for Nodes
 
+            #get the node id
             node_id = "{0}-{1}{2}".format(self.all_tests_name[name_test], type_abbr, j)
 
+            #store name -> id for node
             self.all_nodes_name[node_name] = node_id
+            #store id -> name for node
             self.all_nodes_id[node_id] = node_name
 
             j = j + 1
@@ -126,6 +129,7 @@ class UseGraph(object):
         #number of tests is the number of test nodes stored
         self.number_of_tests = i
 
+        #compute number of nodes
         self.number_of_nodes = self.graph.number_of_nodes()
 
     def computeEdges(self):
@@ -140,6 +144,7 @@ class UseGraph(object):
             #we keep the id of the edge (by data_edge)
             self.all_edges[data_edge['id']] = (self.all_nodes_name[source_edge], self.all_nodes_name[target_edge])
 
+        #compute number of edges
         self.number_of_edges = self.graph.number_of_edges()
 
     def computeLiaisons(self, mutation_node, impacted_nodes):
