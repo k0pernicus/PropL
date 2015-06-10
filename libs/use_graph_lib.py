@@ -36,6 +36,8 @@ class UseGraph(object):
         self.number_of_edges = 0
         #number of nodes
         self.number_of_nodes = 0
+        #liaisons test_id -> nodes impacted
+        self.liaisons = {}
         #debugging mode
         self.debug_mode = debug_mode
 
@@ -139,6 +141,30 @@ class UseGraph(object):
             self.all_edges[data_edge['id']] = (self.all_nodes_name[source_edge], self.all_nodes_name[target_edge])
 
         self.number_of_edges = self.graph.number_of_edges()
+
+    def computeLiaisons(self, mutation_node, impacted_nodes):
+        """
+        Abstract: Method to add some liaisons between tests and variables/methods
+        """
+
+        #get the id
+        mutation_node_id = self.all_nodes_name[mutation_node]
+
+        if self.debug_mode:
+            print("Mutation {0}".format(mutation_node_id))
+
+        #{mutation_node_id1: [node1_id, node2_id, ...], mutation_node_id2: [node1_id, node2_id, ...]}
+
+        #if key does not exists, we create it
+        if not mutation_node_id in self.liaisons:
+            self.liaisons[mutation_node_id] = []
+        #store all impacted nodes...
+        for impacted_node in impacted_nodes:
+            #store impacted node id in the 'mutation_node_id' array
+            try:
+                self.liaisons[mutation_node_id].append(self.all_nodes_name[impacted_node])
+            except Exception as excpt:
+                print("\tError for {0}: no id found for {1}!".format(mutation_node_id, excpt))
 
     def printInfo(self):
         """
