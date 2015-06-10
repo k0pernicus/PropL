@@ -70,9 +70,7 @@ def main():
     if os.path.exists(xml_doc):
         if os.path.isfile(xml_doc):
             #Transformation of the unique file -> list
-            xml_doc = [xml_doc]
-            if debug_mode:
-                print("{0} as file".format(xml_doc))
+            raise RunError("error : need a directory which contains 'run' and 'usegraph' files...")
         else:
             path = xml_doc
             xml_doc = os.listdir(path)
@@ -90,19 +88,21 @@ def main():
     #Verification of the XML validation
     print(is_valid_XML_documents(xml_doc))
 
-    decompose_mutations(xml_doc[0], debug_mode)
+    #analyse usegraph file
+    usegraph_file = [file_name for file_name in xml_doc if "usegraph" in file_name]
+    run_file = [file_name for file_name in xml_doc if "run" in file_name]
 
-    # i = 0
-    #
-    # #for each xml document...
-    # for doc in xml_doc:
-    #     #last_part is the last part of the path
-    #     last_part = os.path.basename(os.path.normpath(doc))
-    #     #verification : is last_part is contained in not_authorized_files field ?
-    #     if not last_part in not_authorized_files:
-    #         #each authorized file will be analyse in a new thread
-    #         Thread(target=analyse_new_use_graph, args=(i, doc)).start()
-    #         i = i + 1
+    if len(usegraph_file) == 0 or len(run_file) == 0:
+        raise RunError("No use graph or run files in the specified directory...")
+
+    #Creation of the use graph
+    use_graph = UseGraph(i, usegraph_file[0], debug_mode)
+
+    #Run
+    use_graph.run()
+
+    #Merge use graph and run
+    merge_smf_file(use_graph, run_file[0], debug_mode)
 
 if __name__ == '__main__':
     main()
