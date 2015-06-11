@@ -168,8 +168,11 @@ class UseGraph(object):
             #store impacted node id in the 'mutation_node_id' array
             try:
                 self.liaisons[mutation_node_id].append(self.all_nodes_name[impacted_node])
+                if self.debug_mode:
+                    print("\t{0}: id found for {1}".format(mutation_node_id, self.all_nodes_name[impacted_node]))
             except Exception as excpt:
-                print("\tError for {0}: no id found for {1}!".format(mutation_node_id, excpt))
+                if self.debug_mode:
+                    print("\tError for {0}: no id found for {1}!".format(mutation_node_id, excpt))
 
     def printInfo(self):
         """
