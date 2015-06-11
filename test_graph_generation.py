@@ -26,10 +26,13 @@ def add_labels(use_graph):
     Abstract: Add labels to nodes ("METHOD" or "VARIABLE") and to edges ("METHOD_CALL" or "OPERATION")
     """
 
+    #nodes as variables
     variables_table = []
 
+    #nodes as methods
     methods_table = []
 
+    #classification : variables / methods
     for node in use_graph.nodes():
         if not node in (item[0] for item in use_graph.edges()):
             variables_table.append(node)
@@ -42,6 +45,7 @@ def add_labels(use_graph):
     for method_label in methods_table:
         use_graph.node[method_label]['type'] = "METHOD"
 
+    #classification : method call (method -> method) / operation (method -> variable)
     for edge in use_graph.edges_iter():
         source, target = edge
         if (use_graph.node[source]['type'] == "METHOD") and (use_graph.node[target]['type'] == "METHOD"):
@@ -56,6 +60,7 @@ def add_probabilities(use_graph):
 
     for edge in use_graph.edges_iter():
         source, target = edge
+        #random probability with random.uniform
         use_graph.edge[source][target]['weight'] = random.uniform(0,1)
 
 def generate_new_example(use_graph):
@@ -66,10 +71,13 @@ def generate_new_example(use_graph):
 
     source_node = random.choice(use_graph.nodes())
 
+    #stack to know impacted nodes
     impacted_nodes = []
 
+    #list of interested nodes
     interested_nodes = []
 
+    #list of interested edges
     interested_edges = []
 
     impacted_nodes.append(source_node)
@@ -77,21 +85,31 @@ def generate_new_example(use_graph):
     interested_nodes.append((source_node, use_graph.node[source_node]['type']))
 
     while len(impacted_nodes) != 0:
+        #pop the first impacted node
         source_studied = impacted_nodes.pop(0)
+
         for edge in use_graph.edges_iter():
             source_of_edge, target_of_edge = edge
+            #if the source is the target of an edge, and if the weight is >= 0.5...
             if (source_studied == target_of_edge) and (use_graph.edge[source_of_edge][target_of_edge]['weight'] >= 0.5):
+                #the source is interested!!
                 interested_edges.append((edge, use_graph.edge[source_of_edge][target_of_edge]['type']))
+                #if the source is not already in the stack...
                 if not source_of_edge in impacted_nodes:
+                    #we add it!
                     impacted_nodes.append(source_of_edge)
+                    #and we add it to the interested nodes list
                     interested_nodes.append((source_of_edge, use_graph.node[source_node]['type']))
 
+    #new directed graph (the example)
     new_exemple = nx.DiGraph()
 
+    #each node is added
     for node in interested_nodes:
         node_name, node_type = node
         new_example.add_node(node_name, type=node_type)
 
+    #the same for each edge
     for edge in interested_edges:
         edge_name, edge_type = edge
         edge_source, edge_target = edge_name
@@ -117,6 +135,7 @@ def write_basic_usegraph(graph):
     """
     Abstract: Function to write the graph as graphml
     """
+
     nx.write_graphml(graph, "tests/graph_generation/usegraph.graphml")
 
 def write_usegraph_examples(graphs):
@@ -131,4 +150,5 @@ def write_usegraph_examples(graphs):
         i = i + 1
 
 if __name__ == "__main__":
+    
     main()
