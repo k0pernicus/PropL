@@ -90,9 +90,10 @@ def decompose_mutations(xml_document, debug_mode = False):
                     mutants_table.append((mutant.get('in'), impacted_nodes))
                 else:
                     bad_mutants = bad_mutants + 1
-                    if debug_mode:
-                        print("bad mutant: {0}".format(mutant.get('id')))
 
-    print(mutants_table)
+    if debug_mode:
+        print("{0} good mutants / {1} bad mutants".format(good_mutants, bad_mutants))
+
+    #print(mutants_table)
 
     return mutants_table
