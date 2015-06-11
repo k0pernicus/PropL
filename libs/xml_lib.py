@@ -55,7 +55,8 @@ def is_a_valid_XML_document(xml_parsing, xml_document):
 
 def decompose_mutations(xml_document, debug_mode = False):
     """
-    Abstract: Function to decompose mutations in the xml document (given as parameter)
+    Abstract: Function to decompose mutations in the xml document (given as parameter), usefull to merge with use graph
+    Return a list of couples (mutant, impacted_nodes)
     """
 
     tree = ET.parse(xml_document)
