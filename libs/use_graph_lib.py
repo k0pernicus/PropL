@@ -57,6 +57,7 @@ class UseGraph(object):
     def run(self):
         """
         Abstract: Method to compute tests, nodes and edges
+        Debugging mode is usefull to know time costs
         """
 
         if self.debug_mode:
@@ -81,7 +82,7 @@ class UseGraph(object):
 
     def computeTestsAndNodes(self):
         """
-        Abstract: Method to compute and store all tests name
+        Abstract: Method to compute and store all tests and nodes
         """
 
         #to store test id
@@ -177,6 +178,7 @@ class UseGraph(object):
     def printInfo(self):
         """
         Abstract: Method to print (output standard) some informations about the use graph
+        Return a string which contains these informations
         """
 
         return "Use graph {0} : {1} nodes and {2} edges / {3} tests".format(self.id, self.number_of_nodes, self.number_of_edges, self.number_of_tests)
