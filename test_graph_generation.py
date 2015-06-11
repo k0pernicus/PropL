@@ -71,6 +71,9 @@ def generate_new_example(use_graph):
 
     source_node = random.choice(use_graph.nodes())
 
+    #field to stock all available edges
+    all_edges = use_graph.edges_iter()
+
     #stack to know impacted nodes
     impacted_nodes = []
 
@@ -88,12 +91,15 @@ def generate_new_example(use_graph):
         #pop the first impacted node
         source_studied = impacted_nodes.pop(0)
 
-        for edge in use_graph.edges_iter():
+        for edge in all_edges:
             source_of_edge, target_of_edge = edge
             #if the source is the target of an edge, and if the weight is >= 0.5...
-            if (source_studied == target_of_edge) and (use_graph.edge[source_of_edge][target_of_edge]['weight'] >= 0.5):
-                #the source is interested!!
+            #TODO : weight >= 0.5 which weight is max of weights!!!
+            if (source_studied == target_of_edge) and (use_graph.edge[source_of_edge][target_of_edge]['weight'] > 0.5):
+                #the source is interesting!!
                 interested_edges.append((edge, use_graph.edge[source_of_edge][target_of_edge]['type']))
+                #remove the edge (because it became useless next...)
+                all_edges.remove(edge)
                 #if the source is not already in the stack...
                 if not source_of_edge in impacted_nodes:
                     #we add it!
