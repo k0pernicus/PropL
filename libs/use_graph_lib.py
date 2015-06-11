@@ -143,7 +143,7 @@ class UseGraph(object):
             #decomposition of the tuple
             source_edge, target_edge, data_edge = edge
             #we keep the id of the edge (by data_edge)
-            self.all_edges[data_edge['id']] = (self.all_nodes_name[source_edge], self.all_nodes_name[target_edge])
+            self.all_edges[data_edge['id']] = {"source" : self.all_nodes_name[source_edge], "target" : self.all_nodes_name[target_edge], "weight": 1}
 
         #compute number of edges
         self.number_of_edges = self.graph.number_of_edges()
