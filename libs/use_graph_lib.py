@@ -181,9 +181,9 @@ class UseGraph(object):
 
         return "Use graph {0} : {1} nodes and {2} edges / {3} tests".format(self.id, self.number_of_nodes, self.number_of_edges, self.number_of_tests)
 
-    def visualize(self):
+    def save_on_board(self):
         """
-        Abstract: Method to visualize the graph, with networkx tools and graphviz
+        Abstract: Method to save the visualization
         """
 
         nx.draw(self.graph)
