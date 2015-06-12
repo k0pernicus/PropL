@@ -86,7 +86,7 @@ def is_algorithm_good_between(use_graph, examples):
     Abstract: Function to match use_graph and examples
     """
 
-    rpb = resolve_pb(examples)
+    pass
 
     for edge in use_graph.edges(data = True):
         source, target, data = edge
