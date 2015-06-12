@@ -54,6 +54,23 @@ def add_labels(use_graph):
         else:
             use_graph.edge[source][target]['type'] = "OPERATION"
 
+def get_first_sources(use_graph):
+    """
+    Abstract: Add labels to first sources in the use graph (first source is a source which is not a target already)
+    """
+
+    first_sources = use_graph.nodes()
+
+    for edge in use_graph.edges_iter():
+        _, target = edge
+
+        if target in first_sources:
+            first_sources.remove(target)
+
+    #we got our first sources...
+
+    return first_sources
+
 def add_probabilities(use_graph):
     """
     Abstract: Add random probabilities to edges
