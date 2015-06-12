@@ -61,7 +61,54 @@ def add_probabilities(use_graph):
     for edge in use_graph.edges_iter():
         source, target = edge
         #random probability with random.uniform
-        use_graph.edge[source][target]['weight'] = random.uniform(0,1)
+        use_graph.edge[source][target]['weight'] = (random.randint(1, 100) / 100)
+
+def is_algorithm_good_between(use_graph, examples):
+    """
+    Abstract: Function to match use_graph and examples
+    """
+
+    rpb = resolve_pb(examples)
+
+    for edge in use_graph.edges(data = True):
+        source, target, data = edge
+        edge_st = (source, target)
+        if edge_st in rpb:
+            print("{0} : {1} - {2}".format((source, target), data['weight'], rpb[edge_st]['weight']))
+        else:
+            print("{0} : {1} - 0".format((source, target), data['weight']))
+
+def resolve_pb(examples):
+    """
+    Abstract: Function to resolve the following problem -> to compute efficiently probabilities from examples (compared with the original use graph)
+    """
+
+    all_weight = {}
+
+    number_runs = len(examples)
+
+    for ex_graph in examples:
+        ex_graph_nodes = ex_graph.nodes()
+        ex_graph_edges = ex_graph.edges()
+
+        for edge in ex_graph_edges:
+            if not edge in all_weight:
+                all_weight[edge] = {'weight' : 1}
+            else:
+                weight_of_edge = all_weight[edge]['weight']
+                all_weight[edge]['weight'] = weight_of_edge + 1
+
+    for edge, weight in all_weight.items():
+        all_weight[edge]['weight'] = weight['weight'] / number_runs
+
+    return all_weight
+
+def predict_impacts(use_graph, node):
+    """
+    Abstract: Algorithm to compute the route from 'node' to others nodes which are impacts of these node
+    """
+
+    pass
 
 def generate_new_example(use_graph):
     """
