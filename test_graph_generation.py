@@ -71,52 +71,52 @@ def generate_new_example(use_graph):
 
     source_node = random.choice(use_graph.nodes())
 
-    #field to stock all available edges
-    all_edges = use_graph.edges_iter()
+    print("source_node: {0}".format(source_node))
 
     #stack to know impacted nodes
     impacted_nodes = []
 
-    #list of interested nodes
-    interested_nodes = []
+    #list of interesting nodes
+    interesting_nodes = []
 
-    #list of interested edges
-    interested_edges = []
+    #list of interesting edges
+    interesting_edges = []
 
     impacted_nodes.append(source_node)
 
-    interested_nodes.append((source_node, use_graph.node[source_node]['type']))
+    interesting_nodes.append((source_node, use_graph.node[source_node]['type'], "source"))
 
     while len(impacted_nodes) != 0:
         #pop the first impacted node
         source_studied = impacted_nodes.pop(0)
 
-        for edge in all_edges:
+        for edge in use_graph.edges():
             source_of_edge, target_of_edge = edge
             #if the source is the target of an edge, and if the weight is >= 0.5...
             #TODO : weight >= 0.5 which weight is max of weights!!!
-            if (source_studied == target_of_edge) and (use_graph.edge[source_of_edge][target_of_edge]['weight'] > 0.5):
+            if (source_studied == target_of_edge) and ((random.randint(1, 100) / 100) < use_graph.edge[source_of_edge][target_of_edge]['weight']):
                 #the source is interesting!!
-                interested_edges.append((edge, use_graph.edge[source_of_edge][target_of_edge]['type']))
-                #remove the edge (because it became useless next...)
-                all_edges.remove(edge)
+                interesting_edges.append((edge, use_graph.edge[source_of_edge][target_of_edge]['type']))
                 #if the source is not already in the stack...
                 if not source_of_edge in impacted_nodes:
                     #we add it!
                     impacted_nodes.append(source_of_edge)
-                    #and we add it to the interested nodes list
-                    interested_nodes.append((source_of_edge, use_graph.node[source_node]['type']))
+                    #and we add it to the interesting nodes list
+                    interesting_nodes.append((source_of_edge, use_graph.node[source_of_edge]['type'], "none"))
 
     #new directed graph (the example)
-    new_exemple = nx.DiGraph()
+    new_example = nx.DiGraph()
 
     #each node is added
-    for node in interested_nodes:
-        node_name, node_type = node
-        new_example.add_node(node_name, type=node_type)
+    for node in interesting_nodes:
+        node_name, node_type, source_or_not = node
+        if source_or_not == "source":
+            new_example.add_node(node_name, type=node_type, fillcolor='red')
+        else:
+            new_example.add_node(node_name, type=node_type, fillcolor='blue')
 
     #the same for each edge
-    for edge in interested_edges:
+    for edge in interesting_edges:
         edge_name, edge_type = edge
         edge_source, edge_target = edge_name
         new_example.add_edge(edge_source, edge_target, type=edge_type)
