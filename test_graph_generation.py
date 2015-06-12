@@ -121,72 +121,53 @@ def resolve_pb(examples):
 
     return all_weight
 
-def predict_impacts(use_graph, node):
-    """
-    Abstract: Algorithm to compute the route from 'node' to others nodes which are impacts of these node
-    """
-
-    pass
-
-def generate_new_example(use_graph):
+def generate_new_example(use_graph, first_sources = []):
     """
     Abstract: Generate a new example of graph with propagations from one mutant
     Return this one
     """
 
-    source_node = random.choice(use_graph.nodes())
-
-    print("source_node: {0}".format(source_node))
-
     #stack to know impacted nodes
     impacted_nodes = []
 
-    #list of interesting nodes
-    interesting_nodes = []
+    source_node = random.choice(use_graph.nodes())
 
-    #list of interesting edges
-    interesting_edges = []
-
+    #add a random node in the list of impacted nodes
     impacted_nodes.append(source_node)
 
-    interesting_nodes.append((source_node, use_graph.node[source_node]['type'], "source"))
+    print("source_node: {0}".format(source_node))
+
+    if len(first_sources) == 0:
+        first_sources = get_first_sources(use_graph)
+
+    #dictionary which give us the information : "Does a final source impacted?"
+    impacted_final_sources = {}
+
+    #false (concerning the impact) to all first sources
+    for source in first_sources:
+        impacted_final_sources[source] = False
 
     while len(impacted_nodes) != 0:
         #pop the first impacted node
-        source_studied = impacted_nodes.pop(0)
+        source_studying = impacted_nodes.pop(0)
 
         for edge in use_graph.edges():
             source_of_edge, target_of_edge = edge
             #if the source is the target of an edge, and if the weight is >= 0.5...
             #TODO : weight >= 0.5 which weight is max of weights!!!
-            if (source_studied == target_of_edge) and ((random.randint(1, 100) / 100) < use_graph.edge[source_of_edge][target_of_edge]['weight']):
+            if (source_studying == target_of_edge) and ((random.randint(1, 10) / 10) <= use_graph.edge[source_of_edge][target_of_edge]['weight']):
                 #the source is interesting!!
-                interesting_edges.append((edge, use_graph.edge[source_of_edge][target_of_edge]['type']))
-                #if the source is not already in the stack...
-                if not source_of_edge in impacted_nodes:
-                    #we add it!
-                    impacted_nodes.append(source_of_edge)
-                    #and we add it to the interesting nodes list
-                    interesting_nodes.append((source_of_edge, use_graph.node[source_of_edge]['type'], "none"))
+                #if the source is part of impacted_final_sources, we change the boolean to True (because we have visited it)
+                if source_of_edge in impacted_final_sources:
+                    impacted_final_sources[source_of_edge] = True
+                #else...
+                else:
+                    #we add it to the list of impacted nodes if he's not already in...
+                    if not source_of_edge in impacted_nodes:
+                        #if is not already in, we add it!
+                        impacted_nodes.append(source_of_edge)
 
-    #new directed graph (the example)
-    new_example = nx.DiGraph()
-
-    #each node is added
-    for node in interesting_nodes:
-        node_name, node_type, source_or_not = node
-        if source_or_not == "source":
-            new_example.add_node(node_name, type=node_type, fillcolor='red')
-        else:
-            new_example.add_node(node_name, type=node_type, fillcolor='blue')
-
-    #the same for each edge
-    for edge in interesting_edges:
-        edge_name, edge_type = edge
-        edge_source, edge_target = edge_name
-        new_example.add_edge(edge_source, edge_target, type=edge_type)
-
-    return new_example
+    return {'source' : source_node, 'impacted_nodes' : impacted_final_sources}
 
 def generate_some_examples(use_graph, number_of_exemples):
     """
