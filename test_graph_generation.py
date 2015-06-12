@@ -79,7 +79,7 @@ def add_probabilities(use_graph):
     for edge in use_graph.edges_iter():
         source, target = edge
         #random probability with random.uniform
-        use_graph.edge[source][target]['weight'] = (random.randint(1, 100) / 100)
+        use_graph.edge[source][target]['weight'] = (random.randint(1, 10) / 10)
 
 def is_algorithm_good_between(use_graph, examples):
     """
