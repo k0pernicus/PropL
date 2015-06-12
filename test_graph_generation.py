@@ -88,15 +88,7 @@ def is_algorithm_good_between(use_graph, examples):
 
     pass
 
-    for edge in use_graph.edges(data = True):
-        source, target, data = edge
-        edge_st = (source, target)
-        if edge_st in rpb:
-            print("{0} : {1} - {2}".format((source, target), data['weight'], rpb[edge_st]['weight']))
-        else:
-            print("{0} : {1} - 0".format((source, target), data['weight']))
-
-def resolve_pb(examples):
+def resolve_pb(use_graph, examples, first_sources):
     """
     Abstract: Function to resolve the following problem -> to compute efficiently probabilities from examples (compared with the original use graph)
     """
