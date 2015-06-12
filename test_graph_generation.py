@@ -132,21 +132,84 @@ def resolve_pb(use_graph, examples, first_sources):
 
     return paths_weight
 
-    for ex_graph in examples:
-        ex_graph_nodes = ex_graph.nodes()
-        ex_graph_edges = ex_graph.edges()
+def get_existing_paths_from(all_paths):
+    """
+    Abstract: Function to transform the list of nodes (all_paths) to a list of tuples (source, target)
+    """
 
-        for edge in ex_graph_edges:
-            if not edge in all_weight:
-                all_weight[edge] = {'weight' : 1}
-            else:
-                weight_of_edge = all_weight[edge]['weight']
-                all_weight[edge]['weight'] = weight_of_edge + 1
+    return [(all_paths[a], all_paths[a + 1]) for a in range(0, len(all_paths) - 1)]
 
-    for edge, weight in all_weight.items():
-        all_weight[edge]['weight'] = weight['weight'] / number_runs
+def update_weights_table(all_paths_existing, paths_weight):
+    """
+    Abstract: Update the weights table with new path from 'all_paths_existing'
+    """
 
-    return all_weight
+    for path in all_paths_existing:
+        if not path in paths_weight:
+            paths_weight[path] = (random.randint(1, 10) / 10)
+
+def get_weight_by_path(all_paths_existing, paths_weight):
+    """
+    Abstract: Get global weight for all path
+    """
+
+    global_path_weight = 0
+
+    #for each path...
+    for path in all_paths_existing:
+
+        simple_path_weight = 1
+
+        #for each simple path...
+        for simple_path in path:
+
+            simple_path_weight = simple_path_weight * paths_weight[simple_path]
+
+        global_path_weight = global_path_weight + simple_path_weight
+
+    return global_path_weight
+
+def up_weight(all_paths_existing, paths_weight):
+    """
+    Abstract: Function to up the minimal weight of the simple path...
+    """
+
+    simple_paths = []
+
+    #merge all path
+    for path in all_paths_existing:
+        simple_paths + path
+
+    minimum_path = min(simple_paths, key=simple_paths.get)
+    minimum_weight = paths_weight[minimum_path]
+
+    new_weight = minimum_weight
+
+    while new_weight <= minimum_weight:
+        new_weight = random.randint(0, 10) / 10
+
+    paths_weight[minimum_path] = new_weight
+
+def down_weight(all_paths_existing, paths_weight):
+    """
+    Abstract: Function to down the maximal weight of the simple path...
+    """
+
+    simple_paths = []
+
+    #merge all path
+    for path in all_paths_existing:
+        simple_paths + path
+
+    maximum_path = max(simple_paths, key=simple_paths.get)
+    maximum_weight = paths_weight[maximum_path]
+
+    new_weight = maximum_weight
+
+    while new_weight >= maximum_weight:
+        new_weight = random.randint(0, 10) / 10
+
+    paths_weight[maximum_path] = new_weight
 
 def generate_new_example(use_graph, first_sources = []):
     """
