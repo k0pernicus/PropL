@@ -93,9 +93,44 @@ def resolve_pb(use_graph, examples, first_sources):
     Abstract: Function to resolve the following problem -> to compute efficiently probabilities from examples (compared with the original use graph)
     """
 
-    all_weight = {}
+    #use_graph transform (in digraph) for the all_simple_paths algorithm...
+    di_use_graph = nx.DiGraph()
+    di_use_graph.add_nodes_from(use_graph.nodes())
+    di_use_graph.add_edges_from(use_graph.edges())
 
-    number_runs = len(examples)
+    #dictionary to store weights
+    paths_weight = {}
+
+    #for each example...
+    for example in examples:
+
+        #store the mutation source
+        mutation_source = example['source']
+
+        #for each first source (test)...
+        for first_source in first_sources:
+
+            all_paths_existing = []
+
+            #we store each path!
+            all_paths = nx.all_simple_paths(use_graph, mutation_source, first_source)
+            #transform the list of nodes to a list of tuples
+            for path in all_paths:
+                all_paths_existing.append(get_existing_paths_from(path))
+            #update the weights table -> is path existing?
+            update_weights_table(all_paths_existing, paths_weight)
+
+            #if there is a path from mutation_source to the first_source studying...
+            if examples['impacted_nodes'][first_source]:
+                while not get_weight_by_path(all_paths_existing, paths_weight) >= 0.5:
+                    up_weight(all_paths_existing)
+            #if there is no path...
+            else:
+                #verification if a path exists -> if yes, down weight!
+                while not get_weight_by_path(all_paths_existing, paths_weight) < 0.5:
+                    down_weight(all_paths_existing)
+
+    return paths_weight
 
     for ex_graph in examples:
         ex_graph_nodes = ex_graph.nodes()
