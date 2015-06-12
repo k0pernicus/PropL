@@ -291,38 +291,37 @@ def write_usegraph_examples(graphs):
         nx.write_graphml(graph, "tests/graph_generation/graph_ex{0}.graphml")
         i = i + 1
 
-# def visualize(graph):
-#     """
-#     Abstract: Function to visualize the graph
-#     """
-#
-#     pos=nx.spring_layout(graph)
-#
-#     blue_nodes = [id_node for id_node, type_node in graph.nodes(data = True) if (type_node['fillcolor'] == 'blue') and (type_node['type'] == 'METHOD')]
-#
-#     green_nodes = [id_node for id_node, type_node in graph.nodes(data = True) if (type_node['fillcolor'] == 'blue') and (type_node['type'] == 'VARIABLE')]
-#
-#     red_node = [id_node for id_node, type_node in graph.nodes(data = True) if type_node['fillcolor'] == 'red']
-#
-#     nx.draw_networkx_nodes(graph, pos, red_node, alpha=0.5, node_color = 'r', label = red_node, with_label = True)
-#
-#     nx.draw_networkx_nodes(graph, pos, blue_nodes, alpha=0.5, node_color = 'b', label = blue_nodes, with_label = True)
-#
-#     nx.draw_networkx_nodes(graph, pos, green_nodes, alpha=0.5, node_color = 'g', label = green_nodes, with_label = True)
-#
-#     nx.draw_networkx_edges(graph, pos, graph.edges(), alpha=0.5, width=1.0)
-#
-#     labels={}
-#
-#     labels_node = graph.nodes()
-#
-#     for i in range(0, len(labels_node)):
-#         labels[labels_node[i]] = labels_node[i]
-#         #print("label {0} : {1}".format(i, labels[i]))
-#
-#     nx.draw_networkx_labels(graph, pos, labels, font_size=16)
-#
-#     plt.show()
+def visualize(graph, first_sources = []):
+    """
+    Abstract: Function to visualize the graph
+    """
+
+    if len(first_sources) == 0:
+        first_sources = get_first_sources(graph)
+
+    pos=nx.spring_layout(graph)
+
+    blue_nodes = [id_node for id_node, type_node in graph.nodes() if not id_node in first_sources]
+
+    red_node = [id_node for id_node, type_node in graph.nodes() if id_node in first_sources]
+
+    nx.draw_networkx_nodes(graph, pos, red_node, alpha=0.5, node_color = 'r', label = red_node, with_label = True)
+
+    nx.draw_networkx_nodes(graph, pos, blue_nodes, alpha=0.5, node_color = 'b', label = blue_nodes, with_label = True)
+
+    nx.draw_networkx_edges(graph, pos, graph.edges(), alpha=0.5, width=1.0)
+
+    labels={}
+
+    labels_node = graph.nodes()
+
+    for i in range(0, len(labels_node)):
+        labels[labels_node[i]] = labels_node[i]
+        #print("label {0} : {1}".format(i, labels[i]))
+
+    nx.draw_networkx_labels(graph, pos, labels, font_size=16)
+
+    plt.show()
 
 
 if __name__ == "__main__":
