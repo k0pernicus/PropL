@@ -132,7 +132,7 @@ def resolve_pb(use_graph, examples, first_sources = []):
 
     i = 0
 
-    all = len(examples)
+    all = len(examples) - 1
 
     #for each example...
     for example in examples:
