@@ -242,7 +242,7 @@ def down_weight(all_paths_existing, paths_weight):
     for path in all_paths_existing:
         simple_paths + path
 
-    maximum_path = max(simple_paths, key=simple_paths.get)
+    maximum_path = max(paths_weight, key=paths_weight.get)
     maximum_weight = paths_weight[maximum_path]
 
     new_weight = maximum_weight
