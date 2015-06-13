@@ -253,12 +253,8 @@ def up_weight(all_paths_existing, paths_weight):
     minimum_path = min(paths_weight, key=paths_weight.get)
     minimum_weight = paths_weight[minimum_path]
 
-    new_weight = minimum_weight
-
-    while new_weight <= minimum_weight:
-        new_weight = random.randint(0, 10) / 10
-
-    paths_weight[minimum_path] = new_weight
+    if minimum_weight < 1:
+        paths_weight[minimum_path] = minimum_weight + 0.1
 
 def down_weight(all_paths_existing, paths_weight):
     """
@@ -274,12 +270,8 @@ def down_weight(all_paths_existing, paths_weight):
     maximum_path = max(paths_weight, key=paths_weight.get)
     maximum_weight = paths_weight[maximum_path]
 
-    new_weight = maximum_weight
-
-    while new_weight >= maximum_weight:
-        new_weight = random.randint(0, 10) / 10
-
-    paths_weight[maximum_path] = new_weight
+    if maximum_weight > 0.1:
+        paths_weight[maximum_path] = maximum_weight - 0.1
 
 def generate_new_example(use_graph, first_sources = []):
     """
