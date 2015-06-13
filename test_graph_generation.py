@@ -334,7 +334,8 @@ def generate_some_examples(use_graph, number_of_exemples):
     new_examples = []
 
     for i in range(0, number_of_exemples - 1):
-        new_examples.append(generate_new_example(use_graph))
+        t = Thread(target=generate_new_example,args=(use_graph,)).start()
+        new_examples.append(t)
 
     return new_examples
 
@@ -343,7 +344,8 @@ def generate_some_tests(use_graph, examples, weights, number_of_exemples):
     tests = []
 
     for i in range(0, number_of_exemples - 1):
-        tests.append(generate_new_test(use_graph, weights, examples[i]['source']))
+        t = Thread(target=generate_new_test, args=(use_graph, weights, examples[i]['source'],)).start()
+        tests.append(t)
 
     return tests
 
