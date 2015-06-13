@@ -271,6 +271,9 @@ def generate_new_example(use_graph, first_sources = []):
     if len(first_sources) == 0:
         first_sources = get_first_sources(use_graph)
 
+    while source_node in first_sources:
+        source_node = random.choice(use_graph.nodes())
+
     #dictionary which give us the information : "Does a final source impacted?"
     impacted_final_sources = {}
 
