@@ -81,12 +81,34 @@ def add_probabilities(use_graph):
         #random probability with random.uniform
         use_graph.edge[source][target]['weight'] = (random.randint(1, 10) / 10)
 
-def is_algorithm_good_between(use_graph, examples):
+def is_algorithm_good_between_weights(use_graph, weights):
     """
-    Abstract: Function to match use_graph and examples
+    Abstract: Function to match use_graph and examples weights
     """
 
-    pass
+    test_ok = 0
+
+    tests = 0
+
+    for weight_item in weights.items():
+        edge, weight = weight_item
+        weight_of_original_edge = use_graph.edge[edge[0]][edge[1]]['weight']
+        if (weight == weight_of_original_edge) or ((weight + 0.1) == weight_of_original_edge) or ((weight - 0.1) == weight_of_original_edge):
+            test_ok = test_ok + 1
+        print("{0} : {1} / {2}".format(edge, weight, weight_of_original_edge))
+        tests = tests + 1
+
+    print("{0} tests ok / {1} tests".format(test_ok, tests))
+
+def is_algorithm_good_between_examples(examples, tests):
+
+    number_of_tests = len(tests)
+
+    good = 0
+
+    for i in range(0, 2000):
+        if examples[i]['impacted_nodes'] == tests[i]['impacted_nodes']:
+            good = good + 1
 
 def resolve_pb(use_graph, examples, first_sources):
     """
