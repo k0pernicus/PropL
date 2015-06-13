@@ -153,24 +153,51 @@ def resolve_pb(use_graph, examples, first_sources = []):
             #transform the list of nodes to a list of tuples
             for path in all_paths:
                 all_paths_existing.append(get_existing_paths_from(path))
+
             #update the weights table -> is path existing?
             paths_weight = update_weights_table(all_paths_existing, paths_weight)
 
-            #TODO -> good algorithm to write below...
+            #SIMPLE LEARNING algorithm
+            #For the example, we will simulate all paths...
+            #If a path is ok (we access to the test node) while he shouldn't, we reduce the max probability of a simple path - the inverse is also ok
 
-            #if there is a path from mutation_source to the first_source studying...
-            if example['impacted_nodes'][first_source]:
-                while not get_weight_by_path(all_paths_existing, paths_weight) >= 0.5:
+            #get the path from mutation_source to first_source
+            #if the path is ok and in the example not -> put weight down to the high simple path
+            #if the path is not ok and in the example it is -> put weight up to the high simple path
+            #if ok, continue...
+
+            path_exists = example['impacted_nodes'][first_source]
+
+            test_path = exists_a_path_for_test(all_paths_existing, paths_weight)
+
+            while(not path_exists == test_path):
+                #if there is a path from mutation_source to the first_source studying...
+                if path_exists:
                     up_weight(all_paths_existing, paths_weight)
-            #if there is no path...
-            else:
-                #verification if a path exists -> if yes, down weight!
-                while not get_weight_by_path(all_paths_existing, paths_weight) < 0.5:
+                #if there is no path...
+                else:
                     down_weight(all_paths_existing, paths_weight)
+
+                test_path = exists_a_path_for_test(all_paths_existing, paths_weight)
 
         i = i + 1
 
     return paths_weight
+
+def exists_a_path_for_test(paths, weights):
+    """
+    Abstract: Function to know if a path exists between mutation_source to target
+    Return a boolean : True if the path exists, else False
+    """
+
+    for path in paths:
+        for simple_path in path:
+            random_weight = random.randint(0,10) / 10
+            if not random_weight <= weights[simple_path]:
+                return False
+
+    return True
+
 
 def get_existing_paths_from(all_paths):
     """
