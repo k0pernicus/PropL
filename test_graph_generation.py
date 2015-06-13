@@ -2,6 +2,8 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import random
 
+from threading import Thread
+
 def main():
     """
     Abstract: Random generation of use graphs
