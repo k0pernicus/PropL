@@ -221,7 +221,7 @@ def up_weight(all_paths_existing, paths_weight):
     for path in all_paths_existing:
         simple_paths + path
 
-    minimum_path = min(simple_paths, key=simple_paths.get)
+    minimum_path = min(paths_weight, key=paths_weight.get)
     minimum_weight = paths_weight[minimum_path]
 
     new_weight = minimum_weight
