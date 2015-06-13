@@ -317,6 +317,54 @@ def generate_some_examples(use_graph, number_of_exemples):
 
     return new_examples
 
+def generate_some_tests(use_graph, examples, weights, number_of_exemples):
+
+    tests = []
+
+    for i in range(0, number_of_exemples - 1):
+        tests.append(generate_new_test(use_graph, weights, examples[i]['source']))
+
+    return tests
+
+def generate_new_test(use_graph, weights, source_node):
+
+    #stack to know impacted nodes
+    impacted_nodes = []
+
+    #add a random node in the list of impacted nodes
+    impacted_nodes.append(source_node)
+
+    first_sources = get_first_sources(use_graph)
+
+    #dictionary which give us the information : "Does a final source impacted?"
+    impacted_final_sources = {}
+
+    #false (concerning the impact) to all first sources
+    for source in first_sources:
+        impacted_final_sources[source] = False
+
+    while len(impacted_nodes) != 0:
+        #pop the first impacted node
+        source_studying = impacted_nodes.pop(0)
+
+        for edge in use_graph.edges():
+            source_of_edge, target_of_edge = edge
+            #if the source is the target of an edge, and if the weight is >= 0.5...
+            #TODO : weight >= 0.5 which weight is max of weights!!!
+            if (source_studying == target_of_edge) and ((random.randint(1, 10) / 10) <= weights[(source_of_edge,target_of_edge)]):
+                #the source is interesting!!
+                #if the source is part of impacted_final_sources, we change the boolean to True (because we have visited it)
+                if source_of_edge in impacted_final_sources:
+                    impacted_final_sources[source_of_edge] = True
+                #else...
+                else:
+                    #we add it to the list of impacted nodes if he's not already in...
+                    if not source_of_edge in impacted_nodes:
+                        #if is not already in, we add it!
+                        impacted_nodes.append(source_of_edge)
+
+    return {'source' : source_node, 'impacted_nodes' : impacted_final_sources}
+
 def write_basic_usegraph(graph):
     """
     Abstract: Function to write the graph as graphml
