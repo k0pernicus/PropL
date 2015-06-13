@@ -108,11 +108,11 @@ def is_algorithm_good_between_examples(examples, tests):
 
     good = 0
 
-    for i in range(0, 2000):
+    for i in range(0, number_of_tests):
         if examples[i]['impacted_nodes'] == tests[i]['impacted_nodes']:
             good = good + 1
 
-    print("{0} good!".format(good))
+    print("{0}/{1} good!".format(good, number_of_tests))
 
 def resolve_pb(use_graph, examples, first_sources = []):
     """
