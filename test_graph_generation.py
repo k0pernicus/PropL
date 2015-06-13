@@ -183,8 +183,11 @@ def update_weights_table(all_paths_existing, paths_weight):
     """
 
     for path in all_paths_existing:
-        if not path in paths_weight:
-            paths_weight[path] = (random.randint(1, 10) / 10)
+        for simple_path in path:
+            if not simple_path in paths_weight:
+                paths_weight[simple_path] = (random.randint(1, 10) / 10)
+
+    return paths_weight
 
 def get_weight_by_path(all_paths_existing, paths_weight):
     """
