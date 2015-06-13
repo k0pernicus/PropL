@@ -110,7 +110,9 @@ def is_algorithm_good_between_examples(examples, tests):
         if examples[i]['impacted_nodes'] == tests[i]['impacted_nodes']:
             good = good + 1
 
-def resolve_pb(use_graph, examples, first_sources):
+    print("{0} good!".format(good))
+
+def resolve_pb(use_graph, examples, first_sources = []):
     """
     Abstract: Function to resolve the following problem -> to compute efficiently probabilities from examples (compared with the original use graph)
     """
@@ -123,8 +125,17 @@ def resolve_pb(use_graph, examples, first_sources):
     #dictionary to store weights
     paths_weight = {}
 
+    if len(first_sources) == 0:
+        first_sources = get_first_sources(di_use_graph)
+
+    i = 0
+
+    all = len(examples)
+
     #for each example...
     for example in examples:
+
+        print("{0}/{1} : {2}".format(i, all, example))
 
         #store the mutation source
         mutation_source = example['source']
@@ -135,22 +146,27 @@ def resolve_pb(use_graph, examples, first_sources):
             all_paths_existing = []
 
             #we store each path!
-            all_paths = nx.all_simple_paths(use_graph, mutation_source, first_source)
+            #all_paths = nx.all_simple_paths(di_use_graph, mutation_source, first_source)
+            all_paths = nx.all_simple_paths(di_use_graph, first_source, mutation_source)
             #transform the list of nodes to a list of tuples
             for path in all_paths:
                 all_paths_existing.append(get_existing_paths_from(path))
             #update the weights table -> is path existing?
-            update_weights_table(all_paths_existing, paths_weight)
+            paths_weight = update_weights_table(all_paths_existing, paths_weight)
+
+            #TODO -> good algorithm to write below...
 
             #if there is a path from mutation_source to the first_source studying...
-            if examples['impacted_nodes'][first_source]:
+            if example['impacted_nodes'][first_source]:
                 while not get_weight_by_path(all_paths_existing, paths_weight) >= 0.5:
-                    up_weight(all_paths_existing)
+                    up_weight(all_paths_existing, paths_weight)
             #if there is no path...
             else:
                 #verification if a path exists -> if yes, down weight!
                 while not get_weight_by_path(all_paths_existing, paths_weight) < 0.5:
-                    down_weight(all_paths_existing)
+                    down_weight(all_paths_existing, paths_weight)
+
+        i = i + 1
 
     return paths_weight
 
