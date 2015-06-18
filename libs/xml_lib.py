@@ -130,41 +130,27 @@ def parse_smf_run(smf_run_document, debug_mode = False):
 def parse_mutations(mutations_document, debug_mode = False):
     """
     Abstract: Function to decompose mutations in the xml document (given as parameter), usefull to merge with use graph
-    Return a list of couples (mutant, impacted_nodes)
+    Return a dictionary of mutants id -> name + from + to
     """
 
-    tree = ET.parse(xml_document)
+    tree = ET.parse(mutations_document)
     root = tree.getroot()
 
-    mutants_table = []
+    mutations_table = {}
 
-    good_mutants = 0
+    #for each mutant list in the mutations XML file
+    for mutants_list in root.findall("mutants"):
 
-    bad_mutants = 0
+        for mutant in mutants_list:
 
-    #simple search for all mutations
-    for mutation in root.findall("mutations"):
-        #get simple mutation
-        for simple_mutation in mutation.findall("mutation"):
-            print(simple_mutation.get('operator-id'))
-            #search mutants
-            for mutant in simple_mutation.findall("mutant"):
-                #interesting if viable...
-                if mutant.get('viable') == "true":
-                    impacted_nodes = []
-                    good_mutants = good_mutants + 1
-                    if debug_mode:
-                        print("good mutant: {0}".format(mutant.get('id')))
-                    #search after "failing tests"
-                    for child in mutant:
-                        if child.tag == "failing":
-                            #It's ok -> print out failing tests...
-                            for child_failing in child:
-                                impacted_nodes.append(child_failing.text)
-                    #append to the mutants table the real id of the mutant, and the impacted nodes
-                    mutants_table.append((mutant.get('in'), impacted_nodes))
-                else:
-                    bad_mutants = bad_mutants + 1
+            #if mutant is viable...
+            if mutant.get('viable'):
+                #a mutant id is mxxx, xxx = number of the mutant in the file
+                mutant_id = "m{0}".format(mutant.get('id').split('_')[1])
+                mutant_name = mutant.get('in')
+                mutations_table[mutant_id] = {'name': mutant_name, 'from' : mutant.get("from"), 'to' : mutant.get("to"), 'impacted_tests' : []}
+
+    return mutations_table
 
     if debug_mode:
         print("{0} good mutants / {1} bad mutants".format(good_mutants, bad_mutants))
