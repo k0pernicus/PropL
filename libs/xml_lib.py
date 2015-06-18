@@ -152,9 +152,24 @@ def parse_mutations(mutations_document, debug_mode = False):
 
     return mutations_table
 
+def join_mutant_and_impacted_tests(mutant_file, mutations_table, case_name_to_id, debug_mode = False):
+    """
+    Abstract: Function to link impacted tests in a single mutant file with cases contains in case_name_to_id
+    """
+
+    tree = ET.parse(mutant_file)
+    root = tree.getroot()
+
+    mutation_id = "m{0}".format(root.get('id').split('_')[1])
+
     if debug_mode:
-        print("{0} good mutants / {1} bad mutants".format(good_mutants, bad_mutants))
+        print("mutation_id : {0}".format(mutation_id))
 
-    #print(mutants_table)
+    for failing_tests in root.findall("failing"):
 
-    return mutants_table
+        for case_failing_test in failing_tests:
+
+            if debug_mode:
+                print("{0} {1}".format(case_failing_test.text,case_name_to_id[case_failing_test.text]))
+
+            mutations_table[mutation_id]['impacted_tests'].append(case_name_to_id[case_failing_test.text])
