@@ -28,7 +28,9 @@ class UseGraph(object):
         self.all_tests_id = {}
         #all tests of use graph name -> id
         self.all_tests_name = {}
-        #all cases from tests
+        #all cases from tests id -> name
+        self.all_cases_id = {}
+        #all cases from tests name -> id
         self.all_cases_name = {}
         #all nodes of the use graph id -> name
         self.all_nodes_id = {}
@@ -46,6 +48,9 @@ class UseGraph(object):
         self.number_of_variables = 0
         #number of methods in nodes
         self.number_of_methods = 0
+        #list of available mutants file
+        self.available_mutants = []
+        #liaisons mutant parents -> mutants child
         self.hash_mutants = {}
         #liaisons test_id -> nodes impacted
         self.mutants = {}
