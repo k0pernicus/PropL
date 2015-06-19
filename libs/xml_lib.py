@@ -176,7 +176,7 @@ def parse_mutations(mutations_document, debug_mode = False):
 
     return hash_mutants_table, mutations_table
 
-def join_mutant_and_impacted_tests(mutant_file, mutations_table, case_name_to_id, debug_mode = False):
+def join_mutant_and_impacted_tests(mutant_file, mutations_table, case_name_to_id, available_mutants, debug_mode = False):
     """
     Abstract: Function to link impacted tests in a single mutant file with cases contains in case_name_to_id
     """
@@ -185,6 +185,8 @@ def join_mutant_and_impacted_tests(mutant_file, mutations_table, case_name_to_id
     root = tree.getroot()
 
     mutation_id = "m{0}".format(root.get('id').split('_')[1])
+
+    available_mutants.append(mutation_id)
 
     if debug_mode:
         print("mutation_id : {0}".format(mutation_id))
