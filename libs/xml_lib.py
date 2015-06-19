@@ -98,32 +98,38 @@ def parse_smf_run(smf_run_document, debug_mode = False):
         if debug_mode:
             print("#"*80)
 
+        nb_of_cases_by_test = {}
+
         #get cases
         for cases in test.findall("cases"):
 
-            i = 0
-
             for case_item in cases.findall("case"):
+
+                case_name = case_item.text
+                test_id = test_name_to_id[case_name.rsplit('.', 1)[0]]
+
+                if not test_id in nb_of_cases_by_test:
+                    nb_of_cases_by_test[test_id] = 0
+
+                i =  nb_of_cases_by_test[test_id]
 
                 #search for the test_id to make the case_id & build the id
                 case_id = "c{0}".format(i)
-                case_name = case_item.text
-                test_id = test_name_to_id[case_name.rsplit('.', 1)[0]]
                 case_id  = test_id + case_id
 
                 if debug_mode:
-                    print("{0} in {1}... ".format(case_id, test_id), end="")
+                    print("{0} ({1}) in {2}... ".format(case_id, case_name, test_id), end="")
 
                 #put the node case in the list of items of the test_id
                 tests_table[test_id]['items'].append(case_id)
 
                 #save name -> id
-                case_name_to_id[case_name] = {'name' : case_id, 'original_test' : test_id}
+                case_name_to_id[case_name] = {'id' : case_id, 'original_test' : test_id}
 
                 if debug_mode:
                     print("saved!")
 
-                i = i + 1
+                nb_of_cases_by_test[test_id] = i + 1
 
     return tests_table, test_name_to_id, case_name_to_id
 
