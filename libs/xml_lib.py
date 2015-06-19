@@ -62,6 +62,7 @@ def parse_smf_run(smf_run_document, debug_mode = False):
     """
 
     tree = ET.parse(smf_run_document)
+
     root = tree.getroot()
 
     tests_table = {}
