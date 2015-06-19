@@ -35,21 +35,6 @@ def help():
     \t--debug: to enable the debugging mode (for developers)\n\
     "
 
-def merge_smf_file(use_graph, doc, debug_mode = False):
-    """
-    Abstract: Function to merge the doc (given as 2nd parameter) with the usegraph object (given as 1st parameter)
-    """
-
-    #TODO: decompose the doc file with mutations elements -> computeLiaisons with these elements
-
-    mutants_table = decompose_mutations(doc, debug_mode)
-
-    for mutant in mutants_table:
-        mutant_name, impacted_nodes = mutant
-        use_graph.computeLiaisons(mutant_name, impacted_nodes)
-        if debug_mode:
-            print("mutant {0} with {1} impacted nodes".format(mutant_name, len(impacted_nodes)))
-
 def main():
 
     if "--help" in sys.argv:
