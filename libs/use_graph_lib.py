@@ -180,32 +180,26 @@ class UseGraph(object):
         #compute number of edges
         self.number_of_edges = self.graph.number_of_edges()
 
-    def computeLiaisons(self, mutation_node, impacted_nodes):
+    def computeMutants(self):
         """
-        Abstract: Method to add some liaisons between tests and variables/methods
+        Abstract: Method to compute and store mutants and relations between them and nodes
         """
 
-        #get the id
-        mutation_node_id = self.all_nodes_name[mutation_node]
+        #name directory of mutations file
+        directory_name = "AOR"
 
-        if self.debug_mode:
-            print("Mutation {0}".format(mutation_node_id))
+        #root of mutations file
+        mutations_name_file = "mutations.xml"
 
-        #{mutation_node_id1: [node1_id, node2_id, ...], mutation_node_id2: [node1_id, node2_id, ...]}
+        base_dir = "{0}/{1}".format(self.path_file, directory_name)
 
-        #if key does not exists, we create it
-        if not mutation_node_id in self.liaisons:
-            self.liaisons[mutation_node_id] = []
-        #store all impacted nodes...
-        for impacted_node in impacted_nodes:
-            #store impacted node id in the 'mutation_node_id' array
-            try:
-                self.liaisons[mutation_node_id].append(self.all_nodes_name[impacted_node])
-                if self.debug_mode:
-                    print("\t{0}: id found for {1}".format(mutation_node_id, self.all_nodes_name[impacted_node]))
-            except Exception as excpt:
-                if self.debug_mode:
-                    print("\tError for {0}: no id found for {1}!".format(mutation_node_id, excpt))
+        #parse mutants in the mutations_name_file
+        self.mutants = parse_mutations("{0}/{1}".format(base_dir, mutations_name_file))
+
+        #for each mutant...
+        for mutant in os.listdir(base_dir):
+            #join their id to the id of failing tests
+            join_mutant_and_impacted_tests("{0}/{1}".format(base_dir, mutant_file), self.mutants, self.all_cases_name)
 
     def printInfo(self):
         """
