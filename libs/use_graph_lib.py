@@ -121,7 +121,7 @@ class UseGraph(object):
 
         smf_name_file = "smf.run.xml"
 
-        self.all_tests_id, self.all_tests_name, self.all_cases_name = parse_smf_run("{0}/{1}".format(self.path_file, smf_name_file), self.debug_mode)
+        self.all_tests_id, self.all_tests_name, self.all_cases_id, self.all_cases_name = parse_smf_run("{0}/{1}".format(self.path_file, smf_name_file), self.debug_mode)
 
     def computeNodes(self):
         """
@@ -218,7 +218,7 @@ class UseGraph(object):
         #for each mutant...
         for mutant_file in os.listdir(base_dir):
             #join their id to the id of failing tests
-            join_mutant_and_impacted_tests("{0}/{1}".format(base_dir, mutant_file), self.mutants, self.all_cases_name, self.debug_mode)
+            join_mutant_and_impacted_tests("{0}/{1}".format(base_dir, mutant_file), self.mutants, self.all_cases_name, self.available_mutants, self.debug_mode)
 
     def getSimpleRepresentationForMutants(self):
         """
