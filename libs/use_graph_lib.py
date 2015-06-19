@@ -193,19 +193,24 @@ class UseGraph(object):
         Abstract: Method to compute and store mutants and relations between them and nodes
         """
 
-        #name directory of mutations file
-        directory_name = "AOR"
+        #name directory of root mutants files
+        root_directory_name = "AOR"
+
+        #name directory of mutants files
+        mutants_directory_name = "mutants"
 
         #root of mutations file
         mutations_name_file = "mutations.xml"
 
-        base_dir = "{0}/{1}".format(self.path_file, directory_name)
+        base_dir = "{0}/{1}".format(self.path_file, root_directory_name)
 
         #parse mutants in the mutations_name_file
         self.mutants = parse_mutations("{0}/{1}".format(base_dir, mutations_name_file), self.debug_mode)
 
+        base_dir = "{0}/{1}".format(base_dir, mutants_directory_name)
+
         #for each mutant...
-        for mutant in os.listdir(base_dir):
+        for mutant_file in os.listdir(base_dir):
             #join their id to the id of failing tests
             join_mutant_and_impacted_tests("{0}/{1}".format(base_dir, mutant_file), self.mutants, self.all_cases_name, self.debug_mode)
 
