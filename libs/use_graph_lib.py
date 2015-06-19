@@ -4,6 +4,10 @@ import time
 import networkx as nx
 import matplotlib.pyplot as plt
 
+from libs.xml_lib import parse_smf_run
+from libs.xml_lib import parse_mutations
+from libs.xml_lib import join_mutant_and_impacted_tests
+
 class UseGraph(object):
     """
     Abstract: Class which represents a use graph.
