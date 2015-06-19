@@ -215,6 +215,33 @@ class UseGraph(object):
             #join their id to the id of failing tests
             join_mutant_and_impacted_tests("{0}/{1}".format(base_dir, mutant_file), self.mutants, self.all_cases_name, self.debug_mode)
 
+    def getSimpleRepresentationForMutants(self):
+        """
+        Abstract: Method to return a representation of which mutant is the child of a father mutant
+        """
+
+        simple_representation_for_mutants = {}
+
+        #each mutant parent contains a list of mutants
+        for mutant in self.hash_mutants:
+
+            simple_representation_by_mutant = {}
+
+            #searching for all mutant id in the list of mutants
+            for single_mutant_id in self.hash_mutants[mutant]['list_mutants']:
+
+                #this field is a tag to know if there's multiple tests for the same mutation
+                position_of_the_mutation = "{0}||{1}".format(self.mutants[single_mutant_id]['from'], self.mutants[single_mutant_id]['to'])
+
+                if not position_of_the_mutation in simple_representation_by_mutant:
+                    simple_representation_by_mutant[position_of_the_mutation] = []
+
+                simple_representation_by_mutant[position_of_the_mutation].append(single_mutant_id)
+
+            #we have now the representation of all mutants children for a parent
+            simple_representation_for_mutants[mutant] = simple_representation_by_mutant
+
+        return simple_representation_for_mutants
     def printInfo(self):
         """
         Abstract: Method to print (output standard) some informations about the use graph
