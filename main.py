@@ -27,7 +27,7 @@ def help():
     \n\
     Usage\n\
     -----\n\
-    \tprogram <path_of_file/directory> [--help|--debug]\n\
+    \tprogram <test_directory> [--help|--debug]\n\
     \n\
     List of functionalities\n\
     -----------------------\n\
