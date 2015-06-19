@@ -77,6 +77,8 @@ def parse_smf_run(smf_run_document, debug_mode = False):
 
     case_name_to_id = {}
 
+    case_id_to_name = {}
+
     for test in root.findall("tests"):
 
         #get classes
@@ -118,7 +120,7 @@ def parse_smf_run(smf_run_document, debug_mode = False):
                 if not test_id in nb_of_cases_by_test:
                     nb_of_cases_by_test[test_id] = 0
 
-                i =  nb_of_cases_by_test[test_id]
+                i = nb_of_cases_by_test[test_id]
 
                 #search for the test_id to make the case_id & build the id
                 case_id = "c{0}".format(i)
@@ -133,12 +135,14 @@ def parse_smf_run(smf_run_document, debug_mode = False):
                 #save name -> id
                 case_name_to_id[case_name] = {'id' : case_id, 'original_test' : test_id}
 
+                case_id_to_name[case_id] = {'name' : case_name}
+
                 if debug_mode:
                     print("saved!")
 
                 nb_of_cases_by_test[test_id] = i + 1
 
-    return tests_table, test_name_to_id, case_name_to_id
+    return tests_table, test_name_to_id, case_id_to_name, case_name_to_id
 
 def parse_mutations(mutations_document, debug_mode = False):
     """
