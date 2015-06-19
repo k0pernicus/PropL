@@ -59,8 +59,10 @@ class UseGraph(object):
         Abstract: Method to read the GraphML file and save the NetworkX graph matching
         """
 
+        usegraph_name_file = "usegraph.graphml"
+
         try:
-            return nx.read_graphml(self.path_file)
+            return nx.read_graphml("{0}/{1}".format(self.path_file, usegraph_name_file))
         except Exception as excpt:
             raise excpt
 
