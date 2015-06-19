@@ -100,58 +100,70 @@ class UseGraph(object):
             print("Time compute edges: {0} seconds".format(time_comp_edges))
             print("Total time: {0} seconds".format(total_time))
 
-    def computeTestsAndNodes(self):
+    def computeTests(self):
+        """
+        Abstract: Method to compute tests from the smf.run.xml file
+        """
+
+        smf_name_file = "smf.run.xml"
+
+        self.all_tests_id, self.all_tests_name, self.all_cases_name = parse_smf_run("{0}/{1}".format(self.path_file, smf_name_file), self.debug_mode)
+
+    def computeNodes(self):
         """
         Abstract: Method to compute and store all tests and nodes
         """
 
-        #to store test id
-        i = 0
+        variables_nb = 0
 
-        #to store node id
+        methods_nb = 0
+
         j = 0
+
+        #type attribute for the node type
+        type_abbr = "m"
+
+        name_test = ""
 
         #for all nodes...
         for node in self.graph.nodes(data = True):
 
-            #type abbreviation of the node - default 'V' (Variable)
-            type_abbr = "v"
-
-            #for Tests
-
             #store name and type of the node
             node_name, node_type = node
-            #splitting
-            if node_type['type'] == "VARIABLE":
-                name_test = node_name.split("#")[0]
-            else:
-                name_test = node_name.split("(")[0]
-                #change 'V' to 'M'
-                type_abbr = "m"
-            #if the test is not repertoried, we store it with an id
-            if not name_test in self.all_tests_name:
-                test_id = "t{0}".format(i)
-                self.all_tests_name[name_test] = test_id
-                self.all_tests_id[test_id] = name_test
-                i = i + 1
 
             #for Nodes
+            if node_type == "VARIABLE":
+                type_abbr = "v"
+                name_test = node_name.split("#")[0]
+                j = variables_nb
+                variables_nb = variables_nb + 1
+            else:
+                type_abbr = "m"
+                name_test = node_name.split('(')[0]
+                j = methods_nb
+                methods_nb = methods_nb + 1
 
             #get the node id
-            node_id = "{0}-{1}{2}".format(self.all_tests_name[name_test], type_abbr, j)
+            #if it's a test, get the id of the test...
+            if name_test in self.all_cases_name:
+                node_id = "{0}-{1}{2}".format(self.all_cases_name[name_test]['id'], type_abbr, j)
+            #else, put a 'no test' label (nt)
+            else:
+                node_id = "nt-{0}{1}".format(type_abbr, j)
 
             #store name -> id for node
             self.all_nodes_name[node_name] = node_id
             #store id -> name for node
             self.all_nodes_id[node_id] = node_name
 
-            j = j + 1
-
-        #number of tests is the number of test nodes stored
-        self.number_of_tests = i
-
         #compute number of nodes
         self.number_of_nodes = self.graph.number_of_nodes()
+
+        #store number of variables in the use graph
+        self.number_of_variables = variables_nb
+
+        #store number of methods in the use graph
+        self.number_of_methods = methods_nb
 
     def computeEdges(self):
         """
