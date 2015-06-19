@@ -5,44 +5,22 @@ import math
 
 from threading import Thread
 
-def test_graph():
+def do_tests(nodes, nb, nb_ex):
 
-    use_graph = nx.DiGraph()
+    use_graph = generate_graph_vincenzo(nodes)
 
-    use_graph.add_nodes_from([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17])
+    add_labels(use_graph)
 
-    use_graph.add_edge(0, 1, weight = 0.2)
-    use_graph.add_edge(0, 2, weight = 0.5)
-    use_graph.add_edge(0, 3, weight = 0.7)
-    use_graph.add_edge(1, 4, weight = 0.2)
-    use_graph.add_edge(1, 5, weight = 0.4)
-    use_graph.add_edge(2, 5, weight = 0.7)
-    use_graph.add_edge(3, 7, weight = 0.9)
-    use_graph.add_edge(3, 6, weight = 0.9)
-    use_graph.add_edge(2, 6, weight = 0.8)
-    use_graph.add_edge(5, 6, weight = 0.6)
-    use_graph.add_edge(4, 8, weight = 0.7)
-    use_graph.add_edge(8, 11, weight = 0.9)
-    use_graph.add_edge(8, 12, weight = 0.7)
-    use_graph.add_edge(11, 14, weight = 0.2)
-    use_graph.add_edge(12, 14, weight = 0.4)
-    use_graph.add_edge(14, 17, weight = 0.9)
-    use_graph.add_edge(6, 9, weight = 0.3)
-    use_graph.add_edge(9, 17, weight = 0.4)
-    use_graph.add_edge(7, 10, weight = 0.5)
-    use_graph.add_edge(10, 13, weight = 0.1)
-    use_graph.add_edge(13, 15, weight = 0.8)
-    use_graph.add_edge(13, 16, weight = 0.2)
-    use_graph.add_edge(16, 18, weight = 0.2)
+    add_probabilities(use_graph)
 
-    return use_graph
+    examples_learning = generate_some_examples(use_graph, nb_ex)
 
-def run_tests(nb, use_graph, examples, weights):
+    weights = resolve_pb(use_graph, examples_learning)
+
     for i in range(0, nb):
-        print("{0} with source {1}".format(examples[i], examples[i]['source']))
-        weights = resolve_pb_stoch(use_graph, examples[i], weights)
-        is_algorithm_good_between_weights(use_graph, weights)
-        input()
+        examples_training = generate_some_examples(use_graph, nb_ex)
+        tests = generate_some_tests(use_graph, examples_training, weights, len(examples_training))
+        is_algorithm_good_between_examples(examples_training, tests)
 
 def generate_graph_vincenzo(nodes):
     """
@@ -283,6 +261,8 @@ def resolve_pb(use_graph, examples, paths_weight = {}, first_sources = []):
 
     all = len(examples) - 1
 
+    all_nodes = []
+
     #for each example...
     for example in examples:
 
@@ -290,6 +270,8 @@ def resolve_pb(use_graph, examples, paths_weight = {}, first_sources = []):
 
         #store the mutation source
         mutation_source = example['source']
+
+        all_nodes.append(mutation_source)
 
         #for each first source (test)...
         for first_source in first_sources:
@@ -330,6 +312,8 @@ def resolve_pb(use_graph, examples, paths_weight = {}, first_sources = []):
                     down_weight(all_paths_existing, paths_weight, i)
                     #down_weight_max(all_paths_existing, paths_weight, i)
         i = i + 1
+
+    print("nb nodes: {0}".format(len(list(set(all_nodes)))))
 
     return paths_weight
 
@@ -536,12 +520,6 @@ def generate_new_example(use_graph, first_sources = [], source_node = 0):
                         impacted_nodes.append(source_of_edge)
 
     return {'source' : source_node, 'impacted_nodes' : impacted_final_sources}
-
-def do_tests(nb, nb_ex, use_graph, weights):
-    for i in range(0, nb):
-        examples_training = generate_some_examples(use_graph, nb_ex)
-        tests = generate_some_tests(use_graph, examples_training, weights, len(examples_training))
-        is_algorithm_good_between_examples(examples_training, tests)
 
 def generate_some_examples(use_graph, number_of_exemples):
     """
