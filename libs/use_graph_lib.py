@@ -73,6 +73,12 @@ class UseGraph(object):
         """
 
         if self.debug_mode:
+            begin_comp_tests = time.time()
+        self.computeTests()
+        if self.debug_mode:
+            end_comp_tests = time.time()
+
+        if self.debug_mode:
             begin_comp_tests_nodes = time.time()
         self.computeTestsAndNodes()
         if self.debug_mode:
@@ -85,11 +91,13 @@ class UseGraph(object):
             end_comp_edges = time.time()
 
         if self.debug_mode:
+            time_comp_tests = end_comp_tests - begin_comp_tests
             time_comp_tests_nodes = end_comp_tests_nodes - begin_comp_tests_nodes
             time_comp_edges = end_comp_edges - begin_comp_edges
             total_time = time_comp_tests_nodes + time_comp_edges
-            print("Time for compute tests and nodes: {0} seconds".format(time_comp_tests_nodes))
-            print("Time for compute edges: {0} seconds".format(time_comp_edges))
+            print("Time to compute tests: {0} seconds".format(time_comp_tests))
+            print("Time compute tests and nodes: {0} seconds".format(time_comp_tests_nodes))
+            print("Time compute edges: {0} seconds".format(time_comp_edges))
             print("Total time: {0} seconds".format(total_time))
 
     def computeTestsAndNodes(self):
