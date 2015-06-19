@@ -242,6 +242,68 @@ class UseGraph(object):
             simple_representation_for_mutants[mutant] = simple_representation_by_mutant
 
         return simple_representation_for_mutants
+
+    def getComplexRepresentationForMutants(self):
+        """
+        Abstract: Method to return a complex representation for mutants : for a mutant father, which mutant (and how much) has been failed for a mutant child
+        """
+
+        simple_representation_for_mutants = self.getSimpleRepresentationForMutants()
+
+        complex_representation_for_mutants = {}
+
+        #mutant : {position_of_the_mutation1 : [test1,...], position_of_the_mutation2 : [test1,...]}
+        for mutant_list in simple_representation_for_mutants:
+
+            #number of mutants in the hash map is the number of tests
+            nb_of_tests = len(simple_representation_for_mutants[mutant_list])
+
+            all_tests = {}
+
+            for mutant in simple_representation_for_mutants[mutant_list]:
+
+                #mutants_id is a list which represents id of each mutant
+                mutants_id = simple_representation_for_mutants[mutant_list][mutant]
+
+                if self.debug_mode:
+                    print("mutant {0}".format(mutant))
+
+                #for each mutant id...
+                for mutant_id in mutants_id:
+
+                    if self.debug_mode:
+                        print("mutant_id {0}".format(mutant_id))
+
+                    #store the list of impacted tests
+                    impacted_tests = self.mutants[mutant_id]['impacted_tests']
+
+                    #we can work on it if the list is not empty
+                    if not len(impacted_tests) == 0:
+
+                        #for each test in the list of impacted tests...
+                        for test in impacted_tests:
+
+                            #store his own id
+                            test_id = test['id']
+
+                            if not test_id in all_tests:
+                                all_tests[test_id] = 0
+
+                            all_tests[test_id] = all_tests[test_id] + 1
+
+                    #only to debug!
+                    else:
+                        if self.debug_mode:
+                            print("no impacted tests for {0}".format(mutant_id))
+
+            #compute the average
+            for test in all_tests:
+                all_tests[test] = all_tests[test] / nb_of_tests
+
+            #get only usefull representations (the value isn't null...)
+            complex_representation_for_mutants[mutant_list] = dict((key, value) for key, value in all_tests.items() if len(value) != 0)
+
+        return complex_representation_for_mutants
     def printInfo(self):
         """
         Abstract: Method to print (output standard) some informations about the use graph
