@@ -156,6 +156,8 @@ def parse_mutations(mutations_document, debug_mode = False):
                 mutant_id = "m{0}".format(mutant.get('id').split('_')[1])
                 mutant_name = mutant.get('in')
                 mutations_table[mutant_id] = {'name': mutant_name, 'from' : mutant.get("from"), 'to' : mutant.get("to"), 'impacted_tests' : []}
+                if debug_mode:
+                    print("Mutant {0} ({1}) has been added...".format(mutant_id, mutant_name))
 
     return mutations_table
 
