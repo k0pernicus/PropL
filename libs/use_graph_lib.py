@@ -194,12 +194,12 @@ class UseGraph(object):
         base_dir = "{0}/{1}".format(self.path_file, directory_name)
 
         #parse mutants in the mutations_name_file
-        self.mutants = parse_mutations("{0}/{1}".format(base_dir, mutations_name_file))
+        self.mutants = parse_mutations("{0}/{1}".format(base_dir, mutations_name_file), self.debug_mode)
 
         #for each mutant...
         for mutant in os.listdir(base_dir):
             #join their id to the id of failing tests
-            join_mutant_and_impacted_tests("{0}/{1}".format(base_dir, mutant_file), self.mutants, self.all_cases_name)
+            join_mutant_and_impacted_tests("{0}/{1}".format(base_dir, mutant_file), self.mutants, self.all_cases_name, self.debug_mode)
 
     def printInfo(self):
         """
