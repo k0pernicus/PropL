@@ -149,6 +149,8 @@ def parse_mutations(mutations_document, debug_mode = False):
     tree = ET.parse(mutations_document)
     root = tree.getroot()
 
+    hash_mutants_table = {}
+
     mutations_table = {}
 
     #for each mutant list in the mutations XML file
@@ -158,14 +160,17 @@ def parse_mutations(mutations_document, debug_mode = False):
 
             #if mutant is viable...
             if mutant.get('viable'):
+                mutant_name = mutant.get('in')
+                if not mutant_name in hash_mutants_table:
+                    hash_mutants_table[mutant_name] = {'list_mutants' : []}
                 #a mutant id is mxxx, xxx = number of the mutant in the file
                 mutant_id = "m{0}".format(mutant.get('id').split('_')[1])
-                mutant_name = mutant.get('in')
                 mutations_table[mutant_id] = {'name': mutant_name, 'from' : mutant.get("from"), 'to' : mutant.get("to"), 'impacted_tests' : []}
+                hash_mutants_table[mutant_name]['list_mutants'].append(mutant_id)
                 if debug_mode:
-                    print("Mutant {0} ({1}) has been added...".format(mutant_id, mutant_name))
+                    print("Mutant {0} ({1}) has been added...".format(mutant_name, mutant_id))
 
-    return mutations_table
+    return hash_mutants_table, mutations_table
 
 def join_mutant_and_impacted_tests(mutant_file, mutations_table, case_name_to_id, debug_mode = False):
     """
