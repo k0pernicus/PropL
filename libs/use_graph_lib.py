@@ -46,6 +46,7 @@ class UseGraph(object):
         self.number_of_variables = 0
         #number of methods in nodes
         self.number_of_methods = 0
+        self.hash_mutants = {}
         #liaisons test_id -> nodes impacted
         self.mutants = {}
         #debugging mode
@@ -205,7 +206,7 @@ class UseGraph(object):
         base_dir = "{0}/{1}".format(self.path_file, root_directory_name)
 
         #parse mutants in the mutations_name_file
-        self.mutants = parse_mutations("{0}/{1}".format(base_dir, mutations_name_file), self.debug_mode)
+        self.hash_mutants, self.mutants = parse_mutations("{0}/{1}".format(base_dir, mutations_name_file), self.debug_mode)
 
         base_dir = "{0}/{1}".format(base_dir, mutants_directory_name)
 
