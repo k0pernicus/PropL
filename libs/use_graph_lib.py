@@ -261,7 +261,7 @@ class UseGraph(object):
         for mutant_list in simple_representation_for_mutants:
 
             #number of mutants in the hash map is the number of tests
-            nb_of_tests = len(simple_representation_for_mutants[mutant_list])
+            nb_of_tests = len(self.hash_mutants[mutant_list]['list_mutants'])
 
             all_tests = {}
 
@@ -276,37 +276,48 @@ class UseGraph(object):
                 #for each mutant id...
                 for mutant_id in mutants_id:
 
-                    if self.debug_mode:
-                        print("mutant_id {0}".format(mutant_id))
+                    #decrement the nb of tests if the mutant is not in a file test!
+                    if not mutant_id in self.available_mutants:
 
-                    #store the list of impacted tests
-                    impacted_tests = self.mutants[mutant_id]['impacted_tests']
+                        if self.debug_mode:
+                            print("mutant_id {0} not in the list...".format(mutant_id))
 
-                    #we can work on it if the list is not empty
-                    if not len(impacted_tests) == 0:
+                        nb_of_tests = nb_of_tests - 1
 
-                        #for each test in the list of impacted tests...
-                        for test in impacted_tests:
-
-                            #store his own id
-                            test_id = test['id']
-
-                            if not test_id in all_tests:
-                                all_tests[test_id] = 0
-
-                            all_tests[test_id] = all_tests[test_id] + 1
-
-                    #only to debug!
                     else:
                         if self.debug_mode:
-                            print("no impacted tests for {0}".format(mutant_id))
+                            print("mutant_id {0} in the list...".format(mutant_id))
+
+                        #store the list of impacted tests
+                        impacted_tests = self.mutants[mutant_id]['impacted_tests']
+
+                        #we can work on it if the list is not empty
+                        if not len(impacted_tests) == 0:
+
+                            #for each test in the list of impacted tests...
+                            for test in impacted_tests:
+
+                                #store his own id
+                                test_id = test['id']
+
+                                if not test_id in all_tests:
+                                    all_tests[test_id] = 0
+
+                                all_tests[test_id] = all_tests[test_id] + 1
+
+                        #only to debug!
+                        else:
+                            if self.debug_mode:
+                                print("no impacted tests for {0}".format(mutant_id))
 
             #compute the average
             for test in all_tests:
                 all_tests[test] = all_tests[test] / nb_of_tests
 
             #get only usefull representations (the value isn't null...)
-            complex_representation_for_mutants[mutant_list] = dict((key, value) for key, value in all_tests.items() if len(value) != 0)
+            complex_representation_for_mutants[mutant_list] = all_tests
+
+        complex_representation_for_mutants = dict((key, value) for key, value in complex_representation_for_mutants.items() if len(value) != 0)
 
         return complex_representation_for_mutants
     def printInfo(self):
