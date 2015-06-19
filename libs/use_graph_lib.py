@@ -28,6 +28,8 @@ class UseGraph(object):
         self.all_tests_id = {}
         #all tests of use graph name -> id
         self.all_tests_name = {}
+        #all cases from tests
+        self.all_cases_name = {}
         #all nodes of the use graph id -> name
         self.all_nodes_id = {}
         #all nodes of the use graph name -> id
@@ -40,8 +42,12 @@ class UseGraph(object):
         self.number_of_edges = 0
         #number of nodes
         self.number_of_nodes = 0
+        #number of variables in nodes
+        self.number_of_variables = 0
+        #number of methods in nodes
+        self.number_of_methods = 0
         #liaisons test_id -> nodes impacted
-        self.liaisons = {}
+        self.mutants = {}
         #debugging mode
         self.debug_mode = debug_mode
 
