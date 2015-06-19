@@ -29,15 +29,21 @@ def is_valid_XML_documents(xml_documents):
     #set the ContentHandler
     xml_parsing.setContentHandler(ContentHandler())
 
-    #verification on each document
-    for doc in xml_documents:
-        if os.path.isfile(doc):
-            if is_a_valid_XML_document(xml_parsing, doc):
-                print("{0} is a valid XML document".format(doc))
-            else:
-                print("{0} is not a valid XML document".format(doc))
+    if os.path.isfile(xml_documents):
+        if is_a_valid_XML_document(xml_parsing, xml_documents):
+            print("{0} is a valid XML document".format(xml_documents))
         else:
-            print("{0} is not a file".format(doc))
+            print("{0} is not a valid XML document".format(xml_documents))
+    else:
+        #verification on each document
+        for doc in xml_documents:
+            if os.path.isfile(doc):
+                if is_a_valid_XML_document(xml_parsing, doc):
+                    print("{0} is a valid XML document".format(doc))
+                else:
+                    print("{0} is not a valid XML document".format(doc))
+            else:
+                print("{0} is not a file".format(doc))
 
 def is_a_valid_XML_document(xml_parsing, xml_document):
     """
