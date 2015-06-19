@@ -58,47 +58,29 @@ def main():
         debug_mode = False
 
     try:
-        xml_doc = sys.argv[1]
+        test_directory = sys.argv[1]
     except Exception as excpt:
         raise NoArgument("Please to give at least the XML document (or repository) as argument...")
 
     #Verification of the path
-    if os.path.exists(xml_doc):
-        if os.path.isfile(xml_doc):
+    if os.path.exists(test_directory):
+        if os.path.isfile(test_directory):
             #Transformation of the unique file -> list
-            raise RunError("error : need a directory which contains 'run' and 'usegraph' files...")
-        else:
-            path = xml_doc
-            xml_doc = os.listdir(path)
-
-            #Absolute path for files
-            for i in range(0, len(xml_doc)):
-                xml_doc[i] = os.path.join(path, xml_doc[i])
-
-            if debug_mode:
-                print("{0} as directory".format(xml_doc))
-                print("xml_doc : {0}".format(xml_doc))
+            raise RunError("error : need a directory which follow contraints (see help)...")
     else:
-        raise FailToLoad("Please to give an existing path for files...")
+        raise FailToLoad("Please to give an existing path for a test directory...")
 
     #Verification of the XML validation
-    print(is_valid_XML_documents(xml_doc))
-
-    #analyse usegraph file
-    usegraph_file = [file_name for file_name in xml_doc if "usegraph" in file_name]
-    run_file = [file_name for file_name in xml_doc if "run" in file_name]
-
-    if len(usegraph_file) == 0 or len(run_file) == 0:
-        raise RunError("No use graph or run files in the specified directory...")
+    for xml_doc in os.listdir(test_directory):
+        path_file = "{0}{1}".format(test_directory, xml_doc)
+        if os.path.isfile(path_file) and not xml_doc in not_authorized_files:
+            print(is_valid_XML_documents(path_file))
 
     #Creation of the use graph
-    use_graph = UseGraph(i, usegraph_file[0], debug_mode)
+    use_graph = UseGraph(0, test_directory, debug_mode)
 
     #Run
     use_graph.run()
-
-    #Merge 'use graph' and 'run' files
-    merge_smf_file(use_graph, run_file[0], debug_mode)
 
 if __name__ == '__main__':
     main()
