@@ -338,7 +338,7 @@ class UseGraph(object):
 
         return "Use graph {0} : {1} nodes ({4} variables - {5} methods) and {2} edges / {3} tests".format(self.id, self.number_of_nodes, self.number_of_edges, self.number_of_tests, self.variables_nb, self.methods_nb)
 
-    def save_on_board(self):
+    def saveOnBoard(self):
         """
         Abstract: Method to save the visualization
         """
