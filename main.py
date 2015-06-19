@@ -6,7 +6,6 @@ from threading import Thread
 #from libs.xml_lib import load_xml_document
 from libs.xml_lib import is_valid_XML_documents
 from libs.xml_lib import is_a_valid_XML_document
-from libs.xml_lib import decompose_mutations
 
 from libs.exceptions.NoArgument import NoArgument
 from libs.exceptions.RunError import RunError
@@ -28,6 +27,18 @@ def help():
     Usage\n\
     -----\n\
     \tprogram <test_directory> [--help|--debug]\n\
+    \n\
+    Test directory\n\
+    --------------\n\
+    \t<root>/\n\
+    \t---->smf.run.xml\n\
+    \t---->usegraph.graphml\n\
+    \t----><mutant_root_directory>/\n\
+    \t\t---->mutations.xml\n\
+    \t\t---->mutants/\n\
+    \t\t\t---->mutant_001.xml\n\
+    \t\t\t---->mutant_002.xml\n\
+    \t\t\t---->...\n\
     \n\
     List of functionalities\n\
     -----------------------\n\
