@@ -320,6 +320,16 @@ class UseGraph(object):
         complex_representation_for_mutants = dict((key, value) for key, value in complex_representation_for_mutants.items() if len(value) != 0)
 
         return complex_representation_for_mutants
+
+    def computeProbabilities(self):
+        """
+        Abstract: Method to compute probabilities on edges
+        """
+
+        #TODO Ajouter les poids aux arêtes!!!!!
+
+        print(self.getComplexRepresentationForMutants())
+
     def printInfo(self):
         """
         Abstract: Method to print (output standard) some informations about the use graph
