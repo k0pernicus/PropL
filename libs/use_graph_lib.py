@@ -229,6 +229,26 @@ class UseGraph(object):
             #join their id to the id of failing tests
             join_mutant_and_impacted_tests("{0}/{1}".format(base_dir, mutant_file), self.mutants, self.all_cases_name, self.available_mutants, self.debug_mode)
 
+    def computeSimpleRepresentationForAMutant(self, mutant):
+        """
+        Abstract: Method to return a simple representation for one mutant
+        """
+
+        simple_representation_by_mutant = {}
+
+        #searching for all mutant id in the list of mutants
+        for single_mutant_id in self.hash_mutants[mutant]['list_mutants']:
+
+            #this field is a tag to know if there's multiple tests for the same mutation
+            position_of_the_mutation = "{0}||{1}".format(self.mutants[single_mutant_id]['from'], self.mutants[single_mutant_id]['to'])
+
+            if not position_of_the_mutation in simple_representation_by_mutant:
+                simple_representation_by_mutant[position_of_the_mutation] = []
+
+            simple_representation_by_mutant[position_of_the_mutation].append(single_mutant_id)
+
+        return simple_representation_by_mutant
+
     def getSimpleRepresentationForMutants(self):
         """
         Abstract: Method to return a representation of which mutant is the child of a father mutant
@@ -239,21 +259,8 @@ class UseGraph(object):
         #each mutant parent contains a list of mutants
         for mutant in self.hash_mutants:
 
-            simple_representation_by_mutant = {}
-
-            #searching for all mutant id in the list of mutants
-            for single_mutant_id in self.hash_mutants[mutant]['list_mutants']:
-
-                #this field is a tag to know if there's multiple tests for the same mutation
-                position_of_the_mutation = "{0}||{1}".format(self.mutants[single_mutant_id]['from'], self.mutants[single_mutant_id]['to'])
-
-                if not position_of_the_mutation in simple_representation_by_mutant:
-                    simple_representation_by_mutant[position_of_the_mutation] = []
-
-                simple_representation_by_mutant[position_of_the_mutation].append(single_mutant_id)
-
             #we have now the representation of all mutants children for a parent
-            simple_representation_for_mutants[mutant] = simple_representation_by_mutant
+            simple_representation_for_mutants[mutant] = self.computeSimpleRepresentationForAMutant(mutant)
 
         return simple_representation_for_mutants
 
@@ -337,7 +344,27 @@ class UseGraph(object):
 
         #TODO Ajouter les poids aux arêtes!!!!!
 
-        print(self.getComplexRepresentationForMutants())
+        #         for edge in use_graph.all_edges:
+        # ...     if 't14c2' in use_graph.all_edges[edge]['source'] or 't14c2' in use_graph.all_edges[edge]['target']:
+        # ...         print(edge)
+
+        complexRepresentation = self.getComplexRepresentationForMutants()
+
+        for mutant in complexRepresentation:
+
+            for test_dict in complexRepresentation[mutant]:
+
+                for test_id in mutant_dict:
+
+                    paths = nx.all_paths = nx.all_simple_paths(self.graph, self.all_nodes_id[test_id], mutant)
+
+                    #transform 'paths' ([node1, node2, node3, ...] in list of paths [(node1, node2), (node2, node3), ...])
+
+                    paths = getExistingPathsFrom(paths)
+
+                    for edge in paths:
+
+                        self.all_edges[edge]['weight'] = weight of test_id...
 
     def printInfo(self):
         """
