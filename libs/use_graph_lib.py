@@ -9,6 +9,14 @@ from libs.xml_lib import parse_mutations
 from libs.xml_lib import join_mutant_and_impacted_tests
 
 from threading import Thread
+
+def getExistingPathsFrom(all_paths):
+    """
+    Abstract: Function to transform the list of nodes (all_paths) to a list of tuples (source, target)
+    """
+
+    return [(all_paths[a], all_paths[a + 1]) for a in range(0, len(all_paths) - 1)]
+
 class UseGraph(object):
     """
     Abstract: Class which represents a use graph.
