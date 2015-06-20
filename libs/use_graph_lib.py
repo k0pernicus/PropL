@@ -205,7 +205,7 @@ class UseGraph(object):
 
     def computeMutants(self):
         """
-        Abstract: Method to compute and store mutants and relations between them and nodes
+        Abstract: Method to compute and store mutants, and relations between them and nodes
         """
 
         #name directory of root mutants files
