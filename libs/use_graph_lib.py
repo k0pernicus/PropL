@@ -48,6 +48,8 @@ class UseGraph(object):
         self.all_edges_id = {}
         #all edges of the use graph name -> id
         self.all_edges_name = {}
+        #all edges used to propagate a bug
+        self.usefull_edges = []
         #number of tests
         self.number_of_tests = 0
         #number of edges
@@ -394,8 +396,12 @@ class UseGraph(object):
 
                             edge_id = self.all_edges_name[edge]['id']
 
+                            self.usefull_edges.append(edge_id)
+
                             #update the weight by adding the probability, and / 2
                             self.all_edges_id[edge_id]['weight'] = (self.all_edges_id[edge_id]['weight'] + probability_of_test_id) / 2
+
+        self.usefull_edges = list(set(self.usefull_edges))
 
     def transform_edge_name_as_edge_id(self, edge):
         """
@@ -411,3 +417,42 @@ class UseGraph(object):
         """
 
         return "Use graph {0} : {1} nodes ({4} variables - {5} methods) and {2} edges / {3} tests".format(self.id, self.number_of_nodes, self.number_of_edges, self.number_of_tests, self.number_of_variables, self.number_of_variables)
+
+    def visualize(self):
+        """
+        Abstract: Method to visualize usefull edges
+        """
+
+        simple_visualization = nx.DiGraph()
+
+        usefull_nodes = []
+
+        usefull_edges = []
+
+        for e in self.usefull_edges:
+
+            source = self.all_edges_id[e]['source']
+
+            target = self.all_edges_id[e]['target']
+
+            if not source in usefull_nodes:
+
+                usefull_nodes.append(source)
+
+            if not target in usefull_nodes:
+
+                usefull_nodes.append(target)
+
+            if not (source, target) in usefull_edges:
+
+                usefull_edges.append((source, target))
+
+        simple_visualization.add_nodes_from(usefull_nodes)
+
+        simple_visualization.add_edges_from(usefull_edges)
+
+        graph_path = "{0}to_visualize.graphml".format(self.path_file)
+
+        nx.write_graphml(simple_visualization, graph_path)
+
+        os.system("python2.7 libs/graph_visualization.py {0}".format(graph_path))
