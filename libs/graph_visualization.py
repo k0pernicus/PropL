@@ -7,17 +7,22 @@ import matplotlib.pyplot as plt
 import networkx as nx
 
 def draw_graph(path):
-
+    """
+    Script to build a graph with networkx, and plot it with matplotlib
+    ONLY with python 2.7
+    """
     graph = nx.read_graphml(path)
 
     nx.draw_networkx(graph)
-    
+
     plt.show()
 
 if __name__ == "__main__":
+    """
+    Script to visualize a graphml file (path as parameter)
+    ONLY with python 2.7
+    """
 
     path = sys.argv[1]
-
-    print path
 
     draw_graph(path)
