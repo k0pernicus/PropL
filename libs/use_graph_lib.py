@@ -363,12 +363,6 @@ class UseGraph(object):
         Abstract: Method to compute probabilities on edges
         """
 
-        #TODO Ajouter les poids aux arêtes!!!!!
-
-        #         for edge in use_graph.all_edges:
-        # ...     if 't14c2' in use_graph.all_edges[edge]['source'] or 't14c2' in use_graph.all_edges[edge]['target']:
-        # ...         print(edge)
-
         complexRepresentation = self.getComplexRepresentationForMutants()
 
         #for each mutant
