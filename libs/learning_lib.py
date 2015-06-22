@@ -171,3 +171,20 @@ def dichotomicOnlineOptimization(usegraph):
 
     if usegraph.debug_mode:
         print("Computing time (dichotomicOnlineOptimization) : {0} seconds".format(end_algo - begin_algo))
+
+def minAndMaxOnlineOptimization(usegraph):
+    """
+    Abstract: Method to compute probabilities on edges, using a 'min and max' algorithm
+    The parameter is a UseGraph object
+    """
+
+    if usegraph.debug_mode:
+        begin_algo = time.time()
+
+    #ALGO
+
+    if usegraph.debug_mode:
+        end_algo = time.time()
+
+    if usegraph.debug_mode:
+        print("Computing time (minAndMaxOnlineOptimization) : {0} seconds".format(end_algo - begin_algo))
