@@ -124,6 +124,9 @@ def dichotomicOnlineOptimization(usegraph):
     The parameter is a UseGraph object
     """
 
+    if usegraph.debug_mode:
+        begin_algo = time.time()
+
     complexRepresentation = getComplexRepresentationForMutants(usegraph)
 
     #for each mutant
@@ -161,4 +164,10 @@ def dichotomicOnlineOptimization(usegraph):
                         #update the weight by adding the probability, and / 2
                         usegraph.all_edges_id[edge_id]['weight'] = (usegraph.all_edges_id[edge_id]['weight'] + probability_of_test_id) / 2
 
+    if usegraph.debug_mode:
+        end_algo = time.time()
+
     usegraph.usefull_edges = list(set(usegraph.usefull_edges))
+
+    if usegraph.debug_mode:
+        print("Computing time (dichotomicOnlineOptimization) : {0} seconds".format(end_algo - begin_algo))
