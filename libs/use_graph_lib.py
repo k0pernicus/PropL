@@ -380,18 +380,21 @@ class UseGraph(object):
 
                     paths = nx.all_simple_paths(self.graph, self.all_nodes_id[node], mutant)
 
-                    #transform 'paths' ([node1, node2, node3, ...] in list of paths [(node1, node2), (node2, node3), ...])
-
                     for one_path in paths:
 
+                        #for each simple path...
+                        #transform 'one_path' ([node1, node2, node3, ...] in list of paths [(node1, node2), (node2, node3), ...])
                         simple_path = getExistingPathsFrom(one_path)
 
+                        #for each edge...
                         for edge in simple_path:
 
+                            #transform the edge 'id -> (source, target)' as '(source, target) -> id'
                             edge = self.transform_edge_name_as_edge_id(edge)
 
                             edge_id = self.all_edges_name[edge]['id']
 
+                            #update the weight by adding the probability, and / 2
                             self.all_edges_id[edge_id]['weight'] = (self.all_edges_id[edge_id]['weight'] + probability_of_test_id) / 2
 
     def transform_edge_name_as_edge_id(self, edge):
