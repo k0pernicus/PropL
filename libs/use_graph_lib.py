@@ -180,8 +180,8 @@ class UseGraph(object):
             #get the node id
             #if it's a test, get the id of the test...
             if name_test in self.all_cases_name:
-                node_id = "{0}-{1}{2}".format(case_id, type_abbr, j)
                 case_id = self.all_cases_name[name_test]['id']
+                node_id = "{0}-{1}{2}".format(case_id, type_abbr, j)
             #else, put a 'no test' label (nt)
             else:
                 node_id = "nt-{0}{1}".format(type_abbr, j)
