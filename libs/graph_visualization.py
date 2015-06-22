@@ -15,6 +15,8 @@ def draw_graph(path):
 
     nx.draw_networkx(graph)
 
+    plt.savefig("{0}.png".format(path.split('.graphml')[0]))
+
     plt.show()
 
 if __name__ == "__main__":
