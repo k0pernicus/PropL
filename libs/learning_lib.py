@@ -120,7 +120,7 @@ def getComplexRepresentationForMutants(usegraph):
 
 def dichotomicOnlineOptimization(usegraph):
     """
-    Abstract: Method to compute probabilities on edges, with a dichotomic approach
+    Abstract: Method to compute probabilities on edges, using a dichotomic approach
     The parameter is a UseGraph object
     """
 
