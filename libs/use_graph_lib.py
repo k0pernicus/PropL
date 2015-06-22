@@ -207,7 +207,8 @@ class UseGraph(object):
 
     def computeEdges(self):
         """
-        Abstract: Method to compute and store all edges (and the sum of theses edges) of the use graph
+        Abstract: Method to compute and store all edges (and the sum of theses edges - weight) of the use graph
+        Each edge is compute like : (source, target) -> id ; id -> source, target, weight
         """
 
         #id_edge : (id_first_node, id_second_node)
@@ -225,6 +226,7 @@ class UseGraph(object):
     def computeMutants(self):
         """
         Abstract: Method to compute and store mutants, and relations between them and nodes
+        Please to see parse_mutations in xml_lib
         """
 
         #name directory of root mutants files
