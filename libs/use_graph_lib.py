@@ -356,19 +356,40 @@ class UseGraph(object):
 
         for mutant in complexRepresentation:
 
-            for test_dict in complexRepresentation[mutant]:
+            print("mutant : {0}".format(mutant))
 
-                for test_id in mutant_dict:
+            test_representation = complexRepresentation[mutant]
 
-                    paths = nx.all_paths = nx.all_simple_paths(self.graph, self.all_nodes_id[test_id], mutant)
+            for test_id in test_representation:
 
-                    #transform 'paths' ([node1, node2, node3, ...] in list of paths [(node1, node2), (node2, node3), ...])
+                for node in self.all_nodes_id:
 
-                    paths = getExistingPathsFrom(paths)
+                    if test_id in node:
 
-                    for edge in paths:
+                        probability_of_test_id = test_representation[test_id]
 
-                        self.all_edges[edge]['weight'] = weight of test_id...
+                        paths = nx.all_simple_paths(self.graph, self.all_nodes_id[node], mutant)
+
+                        #transform 'paths' ([node1, node2, node3, ...] in list of paths [(node1, node2), (node2, node3), ...])
+
+                        for one_path in paths:
+
+                            simple_path = getExistingPathsFrom(one_path)
+
+                            for edge in simple_path:
+
+                                edge = self.transform_edge_name_as_edge_id(edge)
+
+                                edge_id = self.all_edges_name[edge]['id']
+
+                                self.all_edges_id[edge_id]['weight'] = (self.all_edges_id[edge_id]['weight'] + probability_of_test_id) / 2
+
+    def transform_edge_name_as_edge_id(self, edge):
+        """
+        Abstract: Method to transform an edge composed by methods/fields name as an edge composed by the id of those methods/fields
+        """
+
+        return (self.all_nodes_name[edge[0]], self.all_nodes_name[edge[1]])
 
     def printInfo(self):
         """
