@@ -289,7 +289,7 @@ class UseGraph(object):
 
         simple_visualization.add_edges_from(usefull_edges)
 
-        graph_path = "{0}to_visualize.graphml".format(self.path_file)
+        graph_path = "{0}{1}.graphml".format(self.path_file, self.id)
 
         nx.write_graphml(simple_visualization, graph_path)
 
