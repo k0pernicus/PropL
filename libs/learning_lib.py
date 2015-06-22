@@ -188,3 +188,21 @@ def minAndMaxOnlineOptimization(usegraph):
 
     if usegraph.debug_mode:
         print("Computing time (minAndMaxOnlineOptimization) : {0} seconds".format(end_algo - begin_algo))
+
+def updateAllEdgesOnlineOptimization(usegraph):
+    """
+    Abstract: Method to compute probabilities on edges, using an algorithm which update all edges in a path between source mutation and test
+    The parameter is a UseGraph object
+    """
+
+    if usegraph.debug_mode:
+        begin_algo = time.time()
+
+    #ALGO
+
+    if usegraph.debug_mode:
+        end_algo = time.time()
+
+    if usegraph.debug_mode:
+        print("Computing time (updateAllEdgesOnlineOptimization) : {0} seconds".format(end_algo - begin_algo))
+
