@@ -2,7 +2,6 @@ import os
 import time
 
 import networkx as nx
-import matplotlib.pyplot as plt
 
 from libs.xml_parsing_lib import parse_smf_run
 from libs.xml_parsing_lib import parse_mutations
@@ -409,12 +408,3 @@ class UseGraph(object):
         """
 
         return "Use graph {0} : {1} nodes ({4} variables - {5} methods) and {2} edges / {3} tests".format(self.id, self.number_of_nodes, self.number_of_edges, self.number_of_tests, self.number_of_variables, self.number_of_variables)
-
-    def saveOnBoard(self):
-        """
-        Abstract: Method to save the visualization
-        """
-
-        nx.draw(self.graph)
-        file_name = os.path.splitext(self.path_file)[0]
-        plt.savefig("{0}.png".format(file_name))
