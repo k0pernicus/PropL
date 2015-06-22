@@ -85,7 +85,7 @@ class UseGraph(object):
 
     def run(self):
         """
-        Abstract: Method to compute tests, nodes and edges
+        Abstract: Method to compute tests, nodes, edges and probabilities for each edge
         Debugging mode is usefull to know time costs
         """
 
