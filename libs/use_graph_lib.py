@@ -161,6 +161,8 @@ class UseGraph(object):
         #for all nodes...
         for node in self.graph.nodes(data = True):
 
+            case_id = None
+
             #store name and type of the node
             node_name, node_type = node
 
@@ -179,7 +181,8 @@ class UseGraph(object):
             #get the node id
             #if it's a test, get the id of the test...
             if name_test in self.all_cases_name:
-                node_id = "{0}-{1}{2}".format(self.all_cases_name[name_test]['id'], type_abbr, j)
+                node_id = "{0}-{1}{2}".format(case_id, type_abbr, j)
+                case_id = self.all_cases_name[name_test]['id']
             #else, put a 'no test' label (nt)
             else:
                 node_id = "nt-{0}{1}".format(type_abbr, j)
@@ -188,6 +191,10 @@ class UseGraph(object):
             self.all_nodes_name[node_name] = node_id
             #store id -> name for node
             self.all_nodes_id[node_id] = node_name
+
+            #store the good node (without 'nt') in cases_id dictionary
+            if not case_id == None:
+                self.all_cases_id[case_id]['nodes'].append(node_id)
 
         #compute number of nodes
         self.number_of_nodes = self.graph.number_of_nodes()
@@ -362,35 +369,35 @@ class UseGraph(object):
 
         complexRepresentation = self.getComplexRepresentationForMutants()
 
+        #for each mutant
         for mutant in complexRepresentation:
 
-            print("mutant : {0}".format(mutant))
-
+            #we get the list of test failed
             test_representation = complexRepresentation[mutant]
 
+            #for each test failed
             for test_id in test_representation:
 
-                for node in self.all_nodes_id:
+                probability_of_test_id = test_representation[test_id]
 
-                    if test_id in node:
+                #we look for all fields/methods...
+                for node in self.all_cases_id[test_id]['nodes']:
 
-                        probability_of_test_id = test_representation[test_id]
+                    paths = nx.all_simple_paths(self.graph, self.all_nodes_id[node], mutant)
 
-                        paths = nx.all_simple_paths(self.graph, self.all_nodes_id[node], mutant)
+                    #transform 'paths' ([node1, node2, node3, ...] in list of paths [(node1, node2), (node2, node3), ...])
 
-                        #transform 'paths' ([node1, node2, node3, ...] in list of paths [(node1, node2), (node2, node3), ...])
+                    for one_path in paths:
 
-                        for one_path in paths:
+                        simple_path = getExistingPathsFrom(one_path)
 
-                            simple_path = getExistingPathsFrom(one_path)
+                        for edge in simple_path:
 
-                            for edge in simple_path:
+                            edge = self.transform_edge_name_as_edge_id(edge)
 
-                                edge = self.transform_edge_name_as_edge_id(edge)
+                            edge_id = self.all_edges_name[edge]['id']
 
-                                edge_id = self.all_edges_name[edge]['id']
-
-                                self.all_edges_id[edge_id]['weight'] = (self.all_edges_id[edge_id]['weight'] + probability_of_test_id) / 2
+                            self.all_edges_id[edge_id]['weight'] = (self.all_edges_id[edge_id]['weight'] + probability_of_test_id) / 2
 
     def transform_edge_name_as_edge_id(self, edge):
         """
