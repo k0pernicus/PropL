@@ -31,9 +31,11 @@ if __name__ == "__main__":
 
     path = sys.argv[1]
 
+    usegraph_id = sys.argv[2]
+
     func = ""
 
     while (not 'show' in func) and (not 'save' in func):
-        func = raw_input("Would you visualize ('show') or save ('save') the graph?")
+        func = raw_input("Would you visualize ('show') or save ('save') the graph {0}?".format(usegraph_id))
 
     draw_graph(path, func)
