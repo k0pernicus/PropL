@@ -299,7 +299,12 @@ class UseGraph(object):
         Abstract: Method to run some tests, without cross validation
         """
 
-        print("{0}{1}{0}".format("#"*20, self.id))
-        for edge_id in self.usefull_edges:
-            print("{0} ({1} -- {2}) : {3}".format(edge_id, self.all_edges_id[edge_id]['source'], self.all_edges_id[edge_id]['target'], self.all_edges_id[edge_id]['weight']))
-        print("{0}".format("#"*(40 + len(self.id))))
+        #take 1/10 of the learning tests
+        number_of_learning_tests = len(self.mutants) / 10
+
+        if debug_mode:
+            print("Number of learning tests: {0}".format(number_of_learning_tests))
+
+        for i in range(0, number_of_learning_tests):
+            item = self.hash_mutants.popitem()
+            self.hash_mutants_tests[item[0]] = item[1]
