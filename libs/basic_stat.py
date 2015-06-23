@@ -29,6 +29,9 @@ def computeTrueNegativeRate(true_negative, false_positive):
 
     return (true_negative) / (true_negative + false_positive)
 
-def computeAccuracy():
+def computeAccuracy(true_positive, true_negative, false_positive, false_negative):
+    """
+    Abstract: Simple function to compute the accuracy of some examples
+    """
 
-    pass
+    return (true_positive + true_negative) / (true_positive + true_negative + false_positive + false_negative)
