@@ -36,6 +36,6 @@ if __name__ == "__main__":
     func = ""
 
     while (not 'show' in func) and (not 'save' in func):
-        func = raw_input("Would you visualize ('show') or save ('save') the graph {0}?".format(usegraph_id))
+        func = raw_input("Would you visualize ('show') or save ('save') the graph {0}? ".format(usegraph_id))
 
     draw_graph(path, func)
