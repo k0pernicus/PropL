@@ -155,6 +155,9 @@ def dichotomicOnlineOptimization(usegraph):
 
     complexRepresentation = getComplexRepresentationForMutants(usegraph)
 
+    #reset usefull_edges
+    usegraph.usefull_edges = []
+
     #for each mutant
     for mutant in complexRepresentation:
 
@@ -169,7 +172,10 @@ def dichotomicOnlineOptimization(usegraph):
             #we look for all fields/methods...
             for node in usegraph.all_cases_id[test_id]['nodes']:
 
-                paths = nx.all_simple_paths(usegraph.graph, usegraph.all_nodes_id[node], mutant)
+                paths = []
+
+                for p in nx.all_simple_paths(usegraph.graph, usegraph.all_nodes_id[node], mutant):
+                    paths.append(p)
 
                 for one_path in paths:
 
@@ -185,15 +191,14 @@ def dichotomicOnlineOptimization(usegraph):
 
                         edge_id = usegraph.all_edges_name[edge]['id']
 
-                        usegraph.usefull_edges.append(edge_id)
+                        if not edge_id in usegraph.usefull_edges:
+                            usegraph.usefull_edges.append(edge_id)
 
                         #update the weight by adding the probability, and / 2
                         usegraph.all_edges_id[edge_id]['weight'] = (usegraph.all_edges_id[edge_id]['weight'] + probability_of_test_id) / 2
 
     if usegraph.debug_mode:
         end_algo = time.time()
-
-    usegraph.usefull_edges = list(set(usegraph.usefull_edges))
 
     if usegraph.debug_mode:
         print("Computing time (dichotomicOnlineOptimization) : {0} seconds".format(end_algo - begin_algo))
