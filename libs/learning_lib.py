@@ -271,6 +271,9 @@ def minAndMaxOnlineOptimization(usegraph):
                     #Get the minimal edge id
                     edge_id = getMinEdgeFrom(paths, usegraph)
 
+                    if usegraph.debug_mode:
+                        print("Up {0} due to random_propagation ({1}) > global_probability_to_propagate ({2})".format(edge_id, random_propagation, global_probability_to_propagate))
+
                     #up the weight of this edge
                     usegraph.all_edges_id[edge_id]['weight'] += (1 / math.log(t))
 
