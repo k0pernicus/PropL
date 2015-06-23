@@ -1,41 +1,25 @@
-import sys
-from threading import Thread
+def getSomeStats(usegraph):
+    """
+    Abstract: Method to get some stats on a UseGraph object (usegraph)
+    """
 
-from test_graph_generation import generate_random_graph
-from test_graph_generation import generate_some_examples
-from test_graph_generation import resolve_pb
-from test_graph_generation import generate_some_tests
-from test_graph_generation import is_algorithm_good_between_examples
-from test_graph_generation import is_algorithm_good_between_weights
-from test_graph_generation import get_first_sources
+    print("{0}{1}{0}".format("#"*20, usegraph.id))
+    for edge_id in usegraph.usefull_edges:
+        print("{0} ({1} -- {2}) : {3}".format(edge_id, usegraph.all_edges_id[edge_id]['source'], usegraph.all_edges_id[edge_id]['target'], usegraph.all_edges_id[edge_id]['weight']))
+    print("{0}".format("#"*(40 + len(usegraph.id))))
 
-def run_test(nb_nodes, nb_targets, nb_of_tests, len_examples, i):
+def computePrecision():
 
-    #One target for 3000 nodes
-    use_graph = generate_random_graph(nb_nodes, nb_targets)
+    pass
 
-    examples = generate_some_examples(use_graph, len_examples)
+def computeRecall():
 
-    first_sources = get_first_sources(use_graph)
+    pass
 
-    weights = resolve_pb(use_graph, examples, first_sources = first_sources)
+def computeTrueNegativeRate():
 
-    tests = generate_some_tests(use_graph, examples, weights, len_examples)
+    pass
 
-    print("test {0}...".format(i), end='')
+def computeAccuracy():
 
-    is_algorithm_good_between_examples(examples, tests)
-
-if __name__ == "__main__":
-
-    nb_nodes = int(sys.argv[1])
-
-    nb_targets = int(sys.argv[2])
-
-    nb_of_tests = int(sys.argv[3])
-
-    len_examples = int(sys.argv[4])
-
-    for i in range(0, nb_of_tests):
-
-        Thread(target=run_test, args=(nb_nodes, nb_targets, nb_of_tests, len_examples, i,)).start()
+    pass
