@@ -294,7 +294,7 @@ class UseGraph(object):
 
         os.system("python2.7 libs/graph_visualization.py {0} {1}".format(graph_path, self.id))
 
-    def runTests(self):
+    def splitTests(self):
         """
         Abstract: Method to run some tests, without cross validation
         """
