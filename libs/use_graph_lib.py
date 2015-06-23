@@ -61,6 +61,8 @@ class UseGraph(object):
         self.available_mutants = []
         #liaisons mutant parents -> mutants child
         self.hash_mutants = {}
+        #liaisons mutant parents -> mutants child FOR TESTS
+        self.hash_mutants_tests = {}
         #liaisons test_id -> nodes impacted
         self.mutants = {}
         #debugging mode
