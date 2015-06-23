@@ -8,7 +8,10 @@ def getSomeStats(usegraph):
         print("{0} ({1} -- {2}) : {3}".format(edge_id, usegraph.all_edges_id[edge_id]['source'], usegraph.all_edges_id[edge_id]['target'], usegraph.all_edges_id[edge_id]['weight']))
     print("{0}".format("#"*(40 + len(usegraph.id))))
 
-def computePrecision():
+def computePrecision(true_positive, false_positive):
+    """
+    Abstract: Simple function to compute the precision of some examples
+    """
 
     pass
 
