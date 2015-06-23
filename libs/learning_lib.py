@@ -2,6 +2,10 @@ import networkx as nx
 import math
 import random
 
+###################
+#SIMPLE ALGORITHMS#
+###################
+
 def getMinEdgeFrom(paths, usegraph):
     """
     Abstract: Function to return the id of the edge which have the minimal weight
@@ -32,6 +36,10 @@ def getExistingPathsFrom(all_paths):
     """
 
     return [(all_paths[a], all_paths[a + 1]) for a in range(0, len(all_paths) - 1)]
+
+#################################################
+#ALGORITHM TO COMPUTE REPRESENTATION FOR MUTANTS#
+#################################################
 
 def computeSimpleRepresentationForAMutant(mutant, usegraph):
     """
@@ -143,6 +151,10 @@ def getComplexRepresentationForMutants(usegraph):
     complex_representation_for_mutants = dict((key, value) for key, value in complex_representation_for_mutants.items() if len(value) != 0)
 
     return complex_representation_for_mutants
+
+#####################
+#LEARNING ALGORITHMS#
+#####################
 
 def dichotomicOnlineOptimization(usegraph):
     """
@@ -373,7 +385,7 @@ def updateAllEdgesOnlineOptimization(usegraph):
 
                         if usegraph.all_edges_id[edge_id]['weight'] < 1:
                             usegraph.all_edges_id[edge_id]['weight'] += (1 / math.log(t))
-                            
+
                             if usegraph.all_edges_id[edge_id]['weight'] > 1:
                                 usegraph.all_edges_id[edge_id]['weight'] = 1
 
