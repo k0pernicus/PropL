@@ -212,7 +212,72 @@ def minAndMaxOnlineOptimization(usegraph):
     if usegraph.debug_mode:
         begin_algo = time.time()
 
-    #ALGO
+    complexRepresentation = getComplexRepresentationForMutants(usegraph)
+
+    t = 1000
+
+    #reset usefull_edges
+    usegraph.usefull_edges = []
+
+    #for each mutant
+    for mutant in complexRepresentation:
+
+        #we get the list of test failed
+        test_representation = complexRepresentation[mutant]
+
+        #for each test failed
+        for test_id in test_representation:
+
+            #we look for all fields/methods...
+            for node in usegraph.all_cases_id[test_id]['nodes']:
+
+                global_probability_to_propagate = 0
+
+                paths = []
+
+                for p in nx.all_simple_paths(usegraph.graph, usegraph.all_nodes_id[node], mutant):
+                    paths.append(p)
+
+                for one_path in paths:
+
+                    #for each simple path...
+                    #transform 'one_path' ([node1, node2, node3, ...] in list of paths [(node1, node2), (node2, node3), ...])
+                    simple_path = getExistingPathsFrom(one_path)
+
+                    probability_of_the_path = 1
+
+                    # compute usefull edges and the probability to propagate
+                    for edge in simple_path:
+
+                        edge = usegraph.transform_edge_name_as_edge_id(edge)
+
+                        edge_id = usegraph.all_edges_name[edge]['id']
+
+                        #usefull edge if presents
+                        if not edge_id in usegraph.usefull_edges:
+                            usegraph.usefull_edges.append(edge_id)
+
+                        #compute the probability of the path by multiplying the weight of each single path
+                        probability_of_the_path *= usegraph.all_edges_id[edge_id]['weight']
+
+                    #compute the sum of products
+                    global_probability_to_propagate += probability_of_the_path
+
+                random_propagation = random.uniform(0, 1)
+
+                #if random <= global -> OK! Else, we have to up the probability...
+                if not ( random_propagation <= global_probability_to_propagate ) and ( usegraph.all_edges_id[edge_id]['weight'] < 1 ):
+
+                    #Get the minimal edge id
+                    edge_id = getMinEdgeFrom(paths, usegraph)
+
+                    #up the weight of this edge
+                    usegraph.all_edges_id[edge_id]['weight'] += (1 / math.log(t))
+
+                    if usegraph.all_edges_id[edge_id]['weight'] > 1:
+                        usegraph.all_edges_id[edge_id]['weight'] = 1
+
+        t += 1
 
     if usegraph.debug_mode:
         end_algo = time.time()
