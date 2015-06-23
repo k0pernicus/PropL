@@ -10,6 +10,7 @@
 *   [x] make the 'min and max opt' algorithm
 *   [x] make the 'update all edges' algorithm
 *   [ ] make the 'constraints batch' algorithm
-*   [ ] cross validation
+*   [ ] make tests
+*   [ ] make tests with cross validation
 *   [ ] results & debugging
 *   [x] visual representation of the concerned network
