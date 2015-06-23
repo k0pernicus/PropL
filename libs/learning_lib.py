@@ -50,7 +50,7 @@ def computeSimpleRepresentationForAMutant(mutant, usegraph):
     simple_representation_by_mutant = {}
 
     #searching for all mutant id in the list of mutants
-    for single_mutant_id in usegraph.hash_mutants[mutant]['list_mutants']:
+    for single_mutant_id in usegraph.hash_mutants_learning[mutant]['list_mutants']:
 
         #this field is a tag to know if there's multiple tests for the same mutation
         position_of_the_mutation = "{0}||{1}".format(usegraph.mutants[single_mutant_id]['from'], usegraph.mutants[single_mutant_id]['to'])
@@ -71,7 +71,7 @@ def getSimpleRepresentationForMutants(usegraph):
     simple_representation_for_mutants = {}
 
     #each mutant parent contains a list of mutants
-    for mutant in usegraph.hash_mutants:
+    for mutant in usegraph.hash_mutants_learning:
 
         #we have now the representation of all mutants children for a parent
         simple_representation_for_mutants[mutant] = computeSimpleRepresentationForAMutant(mutant, usegraph)
@@ -92,7 +92,7 @@ def getComplexRepresentationForMutants(usegraph):
     for mutant_list in simple_representation_for_mutants:
 
         #number of mutants in the hash map is the number of tests
-        nb_of_tests = len(usegraph.hash_mutants[mutant_list]['list_mutants'])
+        nb_of_tests = len(usegraph.hash_mutants_learning[mutant_list]['list_mutants'])
 
         all_tests = {}
 
