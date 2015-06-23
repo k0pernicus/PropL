@@ -247,6 +247,8 @@ class UseGraph(object):
                 #join their id to the id of failing tests
                 join_mutant_and_impacted_tests("{0}/{1}".format(base_dir, mutant_file), self.mutants, self.all_cases_name, self.available_mutants, self.debug_mode)
 
+        self.splitTests()
+
     def transform_edge_name_as_edge_id(self, edge):
         """
         Abstract: Method to transform an edge composed by methods/fields name as an edge composed by the id of those methods/fields
