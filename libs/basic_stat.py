@@ -13,7 +13,7 @@ def computePrecision(true_positive, false_positive):
     Abstract: Simple function to compute the precision of some examples
     """
 
-    pass
+    return (true_positive) / (true_positive + false_positive)
 
 def computeRecall():
 
