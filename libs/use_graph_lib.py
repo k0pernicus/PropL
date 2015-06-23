@@ -61,6 +61,8 @@ class UseGraph(object):
         self.hash_mutants = {}
         #liaisons mutant parents -> mutants child FOR TESTS
         self.hash_mutants_tests = {}
+        #liaisons mutant parents -> mutants child FOR LEARNING
+        self.hash_mutants_learning = {}
         #liaisons test_id -> nodes impacted
         self.mutants = {}
         #debugging mode
@@ -299,12 +301,16 @@ class UseGraph(object):
         Abstract: Method to run some tests, without cross validation
         """
 
-        #take 1/10 of the learning tests
-        number_of_learning_tests = len(self.mutants) / 10
+        self.hash_mutants_tests = self.hash_mutants
 
-        if debug_mode:
+        self.hash_mutants_learning = self.hash_mutants
+
+        #take 1/10 of the learning tests
+        number_of_learning_tests = round(len(self.hash_mutants) / 10)
+
+        if self.debug_mode:
             print("Number of learning tests: {0}".format(number_of_learning_tests))
 
         for i in range(0, number_of_learning_tests):
-            item = self.hash_mutants.popitem()
+            item = self.hash_mutants_learning.popitem()
             self.hash_mutants_tests[item[0]] = item[1]
