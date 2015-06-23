@@ -1,4 +1,30 @@
 import networkx as nx
+import math
+import random
+
+def getMinEdgeFrom(paths, usegraph):
+    """
+    Abstract: Function to return the id of the edge which have the minimal weight
+    """
+
+    min = 1
+
+    edge_id = ''
+
+    for all_paths in paths:
+
+        all_paths = getExistingPathsFrom(all_paths)
+
+        for p in all_paths:
+
+            edge = usegraph.transform_edge_name_as_edge_id(p)
+            edge_id_tmp = usegraph.all_edges_name[edge]['id']
+            edge_weight = usegraph.all_edges_id[edge_id_tmp]['weight']
+            if edge_weight <= min:
+                min = edge_weight
+                edge_id = edge_id_tmp
+
+    return edge_id
 
 def getExistingPathsFrom(all_paths):
     """
