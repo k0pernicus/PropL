@@ -294,10 +294,10 @@ class UseGraph(object):
 
     def getSomeStats(self):
         """
-        Abstract: Method to get some stats
+        Abstract: Method to get some stats on the UseGraph object
         """
 
         print("{0}{1}{0}".format("#"*20, self.id))
-        for edge in self.usefull_edges:
-            print("{0} ({1} -- {2}) : {3}".format(edge, self.all_edges_id[edge]['source'], self.all_edges_id[edge]['target'], self.all_edges_id[edge]['weight']))
+        for edge_id in self.usefull_edges:
+            print("{0} ({1} -- {2}) : {3}".format(edge_id, self.all_edges_id[edge_id]['source'], self.all_edges_id[edge_id]['target'], self.all_edges_id[edge_id]['weight']))
         print("{0}".format("#"*(40 + len(self.id))))
