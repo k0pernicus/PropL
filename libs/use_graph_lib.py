@@ -293,4 +293,4 @@ class UseGraph(object):
 
         nx.write_graphml(simple_visualization, graph_path)
 
-        os.system("python2.7 libs/graph_visualization.py {0}".format(graph_path))
+        os.system("python2.7 libs/graph_visualization.py {0} {1}".format(graph_path, self.id))
