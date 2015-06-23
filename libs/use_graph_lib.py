@@ -267,6 +267,8 @@ class UseGraph(object):
 
         usefull_edges = []
 
+        visu_dir = "visu/"
+
         for e in self.usefull_edges:
 
             source = self.all_edges_id[e]['source']
@@ -289,7 +291,7 @@ class UseGraph(object):
 
         simple_visualization.add_edges_from(usefull_edges)
 
-        graph_path = "{0}{1}.graphml".format(self.path_file, self.id)
+        graph_path = "{0}{1}{2}.graphml".format(self.path_file, visu_dir, self.id)
 
         nx.write_graphml(simple_visualization, graph_path)
 
