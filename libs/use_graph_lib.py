@@ -7,8 +7,6 @@ from libs.xml_parsing_lib import parse_smf_run
 from libs.xml_parsing_lib import parse_mutations
 from libs.xml_parsing_lib import join_mutant_and_impacted_tests
 
-from libs.utils_lib import chunks
-
 from threading import Thread
 
 not_authorized_files = ['.DS_Store', '__init__.py']
