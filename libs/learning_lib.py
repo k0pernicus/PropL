@@ -214,6 +214,7 @@ def minAndMaxOnlineOptimization(usegraph):
 
     complexRepresentation = getComplexRepresentationForMutants(usegraph)
 
+    #t to 1000 -> 1/log(t) == 0.33333 (1rst test)
     t = 1000
 
     #reset usefull_edges
