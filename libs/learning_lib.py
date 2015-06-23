@@ -389,6 +389,7 @@ def updateAllEdgesOnlineOptimization(usegraph):
                             if usegraph.all_edges_id[edge_id]['weight'] > 1:
                                 usegraph.all_edges_id[edge_id]['weight'] = 1
 
+        #Update the tick for each mutant
         t += 1
 
     if usegraph.debug_mode:
