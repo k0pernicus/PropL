@@ -291,3 +291,13 @@ class UseGraph(object):
         nx.write_graphml(simple_visualization, graph_path)
 
         os.system("python2.7 libs/graph_visualization.py {0} {1}".format(graph_path, self.id))
+
+    def getSomeStats(self):
+        """
+        Abstract: Method to get some stats
+        """
+
+        print("{0}{1}{0}".format("#"*20, self.id))
+        for edge in self.usefull_edges:
+            print("{0} ({1} -- {2}) : {3}".format(edge, self.all_edges_id[edge]['source'], self.all_edges_id[edge]['target'], self.all_edges_id[edge]['weight']))
+        print("{0}".format("#"*(40 + len(self.id))))
