@@ -7,7 +7,7 @@ from libs.xml_parsing_lib import parse_smf_run
 from libs.xml_parsing_lib import parse_mutations
 from libs.xml_parsing_lib import join_mutant_and_impacted_tests
 
-from libs.learning_lib import dichotomicOnlineOptimization
+from libs.utils_lib import chunks
 
 from threading import Thread
 
@@ -292,9 +292,9 @@ class UseGraph(object):
 
         os.system("python2.7 libs/graph_visualization.py {0} {1}".format(graph_path, self.id))
 
-    def getSomeStats(self):
+    def generateSomeTests(self):
         """
-        Abstract: Method to get some stats on the UseGraph object
+        Abstract: Method to generate some tests, with cross validation
         """
 
         print("{0}{1}{0}".format("#"*20, self.id))
