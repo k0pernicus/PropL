@@ -11,5 +11,5 @@
 *   [x] make the 'update all edges' algorithm
 *   [ ] make the 'constraints batch' algorithm
 *   [ ] cross validation
-*   [ ] results
+*   [ ] results & debugging
 *   [x] visual representation of the concerned network
