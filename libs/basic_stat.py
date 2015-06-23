@@ -22,9 +22,12 @@ def computeRecall(true_positive, false_negative):
 
     return (true_positive) / (true_positive + false_negative)
 
-def computeTrueNegativeRate():
+def computeTrueNegativeRate(true_negative, false_positive):
+    """
+    Abstract: Simple function to compute the 'True negative rate' of some examples
+    """
 
-    pass
+    return (true_negative) / (true_negative + false_positive)
 
 def computeAccuracy():
 
