@@ -294,9 +294,9 @@ class UseGraph(object):
 
         os.system("python2.7 libs/graph_visualization.py {0} {1}".format(graph_path, self.id))
 
-    def generateSomeTests(self):
+    def runTests(self):
         """
-        Abstract: Method to generate some tests, with cross validation
+        Abstract: Method to run some tests, without cross validation
         """
 
         print("{0}{1}{0}".format("#"*20, self.id))
