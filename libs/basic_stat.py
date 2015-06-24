@@ -5,7 +5,10 @@ def getSomeStats(usegraph):
 
     print("{0}{1}{0}".format("#"*20, usegraph.id))
     for edge_id in usegraph.usefull_edges:
-        print("{0} ({1} -- {2}) : {3}".format(edge_id, usegraph.all_edges_id[edge_id]['source'], usegraph.all_edges_id[edge_id]['target'], usegraph.all_edges_id[edge_id]['weight']))
+        source = usegraph.all_edges_id[edge_id]['source']
+        target = usegraph.all_edges_id[edge_id]['target']
+        weight = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]]
+        print("{0} ({1} -- {2}) : {3}".format(edge_id, source, target, weight))
     print("{0}".format("#"*(40 + len(usegraph.id))))
 
 def computePrecision(true_positive, false_positive):
