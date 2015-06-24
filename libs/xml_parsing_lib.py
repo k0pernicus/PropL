@@ -145,3 +145,13 @@ def joinMutantAndImpactedTests(mutant_file, mutations_table, case_name_to_id, av
                 print("{0} {1}".format(case_failing_test.text,case_name_to_id[case_failing_test.text]))
 
             mutations_table[mutation_id]['impacted_tests'].append(case_name_to_id[case_failing_test.text])
+
+def returnTheMutantNode(mutant_file):
+    """
+    Abstract: Function to only return the mutant node of a mutant file
+    """
+
+    tree = ET.parse(mutant_file)
+    root = tree.getroot()
+
+    return "m{0}".format(root.get('id').split('_')[1])
