@@ -275,6 +275,13 @@ class UseGraph(object):
             #join their id to the id of failing tests
             join_mutant_and_impacted_tests("{0}/{1}".format(base_dir, mutant_file), self.mutants, self.all_cases_name, self.available_mutants, self.debug_mode)
 
+    def initWeightsMatrix(self):
+        """
+        Abstract: Method to create and initialize the weights matrix
+        """
+
+        self.all_weights = np.zeros((self.number_of_nodes, self.number_of_nodes))
+
     def splitLearningAndTestingFiles(self, base_dir):
         """
         Abstract: Method to split mutant files for tests and to learn (like cross validation)
