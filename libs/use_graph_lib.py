@@ -5,9 +5,10 @@ import random
 import networkx as nx
 import numpy as np
 
-from libs.xml_parsing_lib import parse_smf_run
-from libs.xml_parsing_lib import parse_mutations
-from libs.xml_parsing_lib import join_mutant_and_impacted_tests
+from libs.xml_parsing_lib import parseSmfRun
+from libs.xml_parsing_lib import parseMutations
+from libs.xml_parsing_lib import joinMutantAndImpactedTests
+from libs.xml_parsing_lib import returnTheMutantNode
 
 from libs.utils_lib import chunks_list
 
