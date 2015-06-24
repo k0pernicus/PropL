@@ -70,6 +70,8 @@ class UseGraph(object):
         self.files_to_learn = []
         #list of files for some tests
         self.files_for_tests = []
+        #list of nodes to test
+        self.nodes_for_tests = []
         #list of available mutants file
         self.available_mutants = []
         #liaisons mutant parents -> mutants child
@@ -155,7 +157,7 @@ class UseGraph(object):
 
         smf_name_file = "smf.run.xml"
 
-        self.all_tests_id, self.all_tests_name, self.all_cases_id, self.all_cases_name = parse_smf_run("{0}/{1}".format(self.path_file, smf_name_file), self.debug_mode)
+        self.all_tests_id, self.all_tests_name, self.all_cases_id, self.all_cases_name = parseSmfRun("{0}/{1}".format(self.path_file, smf_name_file), self.debug_mode)
 
     def computeNodes(self):
         """
@@ -205,7 +207,7 @@ class UseGraph(object):
                 node_id = "nt-{0}{1}".format(type_abbr, j)
 
             #store name -> id for node
-            self.all_nodes_name[node_name] = node_id
+            self.all_nodes_name[node_name] = {'id': node_id, 'sources': []}
             #store id -> name for node
             self.all_nodes_id[node_id] = node_name
 
@@ -238,11 +240,13 @@ class UseGraph(object):
             #decomposition of the tuple
             source_edge, target_edge, data_edge = edge
             #we keep the id of the edge (by data_edge)
-            self.all_edges_id[data_edge['id']] = {"source" : self.all_nodes_name[source_edge], "target" : self.all_nodes_name[target_edge]}
+            self.all_edges_id[data_edge['id']] = {"source" : self.all_nodes_name[source_edge]['id'], "target" : self.all_nodes_name[target_edge]['id']}
             #we store an arbitrary weight to the edge
-            self.all_weights[self.all_nodes_position_in_weights_matrix[self.all_nodes_name[source_edge]]][self.all_nodes_position_in_weights_matrix[self.all_nodes_name[target_edge]]] = 0.5
+            self.all_weights[self.all_nodes_position_in_weights_matrix[self.all_nodes_name[source_edge]['id']]][self.all_nodes_position_in_weights_matrix[self.all_nodes_name[target_edge]['id']]] = 0.5
             #we keep the source (a, b) of the edge
-            self.all_edges_name[(self.all_nodes_name[source_edge], self.all_nodes_name[target_edge])] = {"id" : data_edge['id']}
+            self.all_edges_name[(self.all_nodes_name[source_edge]['id'], self.all_nodes_name[target_edge]['id'])] = {"id" : data_edge['id']}
+            #store all target
+            self.all_nodes_name[target_edge]['sources'].append(self.all_nodes_name[source_edge]['id'])
 
         #compute number of edges
         self.number_of_edges = self.graph.number_of_edges()
@@ -250,7 +254,7 @@ class UseGraph(object):
     def computeMutants(self):
         """
         Abstract: Method to compute and store mutants, and relations between them and nodes
-        Please to see parse_mutations in xml_lib
+        Please to see parseMutations in xml_lib
         """
 
         #name directory of root mutants files
@@ -265,7 +269,7 @@ class UseGraph(object):
         base_dir = "{0}/{1}".format(self.path_file, root_directory_name)
 
         #parse mutants in the mutations_name_file
-        self.hash_mutants, self.mutants = parse_mutations("{0}/{1}".format(base_dir, mutations_name_file), self.debug_mode)
+        self.hash_mutants, self.mutants = parseMutations("{0}/{1}".format(base_dir, mutations_name_file), self.debug_mode)
 
         base_dir = "{0}/{1}".format(base_dir, mutants_directory_name)
 
@@ -274,7 +278,14 @@ class UseGraph(object):
         #for each mutant...
         for mutant_file in self.files_to_learn:
             #join their id to the id of failing tests
-            join_mutant_and_impacted_tests("{0}/{1}".format(base_dir, mutant_file), self.mutants, self.all_cases_name, self.available_mutants, self.debug_mode)
+            joinMutantAndImpactedTests("{0}/{1}".format(base_dir, mutant_file), self.mutants, self.all_cases_name, self.available_mutants, self.debug_mode)
+
+        for mutant_file_test in self.files_for_tests:
+            #store id of nodes available for tests
+            mutant_node = returnTheMutantNode("{0}/{1}".format(base_dir, mutant_file_test))
+            node_id = self.all_nodes_name[self.mutants[mutant_node]['name']]['id']
+            print("{0} -> {1} add as mutant test (file {2})...".format(self.id, self.mutants[mutant_node]['name'], mutant_file_test))
+            self.nodes_for_tests.append(node_id)
 
     def initWeightsMatrix(self):
         """
@@ -322,7 +333,7 @@ class UseGraph(object):
         Abstract: Method to transform an edge composed by methods/fields name as an edge composed by the id of those methods/fields
         """
 
-        return (self.all_nodes_name[edge[0]], self.all_nodes_name[edge[1]])
+        return (self.all_nodes_name[edge[0]]['id'], self.all_nodes_name[edge[1]]['id'])
 
     def printInfo(self):
         """
