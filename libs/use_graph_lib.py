@@ -278,7 +278,9 @@ class UseGraph(object):
         for mutant_filename in mutants_filename_table_splitted:
             self.files_to_learn += mutant_filename
 
-        self.splitTests()
+        if self.debug_mode:
+            print("{0} -> ({1} tests for {2} learning files) / {3}".format(self.id, len(self.files_for_tests), len(self.files_to_learn), number_of_mutants_file))
+            print("files for tests: {0}".format(self.files_for_tests))
 
     def transform_edge_name_as_edge_id(self, edge):
         """
