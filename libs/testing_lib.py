@@ -79,4 +79,4 @@ def doSomeTests(usegraph):
                     if usegraph.debug_mode:
                         print("\trandom_propagation > weight of source_node_name ({0})".format(weight_node))
 
-    print(tree)
+    isAlgorithmGoodBetween(usegraph.path_file, usegraph.files_for_tests, usegraph.all_cases_name, usegraph.mutants, usegraph.all_nodes_name, tree)
