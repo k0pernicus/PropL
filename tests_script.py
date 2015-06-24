@@ -1,4 +1,5 @@
 import sys
+import time
 
 from libs.use_graph_lib import UseGraph
 
@@ -6,6 +7,8 @@ from libs.learning_lib import dichotomicOnlineOptimization
 from libs.learning_lib import minAndMaxOnlineOptimization
 from libs.learning_lib import updateAllEdgesOnlineOptimization
 from libs.learning_lib import constraintsBatchOptimization
+
+from libs.testing_lib import doSomeTests
 
 from libs.basic_stat import getSomeStats
 
@@ -20,23 +23,27 @@ def run_algorithm(ug):
 
     if ug.id == "dicho_online_opt":
         dichotomicOnlineOptimization(ug)
-        ug.visualize()
+        #ug.visualize()
         getSomeStats(ug)
+        doSomeTests(ug)
 
     if ug.id == "min_max_online_opt":
         minAndMaxOnlineOptimization(ug)
-        ug.visualize()
+        #ug.visualize()
         getSomeStats(ug)
+        doSomeTests(ug)
 
     if ug.id == "update_all_edges_online_opt":
         updateAllEdgesOnlineOptimization(ug)
-        ug.visualize()
+        #ug.visualize()
         getSomeStats(ug)
+        doSomeTests(ug)
 
     if ug.id == "constraints_batch_opt":
         constraintsBatchOptimization(ug)
-        ug.visualize()
+        #ug.visualize()
         getSomeStats(ug)
+        doSomeTests(ug)
 
 if __name__ == "__main__":
 
@@ -59,3 +66,4 @@ if __name__ == "__main__":
 
     for ug in all_ug:
         Thread(target=run_algorithm, args=(ug,)).start()
+        time.sleep(2)
