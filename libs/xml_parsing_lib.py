@@ -155,3 +155,35 @@ def returnTheMutantNode(mutant_file):
     root = tree.getroot()
 
     return "m{0}".format(root.get('id').split('_')[1])
+
+def returnSomeInfosAboutTestFiles(base_path, mutant_files, cases_name, mutants_table, nodes_name):
+    """
+    Abstract: Function to return some informations about tests files : mutations -> impacted nodes
+    """
+
+    global_tree = {}
+
+    for mutant_file in mutant_files:
+
+        mutant_file = "{0}{1}".format(base_path, mutant_file)
+
+        tree = ET.parse(mutant_file)
+        root = tree.getroot()
+
+        mutant_id = "m{0}".format(root.get('id').split('_')[1])
+
+        node_id = nodes_name[mutants_table[mutant_id]['name']]['id']
+
+        if not node_id in global_tree:
+            global_tree[node_id] = []
+
+        for failing_tests in root.findall("failing"):
+
+            for case_failing_test in failing_tests:
+
+                case_id = cases_name[case_failing_test.text]['id']
+
+                if not case_id in global_tree[node_id]:
+                    global_tree[node_id].append(case_id)
+
+    return global_tree
