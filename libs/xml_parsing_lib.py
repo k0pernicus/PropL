@@ -5,7 +5,7 @@ from xml.sax import make_parser
 from xml.sax.handler import ContentHandler
 import xml.etree.ElementTree as ET
 
-def parse_smf_run(smf_run_document, debug_mode = False):
+def parseSmfRun(smf_run_document, debug_mode = False):
     """
     Abstract: Function to parse the smf_run document, which contains all usefull informations about tests.
     Return a dictionary of tests (which contains ids of their methods and variables),\
@@ -90,7 +90,7 @@ def parse_smf_run(smf_run_document, debug_mode = False):
 
     return tests_table, test_name_to_id, case_id_to_name, case_name_to_id
 
-def parse_mutations(mutations_document, debug_mode = False):
+def parseMutations(mutations_document, debug_mode = False):
     """
     Abstract: Function to decompose mutations in the xml document (given as parameter), usefull to merge with use graph
     Return a dictionary of mutants id -> name + from + to
@@ -122,7 +122,7 @@ def parse_mutations(mutations_document, debug_mode = False):
 
     return hash_mutants_table, mutations_table
 
-def join_mutant_and_impacted_tests(mutant_file, mutations_table, case_name_to_id, available_mutants, debug_mode = False):
+def joinMutantAndImpactedTests(mutant_file, mutations_table, case_name_to_id, available_mutants, debug_mode = False):
     """
     Abstract: Function to link impacted tests in a single mutant file with cases contains in case_name_to_id
     """
