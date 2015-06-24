@@ -333,22 +333,3 @@ class UseGraph(object):
 
         #call the script (with Python2.7) to visualize the graphml file, or to save it
         os.system("python2.7 libs/graph_visualization.py {0} {1}".format(graph_path, self.id))
-
-    def splitTests(self):
-        """
-        Abstract: Method to run some tests, without cross validation
-        """
-
-        self.hash_mutants_tests = self.hash_mutants
-
-        self.hash_mutants_learning = self.hash_mutants
-
-        #take 1/10 of the learning tests
-        number_of_learning_tests = round(len(self.hash_mutants) / 10)
-
-        if self.debug_mode:
-            print("Number of learning tests: {0}".format(number_of_learning_tests))
-
-        for i in range(0, number_of_learning_tests):
-            item = self.hash_mutants_learning.popitem()
-            self.hash_mutants_tests[item[0]] = item[1]
