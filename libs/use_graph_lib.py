@@ -167,6 +167,8 @@ class UseGraph(object):
 
         j = 0
 
+        position_in_matrix_weights = 0
+
         #type attribute for the node type
         type_abbr = "m"
 
@@ -209,6 +211,11 @@ class UseGraph(object):
             #store the good node (without 'nt') in cases_id dictionary
             if not case_id == None:
                 self.all_cases_id[case_id]['nodes'].append(node_id)
+
+            #store the position of the node id in the weights matrix
+            self.all_nodes_position_in_weights_matrix[node_id] = position_in_matrix_weights
+
+            position_in_matrix_weights += 1
 
         #compute number of nodes
         self.number_of_nodes = self.graph.number_of_nodes()
