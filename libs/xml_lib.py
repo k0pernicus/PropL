@@ -6,7 +6,7 @@ from xml.sax import make_parser
 from xml.sax.handler import ContentHandler
 import xml.etree.ElementTree as ET
 
-def load_xml_document(xml_document):
+def loadXmlDocument(xml_document):
     """
     Abstract: Function to load an XML document, given as parameter.
     Return the minidom object corresponding to the XML document, given as parameter.
@@ -18,7 +18,7 @@ def load_xml_document(xml_document):
     except Exception as excpt:
         raise FailToLoad("XML document loading failed : {0}".format(excpt))
 
-def is_valid_XML_documents(xml_documents):
+def isValidXMLDocuments(xml_documents):
     """
     Abstract: Procedure to know if all XML files given as parameters are valid XML documents
     """
@@ -30,7 +30,7 @@ def is_valid_XML_documents(xml_documents):
     xml_parsing.setContentHandler(ContentHandler())
 
     if os.path.isfile(xml_documents):
-        if is_a_valid_XML_document(xml_parsing, xml_documents):
+        if isAValidXMLDocument(xml_parsing, xml_documents):
             print("{0} is a valid XML document".format(xml_documents))
         else:
             print("{0} is not a valid XML document".format(xml_documents))
@@ -38,14 +38,14 @@ def is_valid_XML_documents(xml_documents):
         #verification on each document
         for doc in xml_documents:
             if os.path.isfile(doc):
-                if is_a_valid_XML_document(xml_parsing, doc):
+                if isAValidXMLDocument(xml_parsing, doc):
                     print("{0} is a valid XML document".format(doc))
                 else:
                     print("{0} is not a valid XML document".format(doc))
             else:
                 print("{0} is not a file".format(doc))
 
-def is_a_valid_XML_document(xml_parsing, xml_document):
+def isAValidXMLDocument(xml_parsing, xml_document):
     """
     Abstract: Function to return if the parameter is a valid document
     Return a boolean to know if the parameter is a valid document
