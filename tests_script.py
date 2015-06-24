@@ -14,7 +14,7 @@ from libs.basic_stat import getSomeStats
 
 from threading import Thread
 
-def run_algorithm(ug):
+def run_algorithm(ug, visualization = False):
     """
     Method to run the usegraph
     """
@@ -23,34 +23,32 @@ def run_algorithm(ug):
 
     if ug.id == "dicho_online_opt":
         dichotomicOnlineOptimization(ug)
-        #ug.visualize()
-        getSomeStats(ug)
-        doSomeTests(ug)
 
     if ug.id == "min_max_online_opt":
         minAndMaxOnlineOptimization(ug)
-        #ug.visualize()
-        getSomeStats(ug)
-        doSomeTests(ug)
 
     if ug.id == "update_all_edges_online_opt":
         updateAllEdgesOnlineOptimization(ug)
-        #ug.visualize()
-        getSomeStats(ug)
-        doSomeTests(ug)
 
     if ug.id == "constraints_batch_opt":
         constraintsBatchOptimization(ug)
-        #ug.visualize()
-        getSomeStats(ug)
-        doSomeTests(ug)
+
+    if visualization:
+        ug.visualize()
+    getSomeStats(ug)
+    doSomeTests(ug)
 
 if __name__ == "__main__":
 
     debugging = False
 
+    visualization = False
+
     if "--debug" in sys.argv:
         debugging = True
+
+    if "--visu" in sys.argv:
+        visualization = True
 
     all_ug = []
 
@@ -65,5 +63,5 @@ if __name__ == "__main__":
     all_ug.append(ug_constraints_batch_opt)
 
     for ug in all_ug:
-        Thread(target=run_algorithm, args=(ug,)).start()
+        Thread(target=run_algorithm, args=(ug,visualization)).start()
         time.sleep(2)
