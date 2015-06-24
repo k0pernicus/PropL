@@ -24,7 +24,9 @@ def getMinEdgeFrom(paths, usegraph):
 
             edge = usegraph.transform_edge_name_as_edge_id(p)
             edge_id_tmp = usegraph.all_edges_name[edge]['id']
-            edge_weight = usegraph.all_edges_id[edge_id_tmp]['weight']
+            source = usegraph.all_edges_id[edge_id_tmp]['source']
+            target = usegraph.all_edges_id[edge_id_tmp]['target']
+            edge_weight = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]]
             if edge_weight <= min:
                 min = edge_weight
                 edge_id = edge_id_tmp
@@ -207,8 +209,14 @@ def dichotomicOnlineOptimization(usegraph):
                         if not edge_id in usegraph.usefull_edges:
                             usegraph.usefull_edges.append(edge_id)
 
+                        source = usegraph.all_edges_id[edge_id]['source']
+
+                        target = usegraph.all_edges_id[edge_id]['target']
+
+                        actual_weight = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]]
+
                         #update the weight by adding the probability, and / 2
-                        usegraph.all_edges_id[edge_id]['weight'] = (usegraph.all_edges_id[edge_id]['weight'] + probability_of_test_id) / 2
+                        usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] = (actual_weight + probability_of_test_id) / 2
 
     if usegraph.debug_mode:
         end_algo = time.time()
@@ -271,8 +279,14 @@ def minAndMaxOnlineOptimization(usegraph):
                         if not edge_id in usegraph.usefull_edges:
                             usegraph.usefull_edges.append(edge_id)
 
+                        source = usegraph.all_edges_id[edge_id]['source']
+
+                        target = usegraph.all_edges_id[edge_id]['target']
+
+                        actual_weight = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]]
+
                         #compute the probability of the path by multiplying the weight of each single path
-                        probability_of_the_path *= usegraph.all_edges_id[edge_id]['weight']
+                        probability_of_the_path *= actual_weight
 
                     #compute the sum of products
                     global_probability_to_propagate += probability_of_the_path
@@ -285,17 +299,20 @@ def minAndMaxOnlineOptimization(usegraph):
                     #Get the minimal edge id
                     edge_id = getMinEdgeFrom(paths, usegraph)
 
+                    source = usegraph.all_edges_id[edge_id]['source']
+
+                    target = usegraph.all_edges_id[edge_id]['target']
+
+                    actual_weight = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]]
+
                     #if the minimal value of the edge is lower than 1...
-                    if usegraph.all_edges_id[edge_id]['weight'] < 1:
+                    if (actual_weight + (1 / math.log(t))) < 1:
 
                         if usegraph.debug_mode:
                             print("Up {0} due to random_propagation ({1}) > global_probability_to_propagate ({2})".format(edge_id, random_propagation, global_probability_to_propagate))
 
                         #put weight up to the minimal edge
-                        usegraph.all_edges_id[edge_id]['weight'] += (1 / math.log(t))
-
-                        if usegraph.all_edges_id[edge_id]['weight'] > 1:
-                            usegraph.all_edges_id[edge_id]['weight'] = 1
+                        usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] += (1 / math.log(t))
 
         t += 1
 
@@ -366,8 +383,14 @@ def updateAllEdgesOnlineOptimization(usegraph):
                         if not edge_id in all_simple_paths:
                             all_simple_paths.append(edge_id)
 
+                        source = usegraph.all_edges_id[edge_id]['source']
+
+                        target = usegraph.all_edges_id[edge_id]['target']
+
+                        actual_weight = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]]
+
                         #compute the probability of the path by multiplying the weight of each single path
-                        probability_of_the_path *= usegraph.all_edges_id[edge_id]['weight']
+                        probability_of_the_path *= actual_weight
 
                     #compute the sum of products
                     global_probability_to_propagate += probability_of_the_path
@@ -384,11 +407,14 @@ def updateAllEdgesOnlineOptimization(usegraph):
 
                     for edge_id in all_simple_paths:
 
-                        if usegraph.all_edges_id[edge_id]['weight'] < 1:
-                            usegraph.all_edges_id[edge_id]['weight'] += (1 / math.log(t))
+                        source = usegraph.all_edges_id[edge_id]['source']
 
-                            if usegraph.all_edges_id[edge_id]['weight'] > 1:
-                                usegraph.all_edges_id[edge_id]['weight'] = 1
+                        target = usegraph.all_edges_id[edge_id]['target']
+
+                        actual_weight = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]]
+
+                        if (actual_weight + (1 / math.log(t))) < 1:
+                            usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] += (1 / math.log(t))
 
         #Update the tick for each mutant
         t += 1
