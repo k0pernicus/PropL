@@ -305,28 +305,33 @@ class UseGraph(object):
         simple_visualization = nx.DiGraph()
         usefull_nodes = []
         usefull_edges = []
+        #visu_dir is a field to store the name of the directory which contains visualization files
         visu_dir = "visu"
 
         for e in self.usefull_edges:
             source = self.all_edges_id[e]['source']
             target = self.all_edges_id[e]['target']
 
+            #store all usefull nodes (usefull nodes are nodes in the mutation graph)
             if not source in usefull_nodes:
                 usefull_nodes.append(source)
 
             if not target in usefull_nodes:
                 usefull_nodes.append(target)
 
+            #store all usefull edges (usefull edges are edges in the mutation graph)
             if not (source, target) in usefull_edges:
                 usefull_edges.append((source, target))
 
         simple_visualization.add_nodes_from(usefull_nodes)
         simple_visualization.add_edges_from(usefull_edges)
 
+        #path to store the visualization (graphml)
         graph_path = "{0}{1}/{2}.graphml".format(self.path_file, visu_dir, self.id)
 
         nx.write_graphml(simple_visualization, graph_path)
 
+        #call the script (with Python2.7) to visualize the graphml file, or to save it
         os.system("python2.7 libs/graph_visualization.py {0} {1}".format(graph_path, self.id))
 
     def splitTests(self):
