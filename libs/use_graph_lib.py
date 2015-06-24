@@ -300,8 +300,13 @@ class UseGraph(object):
         #split the list in number_split_tests
         mutants_filename_table_splitted = chunks_list(mutants_filename_table, self.number_split_tests)
 
+        position_to_pop = random.randint(0, len(mutants_filename_table_splitted) - 1)
+
+        if self.debug_mode:
+            print("{0} -> Pop position {1} in list of {2} mutants".format(self.id, position_to_pop, len(mutants_filename_table_splitted)))
+
         #pop a random entry -> for tests
-        self.files_for_tests = mutants_filename_table_splitted.pop(random.randint(0, self.number_split_tests - 1))
+        self.files_for_tests = mutants_filename_table_splitted.pop(position_to_pop)
 
         #add other files into files_to_learn
         for mutant_filename in mutants_filename_table_splitted:
