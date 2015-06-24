@@ -3,6 +3,7 @@ import time
 import random
 
 import networkx as nx
+import numpy as np
 
 from libs.xml_parsing_lib import parse_smf_run
 from libs.xml_parsing_lib import parse_mutations
@@ -48,6 +49,10 @@ class UseGraph(object):
         self.all_edges_name = {}
         #all edges used to propagate a bug
         self.usefull_edges = []
+        #all nodes position in the weights matrix
+        self.all_nodes_position_in_weights_matrix = {}
+        #all weights between two nodes
+        self.all_weights = np.zeros(0)
         #represents the number of splits in the mutants file list
         self.number_split_tests = number_split_tests
         #number of tests
