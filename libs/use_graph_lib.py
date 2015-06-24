@@ -284,7 +284,8 @@ class UseGraph(object):
             #store id of nodes available for tests
             mutant_node = returnTheMutantNode("{0}/{1}".format(base_dir, mutant_file_test))
             node_id = self.all_nodes_name[self.mutants[mutant_node]['name']]['id']
-            print("{0} -> {1} add as mutant test (file {2})...".format(self.id, self.mutants[mutant_node]['name'], mutant_file_test))
+            if self.debug_mode:
+                print("{0} -> {1} add as mutant test (file {2})...".format(self.id, self.mutants[mutant_node]['name'], mutant_file_test))
             self.nodes_for_tests.append(node_id)
 
     def initWeightsMatrix(self):
