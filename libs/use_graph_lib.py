@@ -237,7 +237,9 @@ class UseGraph(object):
             #decomposition of the tuple
             source_edge, target_edge, data_edge = edge
             #we keep the id of the edge (by data_edge)
-            self.all_edges_id[data_edge['id']] = {"source" : self.all_nodes_name[source_edge], "target" : self.all_nodes_name[target_edge], "weight": 0.5}
+            self.all_edges_id[data_edge['id']] = {"source" : self.all_nodes_name[source_edge], "target" : self.all_nodes_name[target_edge]}
+            #we store an arbitrary weight to the edge
+            self.all_weights[self.all_nodes_position_in_weights_matrix[self.all_nodes_name[source_edge]]][self.all_nodes_position_in_weights_matrix[self.all_nodes_name[target_edge]]] = 0.5
             #we keep the source (a, b) of the edge
             self.all_edges_name[(self.all_nodes_name[source_edge], self.all_nodes_name[target_edge])] = {"id" : data_edge['id']}
 
