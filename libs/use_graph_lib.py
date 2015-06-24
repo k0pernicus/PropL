@@ -60,15 +60,15 @@ class UseGraph(object):
         self.number_of_variables = 0
         #number of methods in nodes
         self.number_of_methods = 0
+        #list of files to learn
+        self.files_to_learn = []
+        #list of files for some tests
+        self.files_for_tests = []
         #list of available mutants file
         self.available_mutants = []
         #liaisons mutant parents -> mutants child
         self.hash_mutants = {}
         #liaisons mutant parents -> mutants child FOR TESTS
-        self.hash_mutants_tests = {}
-        #liaisons mutant parents -> mutants child FOR LEARNING
-        self.hash_mutants_learning = {}
-        #liaisons test_id -> nodes impacted
         self.mutants = {}
         #debugging mode
         self.debug_mode = debug_mode
