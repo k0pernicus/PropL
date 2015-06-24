@@ -1,4 +1,21 @@
 import random
+from libs.xml_parsing_lib import returnSomeInfosAboutTestFiles
+
+#name directory of root mutants files
+root_directory_name = "AOR"
+
+#name directory of mutants files
+mutants_directory_name = "mutants"
+
+def isAlgorithmGoodBetween(path, files_for_tests, cases_name, mutants_table, nodes_name, tree_learned):
+
+    base_path = "{0}{1}/{2}/".format(path, root_directory_name, mutants_directory_name)
+
+    tree_test = returnSomeInfosAboutTestFiles(base_path, files_for_tests, cases_name, mutants_table, nodes_name)
+
+    print("TREE_TEST {0}".format(tree_test))
+
+    print("TREE LEARNED {0}".format(tree_learned))
 
 def doSomeTests(usegraph):
 
