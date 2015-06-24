@@ -23,7 +23,7 @@ class UseGraph(object):
     Also, there is an edge between a method node and a field node if this field is used in the method.
     """
 
-    def __init__(self, id, path_file, debug_mode = False, propagation_mod_computing = 'all',propagation_mod_tests = 'all'):
+    def __init__(self, id, path_file, debug_mode = False, number_split_tests = 10, propagation_mod_computing = 'all',propagation_mod_tests = 'all'):
         #id of the use graph
         self.id = id
         #path of the GraphML file
@@ -48,6 +48,8 @@ class UseGraph(object):
         self.all_edges_name = {}
         #all edges used to propagate a bug
         self.usefull_edges = []
+        #represents the number of splits in the mutants file list
+        self.number_split_tests = number_split_tests
         #number of tests
         self.number_of_tests = 0
         #number of edges
