@@ -246,7 +246,13 @@ class UseGraph(object):
 
         base_dir = "{0}/{1}".format(base_dir, mutants_directory_name)
 
+        self.splitLearningAndTestingFiles(base_dir)
+
         #for each mutant...
+        for mutant_file in self.files_to_learn:
+            #join their id to the id of failing tests
+            join_mutant_and_impacted_tests("{0}/{1}".format(base_dir, mutant_file), self.mutants, self.all_cases_name, self.available_mutants, self.debug_mode)
+
     def splitLearningAndTestingFiles(self, base_dir):
         """
         Abstract: Method to split mutant files for tests and to learn (like cross validation)
