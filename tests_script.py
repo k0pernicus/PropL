@@ -1,3 +1,5 @@
+import sys
+
 from libs.use_graph_lib import UseGraph
 
 from libs.learning_lib import dichotomicOnlineOptimization
@@ -36,17 +38,24 @@ def run_algorithm(ug):
         ug.visualize()
         getSomeStats(ug)
 
-all_ug = []
+if __name__ == "__main__":
 
-ug_dicho_online_opt = UseGraph("dicho_online_opt", "tests/test1/")
-ug_min_max_online_opt = UseGraph("min_max_online_opt", "tests/test1/")
-ug_update_all_edges_online_opt = UseGraph("update_all_edges_online_opt", "tests/test1/")
-ug_constraints_batch_opt = UseGraph("constraints_batch_opt", "tests/test1/")
+    debugging = False
 
-all_ug.append(ug_dicho_online_opt)
-all_ug.append(ug_min_max_online_opt)
-all_ug.append(ug_update_all_edges_online_opt)
-all_ug.append(ug_constraints_batch_opt)
+    if "--debug" in sys.argv:
+        debugging = True
 
-for ug in all_ug:
-    Thread(target=run_algorithm, args=(ug,)).start()
+    all_ug = []
+
+    ug_dicho_online_opt = UseGraph("dicho_online_opt", "tests/test1/", debug_mode=debugging)
+    ug_min_max_online_opt = UseGraph("min_max_online_opt", "tests/test1/", debug_mode=debugging)
+    ug_update_all_edges_online_opt = UseGraph("update_all_edges_online_opt", "tests/test1/", debug_mode=debugging)
+    ug_constraints_batch_opt = UseGraph("constraints_batch_opt", "tests/test1/", debug_mode=debugging)
+
+    all_ug.append(ug_dicho_online_opt)
+    all_ug.append(ug_min_max_online_opt)
+    all_ug.append(ug_update_all_edges_online_opt)
+    all_ug.append(ug_constraints_batch_opt)
+
+    for ug in all_ug:
+        Thread(target=run_algorithm, args=(ug,)).start()
