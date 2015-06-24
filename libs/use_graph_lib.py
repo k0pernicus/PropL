@@ -247,10 +247,30 @@ class UseGraph(object):
         base_dir = "{0}/{1}".format(base_dir, mutants_directory_name)
 
         #for each mutant...
-        for mutant_file in os.listdir(base_dir):
-            if not mutant_file in not_authorized_files:
-                #join their id to the id of failing tests
-                join_mutant_and_impacted_tests("{0}/{1}".format(base_dir, mutant_file), self.mutants, self.all_cases_name, self.available_mutants, self.debug_mode)
+    def splitLearningAndTestingFiles(self, base_dir):
+        """
+        Abstract: Method to split mutant files for tests and to learn (like cross validation)
+        """
+
+        #save all files in the mutant directory
+        mutants_filename_table = os.listdir(base_dir)
+
+        #Remove all unauthorized files
+        for file in mutants_filename_table:
+            if file in not_authorized_files:
+                mutants_filename_table.remove(file)
+
+        number_of_mutants_file = len(mutants_filename_table)
+
+        #split the list in number_split_tests
+        mutants_filename_table_splitted = chunks_list(mutants_filename_table, self.number_split_tests)
+
+        #pop a random entry -> for tests
+        self.files_for_tests = mutants_filename_table_splitted.pop(random.randint(0, self.number_split_tests - 1))
+
+        #add other files into files_to_learn
+        for mutant_filename in mutants_filename_table_splitted:
+            self.files_to_learn += mutant_filename
 
         self.splitTests()
 
