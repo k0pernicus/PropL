@@ -137,6 +137,8 @@ def joinMutantAndImpactedTests(mutant_file, mutations_table, case_name_to_id, av
     if debug_mode:
         print("mutation_id : {0}".format(mutation_id))
 
+    #failing_tests
+
     for failing_tests in root.findall("failing"):
 
         for case_failing_test in failing_tests:
@@ -145,6 +147,17 @@ def joinMutantAndImpactedTests(mutant_file, mutations_table, case_name_to_id, av
                 print("{0} {1}".format(case_failing_test.text,case_name_to_id[case_failing_test.text]))
 
             mutations_table[mutation_id]['impacted_tests'].append(case_name_to_id[case_failing_test.text])
+
+    #hanging_tests
+
+    for hanging_tests in root.findall("hanging"):
+
+        for case_hanging_test in hanging_tests:
+
+            if debug_mode:
+                print("{0} {1}".format(case_hanging_test.text, case_name_to_id[case_hanging_test.text]))
+
+            mutations_table[mutation_id]['impacted_tests'].append(case_name_to_id[case_hanging_test.text])
 
 def returnTheMutantNode(mutant_file):
     """
@@ -177,11 +190,24 @@ def returnSomeInfosAboutTestFiles(base_path, mutant_files, cases_name, mutants_t
         if not node_id in global_tree:
             global_tree[node_id] = []
 
+        #failing_tests
+
         for failing_tests in root.findall("failing"):
 
             for case_failing_test in failing_tests:
 
                 case_id = cases_name[case_failing_test.text]['id']
+
+                if not case_id in global_tree[node_id]:
+                    global_tree[node_id].append(case_id)
+
+        #hanging_tests
+
+        for hanging_tests in root.findall("hanging"):
+
+            for case_hanging_test in hanging_tests:
+
+                case_id = cases_name[case_hanging_test.text]['id']
 
                 if not case_id in global_tree[node_id]:
                     global_tree[node_id].append(case_id)
