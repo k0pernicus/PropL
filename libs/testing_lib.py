@@ -1,5 +1,7 @@
 import random
 from libs.xml_parsing_lib import returnSomeInfosAboutTestFiles
+from libs.basic_stat import computePrecision
+from libs.basic_stat import computeRecall
 
 #name directory of root mutants files
 root_directory_name = "AOR"
@@ -16,6 +18,49 @@ def isAlgorithmGoodBetween(path, files_for_tests, cases_name, mutants_table, nod
     print("TREE_TEST {0}".format(tree_test))
 
     print("TREE LEARNED {0}".format(tree_learned))
+
+    true_positive = 0
+
+    true_negative = 0
+
+    false_positive = 0
+
+    false_negative = 0
+
+    tree_test_impacted_tests = []
+
+    tree_learned_impacted_tests = []
+
+    for node in tree_test:
+
+        for impacted_test in tree_test[node]:
+
+            tree_test_impacted_tests.append(impacted_test.split('-')[0])
+
+    for node in tree_learned:
+
+        for impacted_test in tree_learned[node]:
+
+            tree_learned_impacted_tests.append(impacted_test.split('-')[0])
+
+    tree_test_impacted_tests = list(set(tree_test_impacted_tests))
+
+    tree_learned_impacted_tests = list(set(tree_learned_impacted_tests))
+
+    #compute precision and recall
+
+    for node in tree_learned_impacted_tests:
+
+        if node in tree_test_impacted_tests:
+
+            true_positive += 1
+
+    false_positive = len(tree_learned_impacted_tests) - true_positive
+
+    false_negative = len(tree_test_impacted_tests) - true_positive
+
+    print("Precision : {0}".format(computePrecision(true_positive, false_positive)))
+    print("Recall: {0}".format(computeRecall(true_positive, false_negative)))
 
 def doSomeTests(usegraph):
 
@@ -68,8 +113,6 @@ def doSomeTests(usegraph):
 
                         if usegraph.debug_mode:
                            print("\t{0} saved!".format(source_node_name))
-
-                        print(tree)
 
                     else:
 
