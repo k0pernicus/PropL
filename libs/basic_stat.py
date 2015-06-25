@@ -24,17 +24,3 @@ def computeRecall(true_positive, false_negative):
     """
 
     return (true_positive) / (true_positive + false_negative)
-
-def computeTrueNegativeRate(true_negative, false_positive):
-    """
-    Abstract: Simple function to compute the 'True negative rate' of some examples
-    """
-
-    return (true_negative) / (true_negative + false_positive)
-
-def computeAccuracy(true_positive, true_negative, false_positive, false_negative):
-    """
-    Abstract: Simple function to compute the accuracy of some examples
-    """
-
-    return (true_positive + true_negative) / (true_positive + true_negative + false_positive + false_negative)
