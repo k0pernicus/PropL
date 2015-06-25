@@ -21,8 +21,6 @@ def isAlgorithmGoodBetween(path, files_for_tests, cases_name, mutants_table, nod
 
     true_positive = 0
 
-    true_negative = 0
-
     false_positive = 0
 
     false_negative = 0
