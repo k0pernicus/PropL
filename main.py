@@ -72,6 +72,11 @@ def main():
         print(help())
         sys.exit()
 
+    if "--tests_xml" in sys.argv:
+        tests_xml_files = True
+    else:
+        tests_xml_files = False
+
     if "--debug" in sys.argv:
         debug_mode = True
     else:
@@ -82,10 +87,10 @@ def main():
     else:
         visualization = False
 
-    if "--stats" in sys.argv:
-        stats = True
+    if "--infos" in sys.argv:
+        infos = True
     else:
-        stats = False
+        infos = False
 
     try:
         test_directory = sys.argv[1]
