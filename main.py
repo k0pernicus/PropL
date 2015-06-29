@@ -66,6 +66,11 @@ def main():
     else:
         debug_mode = False
 
+    if "--visu" in sys.argv:
+        visualization = True
+    else:
+        visualization = False
+
     try:
         test_directory = sys.argv[1]
     except Exception as excpt:
