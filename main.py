@@ -96,5 +96,35 @@ def main():
     #Run
     use_graph.run()
 
+    print("#### Algorithms available")
+
+    print("")
+
+    print("# dicho_online_opt")
+    print("# min_max_online_opt")
+    print("# update_all_edges_online_opt")
+    print("# constraints_batch_opt")
+
+    algorithm_choosen = input("Which one? ")
+
+    use_graph.id = algorithm_choosen
+
+    if use_graph.id == "dicho_online_opt":
+        dichotomicOnlineOptimization(use_graph)
+
+    if use_graph.id == "min_max_online_opt":
+        minAndMaxOnlineOptimization(use_graph)
+
+    if use_graph.id == "update_all_edges_online_opt":
+        updateAllEdgesOnlineOptimization(use_graph)
+
+    if use_graph.id == "constraints_batch_opt":
+        constraintsBatchOptimization(use_graph)
+
+    if visualization:
+        use_graph.visualize()
+    getSomeStats(use_graph)
+    doSomeTests(use_graph)
+
 if __name__ == '__main__':
     main()
