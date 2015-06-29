@@ -3,13 +3,14 @@ from libs.xml_parsing_lib import returnSomeInfosAboutTestFiles
 from libs.basic_stat import computePrecision
 from libs.basic_stat import computeRecall
 
-#name directory of root mutants files
-root_directory_name = "AOR"
 
-#name directory of mutants files
-mutants_directory_name = "mutants"
+def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_table, nodes_name, tree_learned):
 
-def isAlgorithmGoodBetween(path, files_for_tests, cases_name, mutants_table, nodes_name, tree_learned):
+    #name directory of root mutants files
+    root_directory_name = "mutations/{0}".format(test_dir)
+
+    #name directory of mutants files
+    mutants_directory_name = "mutants"
 
     base_path = "{0}{1}/{2}/".format(path, root_directory_name, mutants_directory_name)
 
@@ -124,4 +125,4 @@ def doSomeTests(usegraph):
                     if usegraph.debug_mode:
                        print("\trandom_propagation > weight of source_node_name ({0})".format(weight_node))
 
-    isAlgorithmGoodBetween(usegraph.path_file, usegraph.files_for_tests, usegraph.all_cases_name, usegraph.mutants, usegraph.all_nodes_name, tree)
+    isAlgorithmGoodBetween(usegraph.path_file, usegraph.test_dir, usegraph.files_for_tests, usegraph.all_cases_name, usegraph.mutants, usegraph.all_nodes_name, tree)
