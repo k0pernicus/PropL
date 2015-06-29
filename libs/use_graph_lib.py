@@ -68,6 +68,8 @@ class UseGraph(object):
         self.number_of_variables = 0
         #number of methods in nodes
         self.number_of_methods = 0
+        #list of files (to learn or to do some tests)
+        self.all_files = []
         #list of files to learn
         self.files_to_learn = []
         #list of files for some tests
@@ -289,7 +291,8 @@ class UseGraph(object):
         self.splitLearningAndTestingFiles(base_dir)
 
         #for each mutant...
-        for mutant_file in self.files_to_learn:
+        #for mutant_file in self.files_to_learn:
+        for mutant_file in self.all_files:
             #join their id to the id of failing tests
             joinMutantAndImpactedTests("{0}/{1}".format(base_dir, mutant_file), self.mutants, self.all_cases_name, self.available_mutants, self.debug_mode)
 
