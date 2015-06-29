@@ -19,7 +19,7 @@ from libs.learning_lib import constraintsBatchOptimization
 
 from libs.testing_lib import doSomeTests
 
-from libs.basic_stat import getSomeStats
+from libs.utils_lib import getSomeInfos
 
 not_authorized_files = ['.DS_Store', '__init__.py']
 
