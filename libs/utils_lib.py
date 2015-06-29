@@ -1,4 +1,4 @@
-def chunks_list(list, n):
+def chunksList(list, n):
     """
     Yield successive n-sized chunks from list
     """
