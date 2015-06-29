@@ -105,11 +105,12 @@ def main():
     else:
         raise FailToLoad("Please to give an existing path for a test directory...")
 
-    #Verification of the XML validation
-    for xml_doc in os.listdir(test_directory):
-        path_file = "{0}{1}".format(test_directory, xml_doc)
-        if os.path.isfile(path_file) and not xml_doc in not_authorized_files:
-            print(isValidXMLDocuments(path_file))
+    if tests_xml_files:
+        #Verification of the XML validation
+        for xml_doc in os.listdir(test_directory):
+            path_file = "{0}{1}".format(test_directory, xml_doc)
+            if os.path.isfile(path_file) and not xml_doc in not_authorized_files:
+                print(isValidXMLDocuments(path_file))
 
     #Creation of the use graph
     use_graph = UseGraph(0, test_directory, debug_mode)
