@@ -44,6 +44,8 @@ if __name__ == "__main__":
 
     visualization = False
 
+    repo_to_test = sys.argv[1]
+
     if "--debug" in sys.argv:
         debugging = True
 
@@ -52,10 +54,10 @@ if __name__ == "__main__":
 
     all_ug = []
 
-    ug_dicho_online_opt = UseGraph("dicho_online_opt", "tests/test1/", debug_mode=debugging)
-    ug_min_max_online_opt = UseGraph("min_max_online_opt", "tests/test1/", debug_mode=debugging)
-    ug_update_all_edges_online_opt = UseGraph("update_all_edges_online_opt", "tests/test1/", debug_mode=debugging)
-    ug_constraints_batch_opt = UseGraph("constraints_batch_opt", "tests/test1/", debug_mode=debugging)
+    ug_dicho_online_opt = UseGraph("dicho_online_opt", repo_to_test, debug_mode=debugging)
+    ug_min_max_online_opt = UseGraph("min_max_online_opt", repo_to_test, debug_mode=debugging)
+    ug_update_all_edges_online_opt = UseGraph("update_all_edges_online_opt", repo_to_test, debug_mode=debugging)
+    ug_constraints_batch_opt = UseGraph("constraints_batch_opt", repo_to_test, debug_mode=debugging)
 
     all_ug.append(ug_dicho_online_opt)
     all_ug.append(ug_min_max_online_opt)
