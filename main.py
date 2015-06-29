@@ -62,6 +62,8 @@ def help():
     \t--help: to print help - stop the program after printing\n\
     \t--debug: to enable the debugging mode (for developers)\n\
     \t--visu: to enable the usegraph visualization\n\
+    \t--infos: to get some infos about edges, etc...\n\
+    \t--tests_xml: to test XML files (available, synthax validation, etc...)\n\
     "
 
 def main():
