@@ -30,8 +30,8 @@ def run_algorithm(ug, visualization = False):
     if ug.id == "update_all_edges_online_opt":
         updateAllEdgesOnlineOptimization(ug)
 
-    if ug.id == "constraints_batch_opt":
-        constraintsBatchOptimization(ug)
+    # if ug.id == "constraints_batch_opt":
+    #     constraintsBatchOptimization(ug)
 
     if visualization:
         ug.visualize()
@@ -57,12 +57,12 @@ if __name__ == "__main__":
     ug_dicho_online_opt = UseGraph("dicho_online_opt", repo_to_test, debug_mode=debugging)
     ug_min_max_online_opt = UseGraph("min_max_online_opt", repo_to_test, debug_mode=debugging)
     ug_update_all_edges_online_opt = UseGraph("update_all_edges_online_opt", repo_to_test, debug_mode=debugging)
-    ug_constraints_batch_opt = UseGraph("constraints_batch_opt", repo_to_test, debug_mode=debugging)
+    # ug_constraints_batch_opt = UseGraph("constraints_batch_opt", repo_to_test, debug_mode=debugging)
 
     all_ug.append(ug_dicho_online_opt)
     all_ug.append(ug_min_max_online_opt)
     all_ug.append(ug_update_all_edges_online_opt)
-    all_ug.append(ug_constraints_batch_opt)
+    # all_ug.append(ug_constraints_batch_opt)
 
     for ug in all_ug:
         Thread(target=run_algorithm, args=(ug,visualization)).start()
