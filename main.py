@@ -80,6 +80,11 @@ def main():
     else:
         visualization = False
 
+    if "--stats" in sys.argv:
+        stats = True
+    else:
+        stats = False
+
     try:
         test_directory = sys.argv[1]
     except Exception as excpt:
@@ -132,7 +137,8 @@ def main():
 
     if visualization:
         use_graph.visualize()
-    getSomeStats(use_graph)
+    if stats:
+        getSomeStats(use_graph)
     doSomeTests(use_graph)
 
 if __name__ == '__main__':
