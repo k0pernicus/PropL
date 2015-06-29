@@ -25,7 +25,7 @@ class UseGraph(object):
     Also, there is an edge between a method node and a field node if this field is used in the method.
     """
 
-    def __init__(self, id, path_file, debug_mode = False, number_split_tests = 10, propagation_mod_computing = 'all',propagation_mod_tests = 'all'):
+    def __init__(self, id, path_file, debug_mode = False, number_split_tests = 10):
         #id of the use graph
         self.id = id
         #path of the GraphML file
@@ -84,10 +84,6 @@ class UseGraph(object):
         self.mutants = {}
         #debugging mode
         self.debug_mode = debug_mode
-        #propagation mod to compute probabilities
-        self.propagation_mod_computing = propagation_mod_computing
-        #propagation mod to make tests
-        self.propagation_mod_tests = propagation_mod_tests
 
     def __del__(self):
         print("Destruction of the use graph {0}".format(self.id))
