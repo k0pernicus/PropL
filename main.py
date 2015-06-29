@@ -4,13 +4,22 @@ import os
 from threading import Thread
 
 #from libs.xml_lib import load_xml_document
-from libs.xml_lib import is_valid_XML_documents
-from libs.xml_lib import is_a_valid_XML_document
+from libs.xml_lib import isValidXMLDocuments
+from libs.xml_lib import isAValidXMLDocument
 
 from libs.exceptions.NoArgument import NoArgument
 from libs.exceptions.RunError import RunError
 
 from libs.use_graph_lib import UseGraph
+
+from libs.learning_lib import dichotomicOnlineOptimization
+from libs.learning_lib import minAndMaxOnlineOptimization
+from libs.learning_lib import updateAllEdgesOnlineOptimization
+from libs.learning_lib import constraintsBatchOptimization
+
+from libs.testing_lib import doSomeTests
+
+from libs.basic_stat import getSomeStats
 
 not_authorized_files = ['.DS_Store', '__init__.py']
 
