@@ -119,15 +119,14 @@ def main():
     use_graph.run()
 
     print("#### Algorithms available")
-
-    print("")
-
     print("# dicho_online_opt")
     print("# min_max_online_opt")
     print("# update_all_edges_online_opt")
-    print("# constraints_batch_opt")
+    # print("# constraints_batch_opt")
 
     algorithm_choosen = input("Which one? ")
+
+    print("")
 
     use_graph.id = algorithm_choosen
 
@@ -140,12 +139,12 @@ def main():
     if use_graph.id == "update_all_edges_online_opt":
         updateAllEdgesOnlineOptimization(use_graph)
 
-    if use_graph.id == "constraints_batch_opt":
-        constraintsBatchOptimization(use_graph)
+    # if use_graph.id == "constraints_batch_opt":
+    #     constraintsBatchOptimization(use_graph)
 
     if visualization:
         use_graph.visualize()
-    if stats:
+    if infos:
         getSomeStats(use_graph)
     doSomeTests(use_graph)
 
