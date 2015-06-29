@@ -10,7 +10,7 @@ from libs.xml_parsing_lib import parseMutations
 from libs.xml_parsing_lib import joinMutantAndImpactedTests
 from libs.xml_parsing_lib import returnTheMutantNode
 
-from libs.utils_lib import chunks_list
+from libs.utils_lib import chunksList
 
 from threading import Thread
 
