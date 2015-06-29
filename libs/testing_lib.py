@@ -4,7 +4,7 @@ from libs.basic_stat import computePrecision
 from libs.basic_stat import computeRecall
 
 
-def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_table, nodes_name, tree_learned):
+def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_table, nodes_name, tree_learned, debug_mode):
 
     #name directory of root mutants files
     root_directory_name = "mutations/{0}".format(test_dir)
@@ -16,9 +16,9 @@ def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_
 
     tree_test = returnSomeInfosAboutTestFiles(base_path, files_for_tests, cases_name, mutants_table, nodes_name)
 
-    print("TREE_TEST {0}".format(tree_test))
-
-    print("TREE LEARNED {0}".format(tree_learned))
+    if debug_mode:
+        print("TREE_TEST {0}".format(tree_test))
+        print("TREE LEARNED {0}".format(tree_learned))
 
     true_positive = 0
 
@@ -125,4 +125,4 @@ def doSomeTests(usegraph):
                     if usegraph.debug_mode:
                        print("\trandom_propagation > weight of source_node_name ({0})".format(weight_node))
 
-    isAlgorithmGoodBetween(usegraph.path_file, usegraph.test_dir, usegraph.files_for_tests, usegraph.all_cases_name, usegraph.mutants, usegraph.all_nodes_name, tree)
+    isAlgorithmGoodBetween(usegraph.path_file, usegraph.test_dir, usegraph.files_for_tests, usegraph.all_cases_name, usegraph.mutants, usegraph.all_nodes_name, tree, usegraph.debug_mode)
