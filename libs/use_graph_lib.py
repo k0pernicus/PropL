@@ -267,9 +267,12 @@ class UseGraph(object):
         print("#### Accessible dir':")
 
         for dir in os.listdir("{0}{1}".format(self.path_file, root_directory_name)):
-            print(dir)
+            if dir not in not_authorized_files:
+                print(dir)
 
         dir_choosen = input("Which one? ")
+
+        print("")
 
         self.test_dir = dir_choosen
 
