@@ -42,17 +42,26 @@ def help():
     \t<root>/\n\
     \t---->smf.run.xml\n\
     \t---->usegraph.graphml\n\
-    \t----><mutant_root_directory>/\n\
-    \t\t---->mutations.xml\n\
-    \t\t---->mutants/\n\
-    \t\t\t---->mutant_001.xml\n\
-    \t\t\t---->mutant_002.xml\n\
-    \t\t\t---->...\n\
+    \t---->mutations/\n\
+    \t\t----><operator_mutant_directory_1>/\n\
+    \t\t\t---->mutations.xml\n\
+    \t\t\t---->mutants/\n\
+    \t\t\t\t---->mutant_001.xml\n\
+    \t\t\t\t---->mutant_002.xml\n\
+    \t\t\t\t---->...\n\
+    \t\t----><operator_mutant_directory_2>/\n\
+    \t\t\t---->mutations.xml\n\
+    \t\t\t---->mutants/\n\
+    \t\t\t\t---->mutant_001.xml\n\
+    \t\t\t\t---->mutant_002.xml\n\
+    \t\t\t\t---->...\n\
+    \t\t---->...\n\
     \n\
     List of functionalities\n\
     -----------------------\n\
     \t--help: to print help - stop the program after printing\n\
     \t--debug: to enable the debugging mode (for developers)\n\
+    \t--visu: to enable the usegraph visualization\n\
     "
 
 def main():
