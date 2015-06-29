@@ -30,6 +30,8 @@ class UseGraph(object):
         self.id = id
         #path of the GraphML file
         self.path_file = path_file
+        #directory to test
+        self.test_dir = ""
         #networkX graph
         self.graph = self.readFile()
         #all tests of use graph id -> name
@@ -258,7 +260,18 @@ class UseGraph(object):
         """
 
         #name directory of root mutants files
-        root_directory_name = "AOR"
+        root_directory_name = "mutations"
+
+        print("#### Accessible dir':")
+
+        for dir in os.listdir("{0}{1}".format(self.path_file, root_directory_name)):
+            print(dir)
+
+        dir_choosen = input("Which one? ")
+
+        self.test_dir = dir_choosen
+
+        root_directory_name = "{0}/{1}".format(root_directory_name, dir_choosen)
 
         #name directory of mutants files
         mutants_directory_name = "mutants"
@@ -308,10 +321,14 @@ class UseGraph(object):
             if file in not_authorized_files:
                 mutants_filename_table.remove(file)
 
+        self.all_files = mutants_filename_table
+
         number_of_mutants_file = len(mutants_filename_table)
 
         #split the list in number_split_tests
-        mutants_filename_table_splitted = chunks_list(mutants_filename_table, self.number_split_tests)
+        size_of_mutants_filename_table = len(mutants_filename_table)
+        nb_split = round(size_of_mutants_filename_table / self.number_split_tests)
+        mutants_filename_table_splitted = chunksList(mutants_filename_table, nb_split)
 
         position_to_pop = random.randint(0, len(mutants_filename_table_splitted) - 1)
 
