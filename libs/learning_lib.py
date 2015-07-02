@@ -446,6 +446,77 @@ def updateAllEdgesOnlineOptimization(usegraph):
     if usegraph.debug_mode:
         print("Computing time (updateAllEdgesOnlineOptimization) : {0} seconds".format(end_algo - begin_algo))
 
+def tagEachUsefullEdgesOptimization(usegraph):
+    """
+    Abstract: Method to compute the probability to pass from a mutant node to a test node, by giving the probability 1 to each edge in a viable mutant testing
+    """
+
+    if usegraph.debug_mode:
+        begin_algo = time.time()
+
+    complexRepresentation = getComplexRepresentationForMutants(usegraph)
+
+    #reset usefull_edges
+    usegraph.usefull_edges = []
+
+    #for each mutant
+    for mutant in complexRepresentation:
+
+        #we get the list of test failed
+        test_representation = complexRepresentation[mutant]
+
+        #for each test failed
+        for test_id in test_representation:
+
+            #we look for all fields/methods...
+            for node in usegraph.all_cases_id[test_id]['nodes']:
+
+                all_simple_paths = []
+
+                try:
+
+                    paths = []
+
+                    for p in nx.all_simple_paths(usegraph.graph, usegraph.all_nodes_id[node], mutant):
+                        paths.append(p)
+
+                    for one_path in paths:
+
+                        #for each simple path...
+                        #transform 'one_path' ([node1, node2, node3, ...] in list of paths [(node1, node2), (node2, node3), ...])
+                        simple_path = getExistingPathsFrom(one_path)
+
+                        # compute usefull edges and the probability to propagate
+                        for edge in simple_path:
+
+                            edge = usegraph.transform_edge_name_as_edge_id(edge)
+
+                            edge_id = usegraph.all_edges_name[edge]['id']
+
+                            #usefull edge if presents
+                            if not edge_id in usegraph.usefull_edges:
+                                usegraph.usefull_edges.append(edge_id)
+
+                            #save this to know the simple path to update later...
+                            if not edge_id in all_simple_paths:
+                                all_simple_paths.append(edge_id)
+
+                            source = usegraph.all_edges_id[edge_id]['source']
+
+                            target = usegraph.all_edges_id[edge_id]['target']
+
+                            usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] = 1
+                except:
+
+                    if usegraph.debug_mode:
+                        print("ERROR: {0} not found...".format(node))
+
+    if usegraph.debug_mode:
+        end_algo = time.time()
+
+    if usegraph.debug_mode:
+        print("Computing time (tagEachUsefullEdgesOptimization) : {0} seconds".format(end_algo - begin_algo))
+
 def constraintsBatchOptimization(usegraph):
     """
     Abstract: Method to compute probabilities on edges, using an algorithm which compute each weight as a constraint between paths
