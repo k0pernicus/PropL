@@ -16,6 +16,7 @@ from libs.learning_lib import dichotomicOnlineOptimization
 from libs.learning_lib import minAndMaxOnlineOptimization
 from libs.learning_lib import updateAllEdgesOnlineOptimization
 from libs.learning_lib import constraintsBatchOptimization
+from libs.learning_lib import computeBaseline
 
 from libs.testing_lib import doSomeTests
 
@@ -115,13 +116,12 @@ def main():
     #Creation of the use graph
     use_graph = UseGraph(0, test_directory, debug_mode)
 
-    #Run
-    use_graph.run()
-
     print("#### Algorithms available")
+    print("# baseline")
     print("# dicho_online_opt")
     print("# min_max_online_opt")
     print("# update_all_edges_online_opt")
+    print("# tag_on_usefull_edges")
     # print("# constraints_batch_opt")
 
     algorithm_choosen = input("Which one? ")
@@ -129,6 +129,9 @@ def main():
     print("")
 
     use_graph.id = algorithm_choosen
+
+    #Run
+    use_graph.run()
 
     if use_graph.id == "dicho_online_opt":
         dichotomicOnlineOptimization(use_graph)
@@ -138,6 +141,9 @@ def main():
 
     if use_graph.id == "update_all_edges_online_opt":
         updateAllEdgesOnlineOptimization(use_graph)
+
+    if use_graph.id == "baseline":
+        computeBaseline(use_graph)
 
     # if use_graph.id == "constraints_batch_opt":
     #     constraintsBatchOptimization(use_graph)
