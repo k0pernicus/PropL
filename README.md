@@ -14,3 +14,11 @@
 *   [x] make tests with cross validation
 *   [ ] results & debugging
 *   [x] visual representation of the concerned network
+
+*   [ ] Baseline of Vincenzo (some tests have to be verified...)
+
+*   [ ] FScore (function ok)
+*   [ ] N-tables with better algorithm
+*   [ ] Begin to write algorithms (pseudo-code)
+
+*   [ ] Export weights in XML format
