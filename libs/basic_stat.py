@@ -15,3 +15,12 @@ def computeRecall(true_positive, false_negative):
     if (true_positive + false_negative) == 0:
         return 1
     return (true_positive) / (true_positive + false_negative)
+
+def computeFScore(precision, recall):
+    """
+    Abstract: Simple function to compute the FScore of some examples
+    """
+
+    if (precision + recall) == 0:
+        return 0
+    return 2 * ((precision * recall) / (precision + recall))
