@@ -58,8 +58,15 @@ def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_
 
     false_negative = len(tree_test_impacted_tests) - true_positive
 
-    print("Precision : {0}".format(computePrecision(true_positive, false_positive)))
-    print("Recall: {0}".format(computeRecall(true_positive, false_negative)))
+    precision = computePrecision(true_positive, false_positive)
+
+    recall = computeRecall(true_positive, false_negative)
+
+    fscore = computeFScore(precision, recall)
+
+    print("Precision : {0}".format(precision))
+    print("Recall: {0}".format(recall))
+    print("FScore: {0}".format(fscore))
 
 def doSomeTests(usegraph):
 
