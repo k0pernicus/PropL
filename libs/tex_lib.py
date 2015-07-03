@@ -30,7 +30,7 @@ def beginTabular(nb_columns):
     typo_columns += "|}"
 
     tex_file = open(path, "a")
-    tex_file.write("\\begin{tabular}{0}".format(typo_columns))
+    tex_file.write("\\begin{tabular}"+typo_columns+"\n")
     tex_file.close()
 
 def closeTabular():
