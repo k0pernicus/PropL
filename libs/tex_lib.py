@@ -9,7 +9,7 @@ def initTexFile():
     tex_file.write(init_string)
     tex_file.close()
 
-def writeInfoTexFile(data):
+def writeIntoTexFile(data):
 
     len_data = len(data)
 
