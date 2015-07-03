@@ -94,6 +94,14 @@ def main():
     else:
         infos = False
 
+    if "--clear-csv" in sys.argv:
+        clearCSVFile()
+
+    if "--save" in sys.argv:
+        save_results = True
+    else:
+        save_results = False
+
     try:
         test_directory = sys.argv[1]
     except Exception as excpt:
