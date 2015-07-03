@@ -90,7 +90,8 @@ class UseGraph(object):
         self.debug_mode = debug_mode
 
     def __del__(self):
-        print("Destruction of the use graph {0}".format(self.id))
+        if self.debug_mode:
+            print("Destruction of the use graph {0}".format(self.id))
 
     def readFile(self):
         """
