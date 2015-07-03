@@ -105,13 +105,21 @@ def main():
     else:
         infos = False
 
-    if "--clear-csv" in sys.argv:
-        clearCSVFile()
+    if "--clean_csv" in sys.argv:
+        cleanCSVFile()
 
-    if "--save" in sys.argv:
-        save_results = True
+    if "--clean_tex" in sys.argv:
+        cleanTexFile()
+
+    if "--save_csv" in sys.argv:
+        save_results_csv = True
     else:
-        save_results = False
+        save_results_csv = False
+
+    if "--save_tex" in sys.argv:
+        save_results_tex = True
+    else:
+        save_results_tex = False
 
     try:
         test_directory = sys.argv[1]
