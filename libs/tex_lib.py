@@ -17,7 +17,7 @@ def writeInfoTexFile(data):
     for i in range(0, len_data - 1):
         info += "{0}&".format(data[i])
     info += "{0}\n".format(data[len_data - 1])
-    info += "\\\\"
+    info += "\\\\\n"
 
     tex_file = open(path, "a")
     tex_file.write(info)
