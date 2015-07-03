@@ -73,6 +73,10 @@ def help():
     \t--visu: to enable the usegraph visualization\n\
     \t--infos: to get some infos about edges, etc...\n\
     \t--tests_xml: to test XML files (available, synthax validation, etc...)\n\
+    \t--save_tex: to save results in a tex file\n\
+    \t--save_csv: to save results in a CSV file\n\
+    \t--clean_tex: to clean the tex file before to write in\n\
+    \t--clean_csv: to clean the CSV file before to write in\n\
     "
 
 def main():
