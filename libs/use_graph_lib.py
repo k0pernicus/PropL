@@ -288,8 +288,12 @@ class UseGraph(object):
         #for each mutant...
         #for mutant_file in self.files_to_learn:
         for mutant_file in self.all_files:
-            #join their id to the id of failing tests
-            joinMutantAndImpactedTests("{0}/{1}".format(base_dir, mutant_file), self.mutants, self.all_cases_name, self.available_mutants, self.debug_mode)
+            try:
+                #join their id to the id of failing tests
+                joinMutantAndImpactedTests("{0}/{1}".format(base_dir, mutant_file), self.mutants, self.all_cases_name, self.available_mutants, self.debug_mode)
+            except:
+                if self.debug_mode:
+                    print("{0} not found...".format(mutant_file))
 
         for mutant_file_test in self.files_for_tests:
             #store id of nodes available for tests
