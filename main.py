@@ -21,7 +21,7 @@ from libs.testing_lib import doSomeTests
 
 from libs.utils_lib import getSomeInfos
 from libs.utils_lib import writeIntoCSVFile
-from libs.utils_lib import clearCSVFile
+from libs.utils_lib import cleanCSVFile
 
 not_authorized_files = ['.DS_Store', '__init__.py']
 
