@@ -268,19 +268,7 @@ class UseGraph(object):
         #name directory of root mutants files
         root_directory_name = "mutations"
 
-        print("#### Accessible dir':")
-
-        for dir in os.listdir("{0}{1}".format(self.path_file, root_directory_name)):
-            if dir not in not_authorized_files:
-                print(dir)
-
-        dir_choosen = input("Which one? ")
-
-        print("")
-
-        self.test_dir = dir_choosen
-
-        root_directory_name = "{0}/{1}".format(root_directory_name, dir_choosen)
+        root_directory_name = "{0}/{1}".format(root_directory_name, self.mutation_operator)
 
         #name directory of mutants files
         mutants_directory_name = "mutants"
