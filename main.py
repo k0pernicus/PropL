@@ -123,11 +123,7 @@ def main():
             if os.path.isfile(path_file) and not xml_doc in not_authorized_files:
                 print(isValidXMLDocuments(path_file))
 
-    #Creation of the use graph
-    use_graph = UseGraph(0, test_directory, debug_mode)
-
     print("#### Algorithms available")
-    print("# baseline")
     print("# dicho_online_opt")
     print("# min_max_online_opt")
     print("# update_all_edges_online_opt")
@@ -138,31 +134,103 @@ def main():
 
     print("")
 
-    use_graph.id = algorithm_choosen
+    list_dir = os.listdir(test_directory)
 
-    #Run
-    use_graph.run()
+    usegraph_files = [dir for dir in list_dir if 'usegraph' in dir]
 
-    if use_graph.id == "dicho_online_opt":
-        dichotomicOnlineOptimization(use_graph)
+    for usegraph_choosen in usegraph_files:
 
-    if use_graph.id == "min_max_online_opt":
-        minAndMaxOnlineOptimization(use_graph)
+        print("actual usegraph: {0}".format(usegraph_choosen))
 
-    if use_graph.id == "update_all_edges_online_opt":
-        updateAllEdgesOnlineOptimization(use_graph)
+        list_mutation_dir = os.listdir("{0}{1}".format(test_directory, "mutations/"))
 
-    if use_graph.id == "baseline":
-        computeBaseline(use_graph)
+        list_mutation_operators = [mut for mut in list_mutation_dir if not mut in not_authorized_files]
 
-    # if use_graph.id == "constraints_batch_opt":
-    #     constraintsBatchOptimization(use_graph)
+        print(list_mutation_operators)
 
-    if visualization:
-        use_graph.visualize()
-    if infos:
-        getSomeStats(use_graph)
-    doSomeTests(use_graph)
+        for mutation_operator in list_mutation_operators:
+
+            Thread(target=computePropagation, args=(nb_of_tests, algorithm_choosen, test_directory, usegraph_choosen, mutation_operator, debug_mode,save_results,)).start()
+
+def computePropagation(nb_of_tests, algorithm_choosen, test_directory, usegraph_choosen, mutation_operator, debug_mode, save_results):
+
+    print("actual mutation operator: {0}".format(mutation_operator))
+
+    list_precisions = []
+
+    list_recalls = []
+
+    list_fscores = []
+
+    for i in range(0, nb_of_tests):
+
+        #Creation of the use graph
+        use_graph = UseGraph("{0}/{1}--{0}".format(usegraph_choosen, mutation_operator, algorithm_choosen), test_directory, usegraph_choosen, mutation_operator, debug_mode)
+
+        #Run
+        use_graph.run()
+
+        if "dicho_online_opt" in use_graph.id:
+            dichotomicOnlineOptimization(use_graph)
+
+        if "min_max_online_opt" in use_graph.id:
+            minAndMaxOnlineOptimization(use_graph)
+
+        if "update_all_edges_online_opt" in use_graph.id:
+            updateAllEdgesOnlineOptimization(use_graph)
+
+        if "tag_on_usefull_edges" in use_graph.id:
+            tagEachUsefullEdgesOptimization(use_graph)
+
+        # if use_graph.id == "constraints_batch_opt":
+        #     constraintsBatchOptimization(use_graph)
+
+        # if visualization:
+        #     use_graph.visualize()
+        # if infos:
+        #     getSomeStats(use_graph)
+        precision_tmp, recall_tmp, fscore_tmp = doSomeTests(use_graph)
+
+        list_precisions.append(precision_tmp)
+        list_recalls.append(recall_tmp)
+        list_fscores.append(fscore_tmp)
+
+        print("Test {0} for {1}... ok!".format(i, use_graph.id))
+
+    list_precisions.sort()
+    list_recalls.sort()
+    list_fscores.sort()
+
+    len_list_precisions = len(list_precisions)
+    len_list_recalls = len(list_recalls)
+    len_list_fscores = len(list_fscores)
+
+    median_list_precisions = round(len_list_precisions / 2)
+    median_list_recalls = round(len_list_recalls / 2)
+    median_list_fscores = round(len_list_fscores / 2)
+
+    if len_list_precisions % 2 != 0:
+        precision_to_return = (list_precisions[median_list_precisions] + list_precisions[median_list_precisions + 1]) / 2
+    else:
+        precision_to_return = list_precisions[median_list_precisions]
+
+    if len_list_recalls % 2 != 0:
+        recall_to_return = (list_recalls[median_list_recalls] + list_recalls[median_list_recalls + 1]) / 2
+    else:
+        recall_to_return = list_recalls[median_list_recalls]
+
+    if len_list_fscores % 2 != 0:
+        fscore_to_return = (list_fscores[median_list_fscores] + list_fscores[median_list_fscores + 1]) / 2
+    else:
+        fscore_to_return = list_fscores[median_list_fscores]
+
+    print("usegraph {0}: P {1} / R {2} / F {3}".format(use_graph.id, precision_to_return, recall_to_return, fscore_to_return))
+
+    dir = test_directory.split("/")[-2]
+
+    if save_results:
+        #Write results in a CSV file -> algorithm_choosen, use_graph.id, use_graph.dir, precision, recall, fscore
+        writeIntoCSVFile((dir, algorithm_choosen, usegraph_choosen, mutation_operator, precision_to_return, recall_to_return, fscore_to_return))
 
 if __name__ == '__main__':
     main()
