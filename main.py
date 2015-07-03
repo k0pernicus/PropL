@@ -44,7 +44,7 @@ def help():
     \n\
     Usage\n\
     -----\n\
-    \tprogram <test_directory> [--help|--debug]\n\
+    \tprogram <test_directory> [--options]\n\
     \n\
     Test directory\n\
     --------------\n\
