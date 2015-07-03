@@ -15,12 +15,13 @@ from libs.use_graph_lib import UseGraph
 from libs.learning_lib import dichotomicOnlineOptimization
 from libs.learning_lib import minAndMaxOnlineOptimization
 from libs.learning_lib import updateAllEdgesOnlineOptimization
-from libs.learning_lib import constraintsBatchOptimization
-from libs.learning_lib import computeBaseline
+from libs.learning_lib import tagEachUsefullEdgesOptimization
 
 from libs.testing_lib import doSomeTests
 
 from libs.utils_lib import getSomeInfos
+from libs.utils_lib import writeIntoCSVFile
+from libs.utils_lib import clearCSVFile
 
 not_authorized_files = ['.DS_Store', '__init__.py']
 
