@@ -33,7 +33,7 @@ def writeIntoCSVFile(data):
         writer = csv.writer(csv_file, delimiter=',')
         writer.writerow(data)
 
-def clearCSVFile():
+def cleanCSVFile():
     """
     Abstract: Method to clear the CSV file
     """
