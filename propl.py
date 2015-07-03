@@ -176,9 +176,9 @@ def main():
 
             Thread(target=computePropagation, args=(nb_of_tests, algorithm_choosen, test_directory, usegraph_choosen, mutation_operator, debug_mode, save_results_csv, save_results_tex)).start()
 
-    if save_results_tex:
-        closeTabular()
-        closeTexFile()
+    # if save_results_tex:
+    #     closeTabular()
+    #     closeTexFile()
 
 def computePropagation(nb_of_tests, algorithm_choosen, test_directory, usegraph_choosen, mutation_operator, debug_mode, save_results_csv, save_results_tex):
 
