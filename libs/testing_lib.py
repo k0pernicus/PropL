@@ -64,9 +64,7 @@ def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_
 
     fscore = computeFScore(precision, recall)
 
-    print("Precision : {0}".format(precision))
-    print("Recall: {0}".format(recall))
-    print("FScore: {0}".format(fscore))
+    return precision, recall, fscore
 
 def doSomeTests(usegraph):
 
