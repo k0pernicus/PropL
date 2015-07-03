@@ -1,3 +1,7 @@
+import csv
+
+path = "results_antonin.csv"
+
 def chunksList(list, n):
     """
     Yield successive n-sized chunks from list
@@ -19,3 +23,21 @@ def getSomeInfos(usegraph):
         weight = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]]
         print("## {0} ({1} -- {2}) : {3}".format(edge_id, source, target, weight))
     print("{0}".format("#"*(40 + len(usegraph.id))))
+
+def writeIntoCSVFile(data):
+    """
+    Abstract: Method to save into a CSV file results of tests
+    """
+
+    with open(path, "a") as csv_file:
+        writer = csv.writer(csv_file, delimiter=',')
+        writer.writerow(data)
+
+def clearCSVFile():
+    """
+    Abstract: Method to clear the CSV file
+    """
+
+    csv_file = open(path, "w")
+    csv_file.truncate()
+    csv_file.close()
