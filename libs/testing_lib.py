@@ -14,7 +14,7 @@ def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_
 
     base_path = "{0}{1}/{2}/".format(path, root_directory_name, mutants_directory_name)
 
-    tree_test = returnSomeInfosAboutTestFiles(base_path, files_for_tests, cases_name, mutants_table, nodes_name)
+    tree_test = returnSomeInfosAboutTestFiles(base_path, files_for_tests, cases_name, mutants_table, nodes_name, debug_mode)
 
     if debug_mode:
         print("TREE_TEST {0}".format(tree_test))
