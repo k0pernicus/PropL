@@ -98,26 +98,8 @@ class UseGraph(object):
         Abstract: Method to read the GraphML file and save the NetworkX graph matching
         """
 
-        list_dir = os.listdir(self.path_file)
-
-        usegraph_files = []
-
-        i = 0
-
-        print("usegraph(s)")
-
-        for file in list_dir:
-            if 'usegraph' in file:
-                print("{0}: {1}".format(i, file))
-                usegraph_files.append(file)
-                i += 1
-
-        usegraph_choosen = int(input("Please to choose one: "))
-
-        usegraph_name_file = usegraph_files[usegraph_choosen]
-
         try:
-            return nx.read_graphml("{0}/{1}".format(self.path_file, usegraph_name_file))
+            return nx.read_graphml("{0}/{1}".format(self.path_file, self.usegraph_choosen))
         except Exception as excpt:
             raise excpt
 
