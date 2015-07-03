@@ -23,6 +23,13 @@ from libs.utils_lib import getSomeInfos
 from libs.utils_lib import writeIntoCSVFile
 from libs.utils_lib import cleanCSVFile
 
+from libs.tex_lib import initTexFile
+from libs.tex_lib import cleanTexFile
+from libs.tex_lib import beginTabular
+from libs.tex_lib import closeTabular
+from libs.tex_lib import closeTexFile
+from libs.tex_lib import writeIntoTexFile
+
 not_authorized_files = ['.DS_Store', '__init__.py']
 
 def help():
