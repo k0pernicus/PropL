@@ -169,7 +169,7 @@ def returnTheMutantNode(mutant_file):
 
     return "m{0}".format(root.get('id').split('_')[1])
 
-def returnSomeInfosAboutTestFiles(base_path, mutant_files, cases_name, mutants_table, nodes_name):
+def returnSomeInfosAboutTestFiles(base_path, mutant_files, cases_name, mutants_table, nodes_name, debug_mode):
     """
     Abstract: Function to return some informations about tests files : mutations -> impacted nodes
     """
@@ -214,6 +214,7 @@ def returnSomeInfosAboutTestFiles(base_path, mutant_files, cases_name, mutants_t
                         global_tree[node_id].append(case_id)
 
         except:
-            print("ERROR: {0} not found...".format(mutant_id))
+            if debug_mode:
+                print("ERROR: {0} not found...".format(mutant_id))
 
     return global_tree
