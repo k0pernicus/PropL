@@ -25,11 +25,15 @@ class UseGraph(object):
     Also, there is an edge between a method node and a field node if this field is used in the method.
     """
 
-    def __init__(self, id, path_file, debug_mode = False, number_split_tests = 10):
+    def __init__(self, id, path_file, usegraph_choosen, mutation_operator, debug_mode = False, number_split_tests = 10):
         #id of the use graph
         self.id = id
         #path of the GraphML file
         self.path_file = path_file
+        #usegraph choosen
+        self.usegraph_choosen = usegraph_choosen
+        #mutation operator choosen
+        self.mutation_operator = mutation_operator
         #directory to test
         self.test_dir = ""
         #networkX graph
