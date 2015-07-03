@@ -80,7 +80,11 @@ def doSomeTests(usegraph):
 
         nodes_stack = []
 
+        visited_nodes = []
+
         nodes_stack.append(node)
+
+        visited_nodes.append(node)
 
         while len(nodes_stack) != 0:
 
@@ -120,14 +124,22 @@ def doSomeTests(usegraph):
 
                     else:
 
-                        if usegraph.debug_mode:
-                           print("\t{0} append...".format(source_node_name))
+                        if not source_node_id in visited_nodes:
 
-                        nodes_stack.append(source_node_id)
+                            if usegraph.debug_mode:
+                               print("\t{0} append...".format(source_node_name))
+
+                            nodes_stack.append(source_node_id)
+
+                            visited_nodes.append(source_node_id)
 
                 else:
 
                     if usegraph.debug_mode:
                        print("\trandom_propagation > weight of source_node_name ({0})".format(weight_node))
 
-    isAlgorithmGoodBetween(usegraph.path_file, usegraph.test_dir, usegraph.files_for_tests, usegraph.all_cases_name, usegraph.mutants, usegraph.all_nodes_name, tree, usegraph.debug_mode)
+                       visited_nodes.append(source_node_id)
+
+    precision_compt, recall_comp, fscore_comp = isAlgorithmGoodBetween(usegraph.path_file, usegraph.mutation_operator, usegraph.files_for_tests, usegraph.all_cases_name, usegraph.mutants, usegraph.all_nodes_name, tree, usegraph.debug_mode)
+
+    return precision_compt, recall_comp, fscore_comp
