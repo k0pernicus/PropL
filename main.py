@@ -104,6 +104,7 @@ def main():
 
     try:
         test_directory = sys.argv[1]
+        nb_of_tests = int(sys.argv[2])
     except Exception as excpt:
         raise NoArgument("Please to give at least the XML document (or repository) as argument...")
 
