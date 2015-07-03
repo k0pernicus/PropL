@@ -157,6 +157,11 @@ def main():
 
     usegraph_files = [dir for dir in list_dir if 'usegraph' in dir]
 
+    if save_results_tex:
+        initTexFile()
+        #7 by default -> some infos about use graph + precision, recall, fscore
+        beginTabular(7)
+
     for usegraph_choosen in usegraph_files:
 
         print("actual usegraph: {0}".format(usegraph_choosen))
@@ -169,9 +174,13 @@ def main():
 
         for mutation_operator in list_mutation_operators:
 
-            Thread(target=computePropagation, args=(nb_of_tests, algorithm_choosen, test_directory, usegraph_choosen, mutation_operator, debug_mode,save_results,)).start()
+            Thread(target=computePropagation, args=(nb_of_tests, algorithm_choosen, test_directory, usegraph_choosen, mutation_operator, debug_mode, save_results_csv, save_results_tex)).start()
 
-def computePropagation(nb_of_tests, algorithm_choosen, test_directory, usegraph_choosen, mutation_operator, debug_mode, save_results):
+    if save_results_tex:
+        closeTabular()
+        closeTexFile()
+
+def computePropagation(nb_of_tests, algorithm_choosen, test_directory, usegraph_choosen, mutation_operator, debug_mode, save_results_csv, save_results_tex):
 
     print("actual mutation operator: {0}".format(mutation_operator))
 
@@ -247,9 +256,12 @@ def computePropagation(nb_of_tests, algorithm_choosen, test_directory, usegraph_
 
     dir = test_directory.split("/")[-2]
 
-    if save_results:
+    if save_results_csv:
         #Write results in a CSV file -> algorithm_choosen, use_graph.id, use_graph.dir, precision, recall, fscore
-        writeIntoCSVFile((dir, algorithm_choosen, usegraph_choosen, mutation_operator, precision_to_return, recall_to_return, fscore_to_return))
+        writeIntoCSVFile((dir, algorithm_choosen, usegraph_choosen, mutation_operator, round(precision_to_return, 10), round(recall_to_return, 10), round(fscore_to_return, 10)))
+    if save_results_tex:
+        #Write results in a Tex file
+        writeIntoTexFile((dir, algorithm_choosen, usegraph_choosen, mutation_operator, round(precision_to_return, 10), round(recall_to_return, 10), round(fscore_to_return, 10)))
 
 if __name__ == '__main__':
     main()
