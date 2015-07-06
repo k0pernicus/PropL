@@ -305,6 +305,9 @@ def minAndMaxOnlineOptimization(usegraph):
                         #if random <= global -> OK! Else, we have to up the probability...
                         if not ( random_propagation <= global_probability_to_propagate ):
 
+                            if usegraph.debug_mode:
+                                print("Up {0} due to random_propagation ({1}) > global_probability_to_propagate ({2})".format(edge_id, random_propagation, global_probability_to_propagate))
+
                             #Get the minimal edge id
                             edge_id = getMinEdgeFrom(paths, usegraph)
 
@@ -317,11 +320,13 @@ def minAndMaxOnlineOptimization(usegraph):
                             #if the minimal value of the edge is lower than 1...
                             if (actual_weight + (1 / math.log(t))) < 1:
 
-                                if usegraph.debug_mode:
-                                    print("Up {0} due to random_propagation ({1}) > global_probability_to_propagate ({2})".format(edge_id, random_propagation, global_probability_to_propagate))
-
                                 #put weight up to the minimal edge
                                 usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] += (1 / math.log(t))
+
+                            else:
+
+                                #put weight to 1 to the minimal edge
+                                usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] = 1
 
                 except:
 
