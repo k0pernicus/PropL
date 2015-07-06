@@ -110,9 +110,6 @@ def main():
     if "--clean_csv" in sys.argv:
         cleanCSVFile()
 
-    if "--clean_tex" in sys.argv:
-        cleanTexFile()
-
     if "--save_csv" in sys.argv:
         save_results_csv = True
     else:
@@ -161,14 +158,17 @@ def main():
 
     usegraph_files = [dir for dir in list_dir if 'usegraph' in dir]
 
-    if save_results_tex:
-        initTexFile()
-        #7 by default -> some infos about use graph + precision, recall, fscore
-        beginTabular(7)
-
     for usegraph_choosen in usegraph_files:
 
-        print("actual usegraph: {0}".format(usegraph_choosen))
+        usegraph_base = "{0}_{1}".format(usegraph_choosen.split('.graphml')[0], algorithm_choosen)
+
+        if "--clean_tex" in sys.argv:
+            cleanTexFile(usegraph_base)
+
+            if save_results_tex:
+                 initTexFile(usegraph_base)
+                 #7 by default -> some infos about use graph + precision, recall, fscore
+                 beginTabular(usegraph_base, 7)
 
         list_mutation_dir = os.listdir("{0}{1}".format(test_directory, "mutations/"))
 
@@ -178,13 +178,9 @@ def main():
 
         for mutation_operator in list_mutation_operators:
 
-            Thread(target=computePropagation, args=(nb_of_tests, algorithm_choosen, test_directory, usegraph_choosen, mutation_operator, debug_mode, save_results_csv, save_results_tex)).start()
+            Thread(target=computePropagation, args=(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, save_results_csv, save_results_tex)).start()
 
-    # if save_results_tex:
-    #     closeTabular()
-    #     closeTexFile()
-
-def computePropagation(nb_of_tests, algorithm_choosen, test_directory, usegraph_choosen, mutation_operator, debug_mode, save_results_csv, save_results_tex):
+def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, save_results_csv, save_results_tex):
 
     print("actual mutation operator: {0}".format(mutation_operator))
 
@@ -204,23 +200,21 @@ def computePropagation(nb_of_tests, algorithm_choosen, test_directory, usegraph_
 
         if "dicho_online_opt" in use_graph.id:
             dichotomicOnlineOptimization(use_graph)
-
-        if "min_max_online_opt" in use_graph.id:
+        elif "min_max_online_opt" in use_graph.id:
             minAndMaxOnlineOptimization(use_graph)
-
-        if "update_all_edges_online_opt" in use_graph.id:
+        elif"update_all_edges_online_opt" in use_graph.id:
             updateAllEdgesOnlineOptimization(use_graph)
-
-        if "tag_on_usefull_edges" in use_graph.id:
+        elif"tag_on_usefull_edges" in use_graph.id:
             tagEachUsefullEdgesOptimization(use_graph)
 
         # if use_graph.id == "constraints_batch_opt":
         #     constraintsBatchOptimization(use_graph)
 
-        # if visualization:
-        #     use_graph.visualize()
-        # if infos:
-        #     getSomeStats(use_graph)
+        if visualization:
+            use_graph.visualize()
+        if infos:
+            getSomeStats(use_graph)
+
         precision_tmp, recall_tmp, fscore_tmp = doSomeTests(use_graph)
 
         list_precisions.append(precision_tmp)
@@ -265,7 +259,7 @@ def computePropagation(nb_of_tests, algorithm_choosen, test_directory, usegraph_
         writeIntoCSVFile((dir, algorithm_choosen, usegraph_choosen, mutation_operator, round(precision_to_return, 2), round(recall_to_return, 2), round(fscore_to_return, 2)))
     if save_results_tex:
         #Write results in a Tex file
-        writeIntoTexFile((dir, algorithm_choosen, usegraph_choosen, mutation_operator, round(precision_to_return, 2), round(recall_to_return, 2), round(fscore_to_return, 2)))
+        writeIntoTexFile(usegraph_base, (dir, algorithm_choosen, usegraph_choosen, mutation_operator, round(precision_to_return, 2), round(recall_to_return, 2), round(fscore_to_return, 2)))
 
 if __name__ == '__main__':
     main()
