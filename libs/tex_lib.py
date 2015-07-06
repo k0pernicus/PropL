@@ -1,4 +1,6 @@
-path = "results_antonin.tex"
+#prefix = "Rslts_propl/Rslts_propl_"
+prefix = "Rslts_propl_"
+suffix = ".tex"
 
 def initTexFile():
 
