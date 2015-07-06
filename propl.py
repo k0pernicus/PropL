@@ -170,11 +170,12 @@ def main():
                  #7 by default -> some infos about use graph + precision, recall, fscore
                  beginTabular(usegraph_base, 7)
 
+        if debug_mode:
+            print("actual usegraph: {0}".format(usegraph_choosen))
+
         list_mutation_dir = os.listdir("{0}{1}".format(test_directory, "mutations/"))
 
         list_mutation_operators = [mut for mut in list_mutation_dir if not mut in not_authorized_files]
-
-        print(list_mutation_operators)
 
         for mutation_operator in list_mutation_operators:
 
@@ -182,7 +183,8 @@ def main():
 
 def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, save_results_csv, save_results_tex):
 
-    print("actual mutation operator: {0}".format(mutation_operator))
+    if debug_mode:
+        print("actual mutation operator: {0}".format(mutation_operator))
 
     list_precisions = []
 
