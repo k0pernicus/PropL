@@ -195,7 +195,7 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
     for i in range(0, nb_of_tests):
 
         #Creation of the use graph
-        use_graph = UseGraph("{0}/{1}--{0}".format(usegraph_choosen, mutation_operator, algorithm_choosen), test_directory, usegraph_choosen, mutation_operator, debug_mode)
+        use_graph = UseGraph("{0}/{1}--{2}".format(usegraph_choosen, mutation_operator, algorithm_choosen), test_directory, usegraph_choosen, mutation_operator, debug_mode)
 
         #Run
         use_graph.run()
