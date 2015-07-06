@@ -32,6 +32,8 @@ from libs.tex_lib import writeIntoTexFile
 
 not_authorized_files = ['.DS_Store', '__init__.py']
 
+algorithms_available = ['dicho_online_opt', 'min_max_online_opt', 'update_all_edges_online_opt', 'tag_on_usefull_edges']
+
 def help():
     """
     Abstract: Print usage and functionalities of the program
@@ -143,15 +145,17 @@ def main():
                 print(isValidXMLDocuments(path_file))
 
     print("#### Algorithms available")
-    print("# dicho_online_opt")
-    print("# min_max_online_opt")
-    print("# update_all_edges_online_opt")
-    print("# tag_on_usefull_edges")
+    for algo in algorithms_available:
+        print("# {0}".format(algo))
     # print("# constraints_batch_opt")
 
     algorithm_choosen = input("Which one? ")
 
     print("")
+
+    if not algorithm_choosen in algorithms_available:
+        print("ERROR : Not a correct algorithm...")
+        sys.exit()
 
     list_dir = os.listdir(test_directory)
 
