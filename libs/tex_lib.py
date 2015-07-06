@@ -2,7 +2,9 @@
 prefix = "Rslts_propl_"
 suffix = ".tex"
 
-def initTexFile():
+def initTexFile(file):
+
+    path = "{0}{1}{2}".format(prefix, file, suffix)
 
     init_string = "\\documentclass[a4paper]{article}\n"
     init_string += "\\begin{document}\n"
@@ -11,7 +13,9 @@ def initTexFile():
     tex_file.write(init_string)
     tex_file.close()
 
-def writeIntoTexFile(data):
+def writeIntoTexFile(file, data):
+
+    path = "{0}{1}{2}".format(prefix, file, suffix)
 
     len_data = len(data)
 
@@ -25,7 +29,9 @@ def writeIntoTexFile(data):
     tex_file.write(info)
     tex_file.close()
 
-def beginTabular(nb_columns):
+def beginTabular(file, nb_columns):
+
+    path = "{0}{1}{2}".format(prefix, file, suffix)
 
     typo_columns = "{"
     typo_columns += ("|l"*nb_columns)
@@ -35,19 +41,25 @@ def beginTabular(nb_columns):
     tex_file.write("\\begin{tabular}"+typo_columns+"\n")
     tex_file.close()
 
-def closeTabular():
+def closeTabular(file):
+
+    path = "{0}{1}{2}".format(prefix, file, suffix)
 
     tex_file = open(path, "a")
     tex_file.write("\\end{tabular}\n")
     tex_file.close()
 
-def closeTexFile():
+def closeTexFile(file):
+
+    path = "{0}{1}{2}".format(prefix, file, suffix)
 
     tex_file = open(path, "a")
     tex_file.write("\\end{document}\n")
     tex_file.close()
 
-def cleanTexFile():
+def cleanTexFile(file):
+
+    path = "{0}{1}{2}".format(prefix, file, suffix)
 
     tex_file = open(path, "w")
     tex_file.truncate()
