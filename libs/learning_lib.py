@@ -436,6 +436,9 @@ def updateAllEdgesOnlineOptimization(usegraph):
 
                             if (actual_weight + (1 / math.log(t))) < 1:
                                 usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] += (1 / math.log(t))
+                            else:
+                                usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] = 1
+
                 except:
 
                     if usegraph.debug_mode:
