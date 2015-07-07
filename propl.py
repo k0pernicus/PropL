@@ -29,6 +29,7 @@ from libs.tex_lib import beginTabular
 from libs.tex_lib import closeTabular
 from libs.tex_lib import closeTexFile
 from libs.tex_lib import writeIntoTexFile
+from libs.tex_lib import addDefaultTagsIntoTabular
 
 not_authorized_files = ['.DS_Store', '__init__.py']
 
@@ -169,6 +170,7 @@ def main():
                  initTexFile(usegraph_base)
                  #7 by default -> some infos about use graph + precision, recall, fscore
                  beginTabular(usegraph_base, 7)
+                 addDefaultTagsIntoTabular(usegraph_base)
 
         if debug_mode:
             print("actual usegraph: {0}".format(usegraph_choosen))
