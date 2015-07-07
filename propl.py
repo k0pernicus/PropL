@@ -214,9 +214,9 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
             dichotomicOnlineOptimization(use_graph)
         elif "min_max_online_opt" in use_graph.id:
             minAndMaxOnlineOptimization(use_graph)
-        elif"update_all_edges_online_opt" in use_graph.id:
+        elif "update_all_edges_online_opt" in use_graph.id:
             updateAllEdgesOnlineOptimization(use_graph)
-        elif"tag_on_usefull_edges" in use_graph.id:
+        elif "tag_on_usefull_edges" in use_graph.id:
             tagEachUsefullEdgesOptimization(use_graph)
 
         # if use_graph.id == "constraints_batch_opt":
