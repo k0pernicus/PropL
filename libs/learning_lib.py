@@ -351,112 +351,114 @@ def updateAllEdgesOnlineOptimization(usegraph):
     The parameter is a UseGraph object
     """
 
-    if usegraph.debug_mode:
-        begin_algo = time.time()
+    for batch in range(0, usegraph.nb_batch):
 
-    complexRepresentation = getComplexRepresentationForMutants(usegraph)
+        if usegraph.debug_mode:
+            begin_algo = time.time()
 
-    #t to 1000 -> 1/log(t) == 0.33333 (1rst test)
-    t = 1000
+        complexRepresentation = getComplexRepresentationForMutants(usegraph)
 
-    #reset usefull_edges
-    usegraph.usefull_edges = []
+        #t to 1000 -> 1/log(t) == 0.33333 (1rst test)
+        t = 1000
 
-    #for each mutant
-    for mutant in complexRepresentation:
+        #reset usefull_edges
+        usegraph.usefull_edges = []
 
-        #we get the list of test failed
-        test_representation = complexRepresentation[mutant]
+        #for each mutant
+        for mutant in complexRepresentation:
 
-        #for each test failed
-        for test_id in test_representation:
+            #we get the list of test failed
+            test_representation = complexRepresentation[mutant]
 
-            #we look for all fields/methods...
-            for node in usegraph.all_cases_id[test_id]['nodes']:
+            #for each test failed
+            for test_id in test_representation:
 
-                global_probability_to_propagate = 0
+                #we look for all fields/methods...
+                for node in usegraph.all_cases_id[test_id]['nodes']:
 
-                all_simple_paths = []
+                    global_probability_to_propagate = 0
 
-                try:
+                    all_simple_paths = []
 
-                    paths = []
+                    try:
 
-                    for p in nx.all_simple_paths(usegraph.graph, usegraph.all_nodes_id[node], mutant):
-                        paths.append(p)
+                        paths = []
 
-                    for one_path in paths:
+                        for p in nx.all_simple_paths(usegraph.graph, usegraph.all_nodes_id[node], mutant):
+                            paths.append(p)
 
-                        #for each simple path...
-                        #transform 'one_path' ([node1, node2, node3, ...] in list of paths [(node1, node2), (node2, node3), ...])
-                        simple_path = getExistingPathsFrom(one_path)
+                        for one_path in paths:
 
-                        probability_of_the_path = 1
+                            #for each simple path...
+                            #transform 'one_path' ([node1, node2, node3, ...] in list of paths [(node1, node2), (node2, node3), ...])
+                            simple_path = getExistingPathsFrom(one_path)
 
-                        # compute usefull edges and the probability to propagate
-                        for edge in simple_path:
+                            probability_of_the_path = 1
 
-                            edge = usegraph.transform_edge_name_as_edge_id(edge)
+                            # compute usefull edges and the probability to propagate
+                            for edge in simple_path:
 
-                            edge_id = usegraph.all_edges_name[edge]['id']
+                                edge = usegraph.transform_edge_name_as_edge_id(edge)
 
-                            #usefull edge if presents
-                            if not edge_id in usegraph.usefull_edges:
-                                usegraph.usefull_edges.append(edge_id)
+                                edge_id = usegraph.all_edges_name[edge]['id']
 
-                            #save this to know the simple path to update later...
-                            if not edge_id in all_simple_paths:
-                                all_simple_paths.append(edge_id)
+                                #usefull edge if presents
+                                if not edge_id in usegraph.usefull_edges:
+                                    usegraph.usefull_edges.append(edge_id)
 
-                            source = usegraph.all_edges_id[edge_id]['source']
+                                #save this to know the simple path to update later...
+                                if not edge_id in all_simple_paths:
+                                    all_simple_paths.append(edge_id)
 
-                            target = usegraph.all_edges_id[edge_id]['target']
+                                source = usegraph.all_edges_id[edge_id]['source']
 
-                            actual_weight = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]]
+                                target = usegraph.all_edges_id[edge_id]['target']
 
-                            #compute the probability of the path by multiplying the weight of each single path
-                            probability_of_the_path *= actual_weight
+                                actual_weight = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]]
 
-                        #compute the sum of products
-                        global_probability_to_propagate += probability_of_the_path
+                                #compute the probability of the path by multiplying the weight of each single path
+                                probability_of_the_path *= actual_weight
 
-                    random_propagation = random.uniform(0, 1)
+                            #compute the sum of products
+                            global_probability_to_propagate += probability_of_the_path
 
-                    #if random <= global -> OK! Else, we have to up the probability...
-                    if not ( random_propagation <= global_probability_to_propagate ):
+                        random_propagation = random.uniform(0, 1)
+
+                        #if random <= global -> OK! Else, we have to up the probability...
+                        if not ( random_propagation <= global_probability_to_propagate ):
+
+                            if usegraph.debug_mode:
+                                print("Up {0}/{1} due to random_propagation ({1}) > global_probability_to_propagate ({2})".format(test_id, node, random_propagation, global_probability_to_propagate))
+
+                            #put weight up to edges
+
+                            for edge_id in all_simple_paths:
+
+                                source = usegraph.all_edges_id[edge_id]['source']
+
+                                target = usegraph.all_edges_id[edge_id]['target']
+
+                                actual_weight = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]]
+
+                                if (actual_weight + (1 / math.log(t))) < 1:
+                                    usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] += (1 / math.log(t))
+                                else:
+                                    usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] = 1
+
+                    except:
 
                         if usegraph.debug_mode:
-                            print("Up {0}/{1} due to random_propagation ({1}) > global_probability_to_propagate ({2})".format(test_id, node, random_propagation, global_probability_to_propagate))
-
-                        #put weight up to edges
-
-                        for edge_id in all_simple_paths:
-
-                            source = usegraph.all_edges_id[edge_id]['source']
-
-                            target = usegraph.all_edges_id[edge_id]['target']
-
-                            actual_weight = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]]
-
-                            if (actual_weight + (1 / math.log(t))) < 1:
-                                usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] += (1 / math.log(t))
-                            else:
-                                usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] = 1
-
-                except:
-
-                    if usegraph.debug_mode:
-                        print("ERROR: {0} not found...".format(node))
+                            print("ERROR: {0} not found...".format(node))
 
 
-        #Update the tick for each mutant
-        t += 1
+            #Update the tick for each mutant
+            t += 1
 
-    if usegraph.debug_mode:
-        end_algo = time.time()
+        if usegraph.debug_mode:
+            end_algo = time.time()
 
-    if usegraph.debug_mode:
-        print("Computing time (updateAllEdgesOnlineOptimization) : {0} seconds".format(end_algo - begin_algo))
+        if usegraph.debug_mode:
+            print("Computing time (updateAllEdgesOnlineOptimization) for batch {0}: {1} seconds".format(batch, end_algo - begin_algo))
 
 def tagEachUsefullEdgesOptimization(usegraph):
     """
