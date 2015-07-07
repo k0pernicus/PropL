@@ -10,7 +10,7 @@ from libs.learning_lib import constraintsBatchOptimization
 
 from libs.testing_lib import doSomeTests
 
-from libs.basic_stat import getSomeStats
+from libs.basic_stat_lib import getSomeStats
 
 from threading import Thread
 
