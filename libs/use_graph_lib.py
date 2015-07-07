@@ -25,7 +25,7 @@ class UseGraph(object):
     Also, there is an edge between a method node and a field node if this field is used in the method.
     """
 
-    def __init__(self, id, path_file, usegraph_choosen, mutation_operator, debug_mode = False, number_split_tests = 10):
+    def __init__(self, id, path_file, usegraph_choosen, mutation_operator, nb_batch, debug_mode, number_split_tests):
         #id of the use graph
         self.id = id
         #path of the GraphML file
@@ -60,6 +60,8 @@ class UseGraph(object):
         self.all_nodes_position_in_weights_matrix = {}
         #all weights between two nodes
         self.all_weights = np.zeros(0)
+        #Number of batchs
+        self.nb_batch = nb_batch
         #represents the number of splits in the mutants file list
         self.number_split_tests = number_split_tests
         #number of tests
