@@ -108,6 +108,14 @@ def main():
     else:
         tests_xml_files = False
 
+    #option to specify the number of batchs to run
+    if "--batch" in sys.argv:
+        custom_nb_batch = True
+        #get the next argument of '--batch'
+        nb_batch = int(sys.argv[sys.argv.index("--batch") + 1])
+    else:
+        custom_nb_batch = False
+
     if "--clean_csv" in sys.argv:
         cleanCSVFile()
 
