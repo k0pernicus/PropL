@@ -88,11 +88,6 @@ def main():
         print(help())
         sys.exit()
 
-    if "--tests_xml" in sys.argv:
-        tests_xml_files = True
-    else:
-        tests_xml_files = False
-
     if "--debug" in sys.argv:
         debug_mode = True
     else:
@@ -108,8 +103,18 @@ def main():
     else:
         infos = False
 
+    if "--tests_xml" in sys.argv:
+        tests_xml_files = True
+    else:
+        tests_xml_files = False
+
     if "--clean_csv" in sys.argv:
         cleanCSVFile()
+
+    if "--clean_tex" in sys.argv:
+        clean_tex = True
+    else:
+        clean_tex = False
 
     if "--save_csv" in sys.argv:
         save_results_csv = True
@@ -163,13 +168,16 @@ def main():
 
         usegraph_base = "{0}_{1}".format(usegraph_choosen.split('.graphml')[0], algorithm_choosen)
 
-        if "--clean_tex" in sys.argv:
+        #Condition to clean the tex file
+        if clean_tex:
             cleanTexFile(usegraph_base)
 
+            #if the user wants to save the results, so we initialize the tex file with a new array
             if save_results_tex:
                  initTexFile(usegraph_base)
                  #7 by default -> some infos about use graph + precision, recall, fscore
                  beginTabular(usegraph_base, 7)
+                 #add default tags
                  addDefaultTagsIntoTabular(usegraph_base)
 
         if debug_mode:
