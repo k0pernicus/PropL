@@ -8,9 +8,9 @@ from xml.dom import minidom
 from xml.sax import make_parser
 from xml.sax.handler import ContentHandler
 
-from libs.basic_stat import computePrecision
-from libs.basic_stat import computeRecall
-from libs.basic_stat import computeFScore
+from libs.basic_stat_lib import computePrecision
+from libs.basic_stat_lib import computeRecall
+from libs.basic_stat_lib import computeFScore
 
 nb_of_tests = 10
 
