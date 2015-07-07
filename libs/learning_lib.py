@@ -533,3 +533,21 @@ def tagEachUsefullEdgesOptimization(usegraph):
         if usegraph.debug_mode:
             print("Computing time (tagEachUsefullEdgesOptimization) for batch {0}: {1} seconds".format(batch, end_algo - begin_algo))
 
+# def constraintsBatchOptimization(usegraph):
+#     """
+#     Abstract: Method to compute probabilities on edges, using an algorithm which compute each weight as a constraint between paths
+#     M -> t1 : p1 + p2 + p6 + p9 + p10 ~ proportions
+#     M'-> t1 : p1 + p3 + p4 + p5 + p9 ~ proportions
+#     M''->t2 : p10 + p12 ~ proportions...
+#     """
+#
+#     if usegraph.debug_mode:
+#         begin_algo = time.time()
+#
+#     #ALGO
+#
+#     if usegraph.debug_mode:
+#         end_algo = time.time()
+#
+#     if usegraph.debug_mode:
+#         print("Computing time (constraintsBatchOptimization) : {0} seconds".format(end_algo - begin_algo))
