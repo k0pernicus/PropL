@@ -77,6 +77,7 @@ def help():
     \t--infos: to get some infos about edges, etc...\n\
     \t--tests_xml: to test XML files (available, synthax validation, etc...)\n\
     \t--nb_batch <nbr>: to declare the number of tests to do\n\
+    \t--nb_split_tests <nbr>: to declare the proportion of learning tests (1/10 by default)\n\
     \t--save_tex: to save results in a tex file\n\
     \t--save_csv: to save results in a CSV file\n\
     \t--clean_tex: to clean the tex file before to write in\n\
@@ -116,6 +117,10 @@ def main():
     else:
         nb_batch = 1
 
+    if "--nb_split_tests" in sys.argv:
+        nb_split_tests = int(sys.argv[sys.argv.index("--nb_split_tests") + 1])
+    else:
+        nb_split_tests = 10
 
     if "--clean_csv" in sys.argv:
         cleanCSVFile()
