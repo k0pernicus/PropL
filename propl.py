@@ -76,7 +76,7 @@ def help():
     \t--visu: to enable the usegraph visualization\n\
     \t--infos: to get some infos about edges, etc...\n\
     \t--tests_xml: to test XML files (available, synthax validation, etc...)\n\
-    \t--batch <nbr>: to declare the number of tests to do\n\
+    \t--nb_batch <nbr>: to declare the number of tests to do\n\
     \t--save_tex: to save results in a tex file\n\
     \t--save_csv: to save results in a CSV file\n\
     \t--clean_tex: to clean the tex file before to write in\n\
@@ -110,12 +110,12 @@ def main():
         tests_xml_files = False
 
     #option to specify the number of batchs to run
-    if "--batch" in sys.argv:
-        custom_nb_batch = True
+    if "--nb_batch" in sys.argv:
         #get the next argument of '--batch'
-        nb_batch = int(sys.argv[sys.argv.index("--batch") + 1])
+        nb_batch = int(sys.argv[sys.argv.index("--nb_batch") + 1])
     else:
-        custom_nb_batch = False
+        nb_batch = 1
+
 
     if "--clean_csv" in sys.argv:
         cleanCSVFile()
