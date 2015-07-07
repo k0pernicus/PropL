@@ -8,7 +8,7 @@ import networkx as nx
 
 def draw_graph(path, func):
     """
-    Script to build a graph with networkx, and plot it with matplotlib
+    Primitive to build a graph with networkx, and plot it with matplotlib
     ONLY with python 2.7
     """
     graph = nx.read_graphml(path)
