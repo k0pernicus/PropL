@@ -165,69 +165,71 @@ def dichotomicOnlineOptimization(usegraph):
     The parameter is a UseGraph object
     """
 
-    if usegraph.debug_mode:
-        begin_algo = time.time()
+    for batch in range(0, usegraph.nb_batch):
 
-    complexRepresentation = getComplexRepresentationForMutants(usegraph)
+        if usegraph.debug_mode:
+            begin_algo = time.time()
 
-    #reset usefull_edges
-    usegraph.usefull_edges = []
+        complexRepresentation = getComplexRepresentationForMutants(usegraph)
 
-    #for each mutant
-    for mutant in complexRepresentation:
+        #reset usefull_edges
+        usegraph.usefull_edges = []
 
-        #we get the list of test failed
-        test_representation = complexRepresentation[mutant]
+        #for each mutant
+        for mutant in complexRepresentation:
 
-        #for each test failed
-        for test_id in test_representation:
+            #we get the list of test failed
+            test_representation = complexRepresentation[mutant]
 
-            probability_of_test_id = test_representation[test_id]
+            #for each test failed
+            for test_id in test_representation:
 
-            #we look for all fields/methods...
-            for node in usegraph.all_cases_id[test_id]['nodes']:
+                probability_of_test_id = test_representation[test_id]
 
-                paths = []
+                #we look for all fields/methods...
+                for node in usegraph.all_cases_id[test_id]['nodes']:
 
-                try:
-                    for p in nx.all_simple_paths(usegraph.graph, usegraph.all_nodes_id[node], mutant):
-                        paths.append(p)
+                    paths = []
 
-                    for one_path in paths:
+                    try:
+                        for p in nx.all_simple_paths(usegraph.graph, usegraph.all_nodes_id[node], mutant):
+                            paths.append(p)
 
-                        #for each simple path...
-                        #transform 'one_path' ([node1, node2, node3, ...] in list of paths [(node1, node2), (node2, node3), ...])
-                        simple_path = getExistingPathsFrom(one_path)
+                        for one_path in paths:
 
-                        #for each edge...
-                        for edge in simple_path:
+                            #for each simple path...
+                            #transform 'one_path' ([node1, node2, node3, ...] in list of paths [(node1, node2), (node2, node3), ...])
+                            simple_path = getExistingPathsFrom(one_path)
 
-                            #transform the edge 'id -> (source, target)' as '(source, target) -> id'
-                            edge = usegraph.transform_edge_name_as_edge_id(edge)
+                            #for each edge...
+                            for edge in simple_path:
 
-                            edge_id = usegraph.all_edges_name[edge]['id']
+                                #transform the edge 'id -> (source, target)' as '(source, target) -> id'
+                                edge = usegraph.transform_edge_name_as_edge_id(edge)
 
-                            if not edge_id in usegraph.usefull_edges:
-                                usegraph.usefull_edges.append(edge_id)
+                                edge_id = usegraph.all_edges_name[edge]['id']
 
-                            source = usegraph.all_edges_id[edge_id]['source']
+                                if not edge_id in usegraph.usefull_edges:
+                                    usegraph.usefull_edges.append(edge_id)
 
-                            target = usegraph.all_edges_id[edge_id]['target']
+                                source = usegraph.all_edges_id[edge_id]['source']
 
-                            actual_weight = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]]
+                                target = usegraph.all_edges_id[edge_id]['target']
 
-                            #update the weight by adding the probability, and / 2
-                            usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] = (actual_weight + probability_of_test_id) / 2
+                                actual_weight = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]]
 
-                except:
-                    if usegraph.debug_mode:
-                        print("ERROR : {0} not found...".format(node))
+                                #update the weight by adding the probability, and / 2
+                                usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] = (actual_weight + probability_of_test_id) / 2
 
-    if usegraph.debug_mode:
-        end_algo = time.time()
+                    except:
+                        if usegraph.debug_mode:
+                            print("ERROR : {0} not found...".format(node))
 
-    if usegraph.debug_mode:
-        print("Computing time (dichotomicOnlineOptimization) : {0} seconds".format(end_algo - begin_algo))
+        if usegraph.debug_mode:
+            end_algo = time.time()
+
+        if usegraph.debug_mode:
+            print("Computing time (dichotomicOnlineOptimization) for batch {0}: {1} seconds".format(batch, end_algo - begin_algo))
 
 def minAndMaxOnlineOptimization(usegraph):
     """
