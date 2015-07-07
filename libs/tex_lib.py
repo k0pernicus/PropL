@@ -40,6 +40,14 @@ def beginTabular(file, nb_columns):
     tex_file.write("\\begin{tabular}"+typo_columns+"\n")
     tex_file.close()
 
+def addDefaultTagsIntoTabular(file):
+
+    path = "{0}{1}{2}".format(prefix, file, suffix)
+
+    tex_file = open(path, "a")
+    tex_file.write("\\Package&Algorithm&Usegraph&M.Operator&P&R&F")
+    tex_file.close()
+
 def closeTabular(file):
 
     path = "{0}{1}{2}".format(prefix, file, suffix)
