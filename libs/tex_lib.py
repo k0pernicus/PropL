@@ -44,8 +44,12 @@ def addDefaultTagsIntoTabular(file):
 
     path = "{0}{1}{2}".format(prefix, file, suffix)
 
+    to_write = "\\hline\n"
+    to_write += "Package&Algorithm&Usegraph&M.Operator&P&R&F\n"
+    to_write += "\\\\\n"
+
     tex_file = open(path, "a")
-    tex_file.write("\\Package&Algorithm&Usegraph&M.Operator&P&R&F")
+    tex_file.write(to_write)
     tex_file.close()
 
 def closeTabular(file):
