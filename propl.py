@@ -78,6 +78,8 @@ def help():
     \t--tests_xml: to test XML files (available, synthax validation, etc...)\n\
     \t--nb_batch <nbr>: to declare the number of tests to do\n\
     \t--nb_split_tests <nbr>: to declare the proportion of learning tests (1/10 by default)\n\
+    \t--usegraph <file>: run the program only for the usegraph <file>\n\
+    \t--all_usegraphs: run the program for all usegraphs (default)\n\
     \t--save_tex: to save results in a tex file\n\
     \t--save_csv: to save results in a CSV file\n\
     \t--clean_tex: to clean the tex file before to write in\n\
