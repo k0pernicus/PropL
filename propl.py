@@ -178,7 +178,10 @@ def main():
 
     list_dir = os.listdir(test_directory)
 
-    usegraph_files = [dir for dir in list_dir if 'usegraph' in dir]
+    if (not '--usegraph' in sys.argv) or ('--all_usegraphs' in sys.argv) :
+        usegraph_files = [dir for dir in list_dir if 'usegraph' in dir]
+    else:
+        usegraph_files =  [sys.argv[sys.argv.index("--usegraph") + 1]]
 
     for usegraph_choosen in usegraph_files:
 
@@ -207,7 +210,7 @@ def main():
 
             Thread(target=computePropagation, args=(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, nb_batch, nb_split_tests, save_results_csv, save_results_tex)).start()
 
-def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, nb_batch, nb_split_tests, ave_results_csv, save_results_tex):
+def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, nb_batch, nb_split_tests, save_results_csv, save_results_tex):
 
     if debug_mode:
         print("actual mutation operator: {0}".format(mutation_operator))
