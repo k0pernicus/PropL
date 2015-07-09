@@ -101,7 +101,9 @@ class UseGraph(object):
         """
 
         try:
-            return nx.read_graphml("{0}/{1}".format(self.path_file, self.usegraph_choosen))
+            if self.path_file[-1] != '/':
+                self.path_file += '/'
+            return nx.read_graphml("{0}{1}".format(self.path_file, self.usegraph_choosen))
         except Exception as excpt:
             raise excpt
 
