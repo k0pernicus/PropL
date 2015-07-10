@@ -6,7 +6,7 @@
 *   [ ] Good Git repository
   *   [x] libs/basic_stat_lib : OK (doc + comments)
   *   [x] libs/graph_visualization : OK (doc + comments)
-  *   [ ] libs/learning_lib
+  *   [x] libs/learning_lib : OK (doc + comments)
   *   [ ] libs/testing_lib
   *   [ ] libs/tex_lib
   *   [ ] libs/use_graph_lib
