@@ -1,5 +1,10 @@
 #PropL project
 
+**PropL** is a project of bugs prediction with machine learning, following works of *Vincenzo Musco*.  
+The **PropL** software is written with Python2.7 and Python3.4.
+
+Published article soon.
+
 ###TODO list
 
 *   [ ] Export weights in XML format
