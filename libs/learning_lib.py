@@ -10,27 +10,39 @@ import random
 def getMinEdgeFrom(paths, usegraph):
     """
     Abstract: Function to return the id of the edge which have the minimal weight
+    paths: All paths between two nodes
+    usegraph: The usegraph which are extracts all paths
     """
 
+    #min = 1 (1 is the max of the weight)
     min = 1
 
+    #init a field which is the id of the edge to return
     edge_id = ''
 
+    #search in all paths...
     for all_paths in paths:
 
+        #get list of tuples by these paths
         all_paths = getExistingPathsFrom(all_paths)
 
+        #for each path...
         for p in all_paths:
 
+            #get the id of the edge
             edge = usegraph.transform_edge_name_as_edge_id(p)
+            #get the edge by the id, to get source and target nodes
             edge_id_tmp = usegraph.all_edges_name[edge]['id']
             source = usegraph.all_edges_id[edge_id_tmp]['source']
             target = usegraph.all_edges_id[edge_id_tmp]['target']
+            #get the weight of the edge
             edge_weight = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]]
+            #if the weight is < to the min field, the edge studied get the min weight
             if edge_weight <= min:
                 min = edge_weight
                 edge_id = edge_id_tmp
 
+    #return the id of the min edge
     return edge_id
 
 def getExistingPathsFrom(all_paths):
