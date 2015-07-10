@@ -7,7 +7,7 @@
   *   [x] libs/basic_stat_lib : OK (doc + comments)
   *   [x] libs/graph_visualization : OK (doc + comments)
   *   [x] libs/learning_lib : OK (doc + comments)
-  *   [ ] libs/testing_lib
+  *   [x] libs/testing_lib : OK (doc + comments)
   *   [ ] libs/tex_lib
   *   [ ] libs/use_graph_lib
   *   [ ] libs/utils_lib
