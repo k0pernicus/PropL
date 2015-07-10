@@ -12,6 +12,6 @@
   *   [ ] libs/use_graph_lib
   *   [x] libs/utils_lib
   *   [x] libs/xml_lib
-  *   [ ] libs/xml_parsing_lib
+  *   [x] libs/xml_parsing_lib
   *   [ ] propl
   *   [ ] compute_basename
