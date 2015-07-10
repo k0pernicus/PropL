@@ -5,6 +5,18 @@ from libs.basic_stat_lib import computeRecall
 from libs.basic_stat_lib import computeFScore
 
 def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_table, nodes_name, tree_learned, debug_mode):
+    """
+    Function to match the learning results with the principal results of the usegraph.
+    This function returns the precision, the recall and the f-score of the match.
+    path: The path of the project
+    test_dir: The name directory of the tests
+    files_for_tests: The files for tests
+    cases_name: All cases name
+    mutants_table: A table which contains mutants of the usegraph
+    nodes_name: All nodes name
+    tree_learned: The tree (a small usegraph) learned by some learning algorithms (in libs/learning_lib)
+    debug_mode: Debug mode
+    """
 
     #name directory of root mutants files
     root_directory_name = "mutations/{0}".format(test_dir)
@@ -20,50 +32,48 @@ def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_
         print("TREE_TEST {0}".format(tree_test))
         print("TREE LEARNED {0}".format(tree_learned))
 
+    #true_positive is a positive test found, which is positive too
     true_positive = 0
 
+    #false_positive is a positive test found, which is not positive
     false_positive = 0
 
+    #false_negative is a negative test found, which is positive
     false_negative = 0
 
+    #impacted tests for tree test
     tree_test_impacted_tests = []
 
+    #impacted tests for tree learned
     tree_learned_impacted_tests = []
 
+    #for each node in tree_test, see all impacted test and add it in tree_test_impacted_tests
     for node in tree_test:
-
         for impacted_test in tree_test[node]:
-
             tree_test_impacted_tests.append(impacted_test.split('-')[0])
 
+    #for each node in tree_learned, see all impacted test and add it in tree_learned_impacted_tests
     for node in tree_learned:
-
         for impacted_test in tree_learned[node]:
-
             tree_learned_impacted_tests.append(impacted_test.split('-')[0])
 
+    #remove duplications
     tree_test_impacted_tests = list(set(tree_test_impacted_tests))
-
     tree_learned_impacted_tests = list(set(tree_learned_impacted_tests))
 
-    #compute precision and recall
-
+    #compute precision, recall and fscore
     for node in tree_learned_impacted_tests:
-
         if node in tree_test_impacted_tests:
-
             true_positive += 1
 
     false_positive = len(tree_learned_impacted_tests) - true_positive
-
     false_negative = len(tree_test_impacted_tests) - true_positive
 
     precision = computePrecision(true_positive, false_positive)
-
     recall = computeRecall(true_positive, false_negative)
-
     fscore = computeFScore(precision, recall)
 
+    #return them
     return precision, recall, fscore
 
 def doSomeTests(usegraph):
