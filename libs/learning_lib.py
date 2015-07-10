@@ -179,15 +179,18 @@ def getComplexRepresentationForMutants(usegraph):
 
 def dichotomicOnlineOptimization(usegraph):
     """
-    Abstract: Method to compute probabilities on edges, using a dichotomic approach
-    The parameter is a UseGraph object
+    Abstract: Method to compute probabilities on edges, using a dichotomic approach.\
+    The dichotomic approach consists in add the weight of two differents edges (with the same source), and split it into 2.
+    usegraph: The usegraph object to compute weights
     """
 
+    #Number of batch to compute
     for batch in range(0, usegraph.nb_batch):
 
         if usegraph.debug_mode:
             begin_algo = time.time()
 
+        #get the complex representation for each mutant in the usegraph
         complexRepresentation = getComplexRepresentationForMutants(usegraph)
 
         #reset usefull_edges
