@@ -15,7 +15,8 @@ def chunksList(list, n):
 
 def getSomeInfos(usegraph):
     """
-    Abstract: Method to get some stats on a UseGraph object (usegraph)
+    Abstract: Method to get some informations for the usegraph given as parameter : weight for each edge in usefull_edges field
+    usegraph: The usegraph to study to get some informations
     """
 
     print("{0}{1}{0}".format("#"*20, usegraph.id))
