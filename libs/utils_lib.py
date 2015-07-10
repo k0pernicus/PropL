@@ -5,6 +5,8 @@ path = "results_antonin.csv"
 def chunksList(list, n):
     """
     Yield successive n-sized chunks from list
+    list: The list to chunks
+    n: The number of elements in each sublist
     """
     list_to_return = []
     for i in range(0, len(list), n):
