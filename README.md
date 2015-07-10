@@ -4,4 +4,14 @@
 
 *   [ ] Export weights in XML format
 *   [ ] Good Git repository
-  *   [ ] libs/basic_stat_lib : OK (doc + comments)
+  *   [x] libs/basic_stat_lib : OK (doc + comments)
+  *   [x] libs/graph_visualization : OK (doc + comments)
+  *   [ ] libs/learning_lib
+  *   [ ] libs/testing_lib
+  *   [ ] libs/tex_lib
+  *   [ ] libs/use_graph_lib
+  *   [ ] libs/utils_lib
+  *   [ ] libs/xml_lib
+  *   [ ] libs/xml_parsing_lib
+  *   [ ] propl
+  *   [ ] compute_basename
