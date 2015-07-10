@@ -21,6 +21,7 @@ def loadXmlDocument(xml_document):
 def isValidXMLDocuments(xml_documents):
     """
     Abstract: Procedure to know if all XML files given as parameters are valid XML documents
+    xml_documents: A list of XML files
     """
 
     #creation of the parser
@@ -48,6 +49,8 @@ def isValidXMLDocuments(xml_documents):
 def isAValidXMLDocument(xml_parsing, xml_document):
     """
     Abstract: Function to return if the parameter is a valid document
+    xml_parsing: The content handler
+    xml_document: The XML document to study
     Return a boolean to know if the parameter is a valid document
     """
 
