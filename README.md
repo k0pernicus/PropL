@@ -7,7 +7,7 @@ Published article soon.
 
 ###Results
 
-| Project     | Mutant operator | F-score init. | F-score learn. | \% Increase |
+| Project     | Mutant operator | F-score init. | F-score learn. |   Increase  |
 |-------------|-----------------|---------------|----------------|-------------|
 | Codec       | ABS             | 0.00          | 0.56           | +0.56       |
 | Codec       | AOR             | 0.19          | 0.75           | +0.56       |
