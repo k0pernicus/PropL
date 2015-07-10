@@ -133,6 +133,7 @@ def getComplexRepresentationForMutants(usegraph):
                     if usegraph.debug_mode:
                         print("mutant_id {0} not in the list...".format(mutant_id))
 
+                    #if the mutant is not available, the number of tests decreases
                     nb_of_tests = nb_of_tests - 1
 
                 else:
