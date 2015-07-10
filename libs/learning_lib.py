@@ -85,7 +85,7 @@ def computeSimpleRepresentationForAMutant(mutant, usegraph):
 def getSimpleRepresentationForMutants(usegraph):
     """
     Abstract: Method to return a representation of which mutant is the child of a father mutant
-    The parameter is a UseGraph object
+    usegraph: The usegraph object which mutants come from
     """
 
     simple_representation_for_mutants = {}
