@@ -370,7 +370,7 @@ def minAndMaxOnlineOptimization(usegraph):
 def updateAllEdgesOnlineOptimization(usegraph):
     """
     Abstract: Method to compute probabilities on edges, using an algorithm which update all edges in a path between source mutation and test
-    The parameter is a UseGraph object
+    usegraph: The usegraph object to compute weights
     """
 
     for batch in range(0, usegraph.nb_batch):
