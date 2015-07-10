@@ -174,6 +174,7 @@ def returnSomeInfosAboutTestFiles(base_path, mutant_files, cases_name, mutants_t
     Abstract: Function to return some informations about tests files : mutations -> impacted nodes
     """
 
+    #global_tree if a field which contains all impacted nodes for a mutation node
     global_tree = {}
 
     for mutant_file in mutant_files:
@@ -191,25 +192,19 @@ def returnSomeInfosAboutTestFiles(base_path, mutant_files, cases_name, mutants_t
             if not node_id in global_tree:
                 global_tree[node_id] = []
 
+            #failing and hanging tests are considered as fail tests
+
             #failing_tests
-
-            for failing_tests in root.findall("failing"):
-
+            for failing_tests in root.findall("failing")
                 for case_failing_test in failing_tests:
-
                     case_id = cases_name[case_failing_test.text]['id']
-
                     if not case_id in global_tree[node_id]:
                         global_tree[node_id].append(case_id)
 
             #hanging_tests
-
             for hanging_tests in root.findall("hanging"):
-
                 for case_hanging_test in hanging_tests:
-
                     case_id = cases_name[case_hanging_test.text]['id']
-
                     if not case_id in global_tree[node_id]:
                         global_tree[node_id].append(case_id)
 
