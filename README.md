@@ -8,7 +8,7 @@
   *   [x] libs/graph_visualization : OK (doc + comments)
   *   [x] libs/learning_lib : OK (doc + comments)
   *   [x] libs/testing_lib : OK (doc + comments)
-  *   [ ] libs/tex_lib
+  *   [x] libs/tex_lib : OK (doc + comments)
   *   [ ] libs/use_graph_lib
   *   [ ] libs/utils_lib
   *   [ ] libs/xml_lib
