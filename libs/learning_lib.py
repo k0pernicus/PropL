@@ -45,12 +45,14 @@ def getMinEdgeFrom(paths, usegraph):
     #return the id of the min edge
     return edge_id
 
-def getExistingPathsFrom(all_paths):
+def getExistingPathsFrom(path):
     """
     Abstract: Function to transform the list of nodes (all_paths) to a list of tuples (source, target)
+    Ex: [node1, node2, node3, node4, ...] -> [(node1, node2),(node2, node3), (node3, node4), (node4,...)]
+    path: A path in the usegraph
     """
 
-    return [(all_paths[a], all_paths[a + 1]) for a in range(0, len(all_paths) - 1)]
+    return [(path[a], path[a + 1]) for a in range(0, len(path) - 1)]
 
 #################################################
 #ALGORITHM TO COMPUTE REPRESENTATION FOR MUTANTS#
