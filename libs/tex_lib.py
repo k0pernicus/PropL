@@ -1,7 +1,18 @@
+"""
+prefix is the prefix of the path's tex file to save
+"""
 prefix = "Rslts_propl/Rslts_propl_"
+
+"""
+suffix is the extension of the tex file
+"""
 suffix = ".tex"
 
 def initTexFile(file):
+    """
+    Function to initialize the tex file
+    file: The tex file
+    """
 
     path = "{0}{1}{2}".format(prefix, file, suffix)
 
@@ -13,6 +24,11 @@ def initTexFile(file):
     tex_file.close()
 
 def writeIntoTexFile(file, data):
+    """
+    Function to write some data into the tex file
+    file: The tex file
+    data: The data to write into the tex file
+    """
 
     path = "{0}{1}{2}".format(prefix, file, suffix)
 
@@ -29,6 +45,11 @@ def writeIntoTexFile(file, data):
     tex_file.close()
 
 def beginTabular(file, nb_columns):
+    """
+    Function to write some code to initialize a tabular (with a certain number of columns), into the tex file
+    file: The tex file
+    nb_columns: The number of columns to write
+    """
 
     path = "{0}{1}{2}".format(prefix, file, suffix)
 
@@ -41,6 +62,10 @@ def beginTabular(file, nb_columns):
     tex_file.close()
 
 def addDefaultTagsIntoTabular(file):
+    """
+    Function to write default tags into the tabular of the tex file
+    file: The tex file
+    """
 
     path = "{0}{1}{2}".format(prefix, file, suffix)
 
@@ -53,6 +78,10 @@ def addDefaultTagsIntoTabular(file):
     tex_file.close()
 
 def closeTabular(file):
+    """
+    Function to close the tabular in the tex file
+    file: The tex file
+    """
 
     path = "{0}{1}{2}".format(prefix, file, suffix)
 
@@ -61,6 +90,10 @@ def closeTabular(file):
     tex_file.close()
 
 def closeTexFile(file):
+    """
+    Function to close the tex file
+    file: The tex file
+    """
 
     path = "{0}{1}{2}".format(prefix, file, suffix)
 
@@ -69,6 +102,10 @@ def closeTexFile(file):
     tex_file.close()
 
 def cleanTexFile(file):
+    """
+    Function to clean the tex file (no data & structures in this one)
+    file: The tex file
+    """
 
     path = "{0}{1}{2}".format(prefix, file, suffix)
 
