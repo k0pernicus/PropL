@@ -100,8 +100,8 @@ def getSimpleRepresentationForMutants(usegraph):
 
 def getComplexRepresentationForMutants(usegraph):
     """
-    Abstract: Method to return a complex representation for mutants : for a mutant father, which mutant (and how much) has been failed for a mutant child
-    The parameter is a UseGraph object
+    Abstract: Method to return a complex representation for mutants : for a mutant father, which mutant (and how much) has failed for a mutant child
+    usegraph: The usegraph object which mutants come from
     """
 
     simple_representation_for_mutants = getSimpleRepresentationForMutants(usegraph)
