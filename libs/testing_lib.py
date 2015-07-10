@@ -77,7 +77,12 @@ def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_
     return precision, recall, fscore
 
 def doSomeTests(usegraph):
+    """
+    Function to build a learning tree, and return the precision, the recall and the f-score
+    usegraph: The usegraph to build the learning tree
+    """
 
+    #the learning tree is a simple dictionary, which each key is a node, and the value is a list of impacted tests
     tree = {}
 
     for node in usegraph.nodes_for_tests:
@@ -85,21 +90,26 @@ def doSomeTests(usegraph):
         if usegraph.debug_mode:
             print("node {0}".format(node))
 
+        #put an empty list if the node is not a key in the learning tree
         if not node in tree:
             tree[node] = []
 
+        #nodes_stack is a stack of visited nodes
         nodes_stack = []
 
+        #all visited nodes for a source node
         visited_nodes = []
 
         nodes_stack.append(node)
 
         visited_nodes.append(node)
 
+        #if the stack is empty, we finish...
         while len(nodes_stack) != 0:
 
             active_node_id = nodes_stack.pop()
 
+            #get the node name by the id
             active_node_name = usegraph.all_nodes_id[active_node_id]
 
             if usegraph.debug_mode:
@@ -107,31 +117,38 @@ def doSomeTests(usegraph):
 
             for source_node_id in usegraph.all_nodes_name[active_node_name]['sources']:
 
+                #get the source node name of the node name id
                 source_node_name = usegraph.all_nodes_id[source_node_id]
 
                 if usegraph.debug_mode:
                    print("\tsource_node_name {0}".format(source_node_name))
 
-                weight_node = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source_node_id]][usegraph.all_nodes_position_in_weights_matrix[active_node_id]]
+                #the weight of the interesting edge
+                weight_edge = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source_node_id]][usegraph.all_nodes_position_in_weights_matrix[active_node_id]]
 
+                #get the random_propagation...
                 random_propagation = random.uniform(0,1)
 
                 if usegraph.debug_mode:
                    print("random_propagation {0}".format(random_propagation))
 
+                #if the random number is <= weight_node, the propagation of the bug is acceptable!
                 if random_propagation <= weight_node :
 
                     if usegraph.debug_mode:
                        print("\trandom_propagation <= weight of source_node_name ({0})".format(weight_node))
 
+                    #if not 'nt' -> it's a test node!!!!!! WE DID IT! \o/
                     if not 'nt' in source_node_id:
 
+                        #add it in the list of impacted tests if he's not in the list already
                         if not source_node_id in tree[node]:
                             tree[node].append(source_node_id)
 
                         if usegraph.debug_mode:
                            print("\t{0} saved!".format(source_node_name))
 
+                    #else, add the node in the list to study it later
                     else:
 
                         if not source_node_id in visited_nodes:
@@ -140,7 +157,6 @@ def doSomeTests(usegraph):
                                print("\t{0} append...".format(source_node_name))
 
                             nodes_stack.append(source_node_id)
-
                             visited_nodes.append(source_node_id)
 
                 else:
@@ -150,6 +166,8 @@ def doSomeTests(usegraph):
 
                        visited_nodes.append(source_node_id)
 
+    #compute the precision, the recall and the f-score!
     precision_compt, recall_comp, fscore_comp = isAlgorithmGoodBetween(usegraph.path_file, usegraph.mutation_operator, usegraph.files_for_tests, usegraph.all_cases_name, usegraph.mutants, usegraph.all_nodes_name, tree, usegraph.debug_mode)
 
+    #return the precision, the recall and the f-score
     return precision_compt, recall_comp, fscore_comp
