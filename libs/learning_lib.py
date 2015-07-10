@@ -485,6 +485,7 @@ def updateAllEdgesOnlineOptimization(usegraph):
 def tagEachUsefullEdgesOptimization(usegraph):
     """
     Abstract: Method to compute the probability to pass from a mutant node to a test node, by giving the probability 1 to each edge in a viable mutant testing
+    usegraph: The usegraph object to compute weights
     """
 
     for batch in range(0, usegraph.nb_batch):
