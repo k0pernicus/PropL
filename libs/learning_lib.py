@@ -254,8 +254,9 @@ def dichotomicOnlineOptimization(usegraph):
 
 def minAndMaxOnlineOptimization(usegraph):
     """
-    Abstract: Method to compute probabilities on edges, using a 'min and max' algorithm
-    The parameter is a UseGraph object
+    Abstract: Method to compute probabilities on edges, using a 'min and max' algorithm\
+    The min and max approach consists in up the minimal weight of edges, if the interesting path is not available (by a random opening).
+    usegraph: The usegraph object to compute weights
     """
 
     for batch in range(0, usegraph.nb_batch):
