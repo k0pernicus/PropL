@@ -60,10 +60,12 @@ def getExistingPathsFrom(path):
 
 def computeSimpleRepresentationForAMutant(mutant, usegraph):
     """
-    Abstract: Method to return a simple representation for one mutant
-    Parameters are the mutant to study and the UseGraph object which the mutant come from
+    Abstract: Method to return a simple representation for one mutant - a representation is {'mutant_from||mutant_to' : [mutation_id0, mutation_id1, ...]}
+    mutant: The base mutant to build the simple representation
+    usegraph: The usegraph which the mutant come from
     """
 
+    #the simple representation of a mutant is a simple dictionary
     simple_representation_by_mutant = {}
 
     #searching for all mutant id in the list of mutants
@@ -75,6 +77,7 @@ def computeSimpleRepresentationForAMutant(mutant, usegraph):
         if not position_of_the_mutation in simple_representation_by_mutant:
             simple_representation_by_mutant[position_of_the_mutation] = []
 
+        #append the mutant id in the representation
         simple_representation_by_mutant[position_of_the_mutation].append(single_mutant_id)
 
     return simple_representation_by_mutant
