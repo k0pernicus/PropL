@@ -30,6 +30,7 @@ def getSomeInfos(usegraph):
 def writeIntoCSVFile(data):
     """
     Abstract: Method to save into a CSV file results of tests
+    data: Simple data to save, in a list
     """
 
     with open(path, "a") as csv_file:
@@ -38,7 +39,7 @@ def writeIntoCSVFile(data):
 
 def cleanCSVFile():
     """
-    Abstract: Method to clear the CSV file
+    Abstract: Method to clean the CSV file (no data inside)
     """
 
     csv_file = open(path, "w")
