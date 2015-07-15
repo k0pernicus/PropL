@@ -62,37 +62,37 @@ The **PropL** software is written with Python2.7 and Python3.4.
 
 ###<a name="files"></a>Files
 
-*   compute-basename.py : Program to compute f-scores with the algorithm of *Vincenzo Musco* (F-score init.).
-*   propl.py : Program to compute f-scores with the learning approach (F-score learn.).
-*   libs/
-    *   basic_stat_lib.py : Some functions to make some stats (compute precision, recall, f-score, etc...)
-    *   graph_visualization.py : Program (Python2.7) to visualize impacted nodes in a .graphml file
-    *   learning_lib.py : Some learning algorithms
-    *   testing_lib.py : Some functions to test the learning algorithm choose on tests sample
-    *   tex_lib.py : Library to write results in a tex file
-    *   use_graph_lib.py : Object which represents a use graph (see the definition of a use graph in the recent paper of *Vincenzo Musco*)
-    *   utils_lib.py : Some functions to chunk a list, write into a CSV file, etc...
-    *   xml_lib.py : Personal XML library to load and give an appreciation on the XML document (valid or not)
-    *   xml_parsing_lib.py : Personal XML library to parse XML documents from *Vincenzo Musco*
-    *   exceptions/
-        *   FailToLoad.py
-        *   NoArgument.py
-        *   RunError.py
+*   **compute-basename.py** : Program to compute f-scores with the algorithm of *Vincenzo Musco* (F-score init.).
+*   **propl.py** : Program to compute f-scores with the learning approach (F-score learn.).
+*   ***libs/***
+    *   **basic_stat_lib.py** : Some functions to make some stats (compute precision, recall, f-score, etc...)
+    *   **graph_visualization.py** : Program (Python2.7) to visualize impacted nodes in a .graphml file
+    *   **learning_lib.py** : Some learning algorithms
+    *   **testing_lib.py** : Some functions to test the learning algorithm choose on tests sample
+    *   **tex_lib.py** : Library to write results in a tex file
+    *   **use_graph_lib.py** : Object which represents a use graph (see the definition of a use graph in the recent paper of *Vincenzo Musco*)
+    *   **utils_lib.py** : Some functions to chunk a list, write into a CSV file, etc...
+    *   **xml_lib.py** : Personal XML library to load and give an appreciation on the XML document (valid or not)
+    *   **xml_parsing_lib.py** : Personal XML library to parse XML documents from *Vincenzo Musco*
+    *   ***exceptions/***
+        *   **FailToLoad.py**
+        *   **NoArgument.py**
+        *   **RunError.py**
 
 ###<a name="dependencies"></a>Dependencies
 
-    *   **networkx** for *Python2.7*/*Python3.4*
-    *   **numpy** for *Python2.7*/*Python3.7*
-    *   **matplotlib** for *Python2.7* only
+*   **networkx** (*Python2.7*/*Python3.4*)
+*   **numpy** (*Python2.7*/*Python3.7*)
+*   **matplotlib** (*Python2.7* only)
 
 ###<a name="how_to_use"></a>How to use?
 
-    *   In the root directory : ```python3.4 propl.py <your_test_directory> <number_of_tests> [--option]```
-    *   For help : ```python3.4 prop.py --help```
+*   In the root directory : ```python3.4 propl.py <your_test_directory> <number_of_tests> [--option]```
+*   For help : ```python3.4 prop.py --help```
 
 ###<a name="contacts"></a>Contacts
 
-*   Developer : Antonin Carette (antonin[dot]carette[at]etudiant[dot]univ-lille1[dot]fr)
-*   First supervisor : Philippe Preux (philippe[dot]preux[at]inria[dot]fr)
-*   Second supervisor : Martin Monperrus (martin[dot]monperrus[at]univ-lille1[dot]fr)
-*   Third supervisor : Vincenzo Musco (vincenzo[dot]musco[at]inria[dot]fr)
+*   **Developer** : *Antonin Carette* (antonin[dot]carette[at]etudiant[dot]univ-lille1[dot]fr)
+*   **First supervisor** : *Philippe Preux* (philippe[dot]preux[at]inria[dot]fr)
+*   **Second supervisor** : *Martin Monperrus* (martin[dot]monperrus[at]univ-lille1[dot]fr)
+*   **Third supervisor** : *Vincenzo Musco* (vincenzo[dot]musco[at]inria[dot]fr)
