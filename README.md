@@ -7,7 +7,7 @@ The **PropL** software is written with Python2.7 and Python3.4.
 *   [Scientific papers](#scientific_papers)
 *   [Files](#files)
 *   [Dependencies](#dependencies)
-*   [How to use?](#how_to_use)
+*   [How to use it?](#how_to_use_it)
 *   [Contacts](#contacts)
 
 ###<a name="results"></a>Results
@@ -85,7 +85,7 @@ The **PropL** software is written with Python2.7 and Python3.4.
 *   **numpy** (*Python2.7*/*Python3.7*)
 *   **matplotlib** (*Python2.7* only)
 
-###<a name="how_to_use"></a>How to use?
+###<a name="how_to_use_it"></a>How to use it?
 
 *   In the root directory : ```python3.4 propl.py <your_test_directory> <number_of_tests> [--option]```
 *   For help : ```python3.4 prop.py --help```
