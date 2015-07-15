@@ -12,7 +12,7 @@ The **PropL** software is written with Python2.7 and Python3.4.
 
 ###<a name="results"></a>Results
 
-| Project     | Mutant operator | F-score init. | F-score learn.     |
+| Java Project     | Mutant operator | F-score init. | F-score learn.     |
 |-------------|-----------------|---------------|--------------------|
 | Codec       | ABS             | 0.00          | **0.56**           |
 | Codec       | AOR             | 0.19          | **0.75**           |
@@ -65,4 +65,4 @@ Soon.
 *   Developer : Antonin Carette (antonin[dot]carette[at]etudiant[dot]univ-lille1[dot]fr)
 *   First supervisor : Philippe Preux (philippe[dot]preux[at]inria[dot]fr)
 *   Second supervisor : Martin Monperrus (martin[dot]monperrus[at]univ-lille1[dot]fr)
-*   Third supervisor : Vincenzo Musco (vincenzo[dot]musco[at]inria[dot]fr) 
+*   Third supervisor : Vincenzo Musco (vincenzo[dot]musco[at]inria[dot]fr)
