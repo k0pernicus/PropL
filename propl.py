@@ -80,6 +80,7 @@ def help():
     \t--nb_split_tests <nbr>: to declare the proportion of learning tests (1/10 by default)\n\
     \t--usegraph <file>: run the program only for the usegraph <file>\n\
     \t--all_usegraphs: run the program for all usegraphs (default)\n\
+    \t--rslts_dir <dir>: the directory to save results of tests\n\
     \t--save_tex: to save results in a tex file\n\
     \t--save_csv: to save results in a CSV file\n\
     \t--clean_tex: to clean the tex file before to write in\n\
@@ -124,6 +125,10 @@ def main():
     else:
         nb_split_tests = 10
 
+    if "--rslts_dir" in sys.argv:
+        rslts_dir = sys.argv[sys.argv.index("--rslts_dir") + 1]
+    else:
+        rslts_dir = "Rslts_propl/"
     if "--clean_csv" in sys.argv:
         cleanCSVFile()
 
@@ -189,15 +194,15 @@ def main():
 
         #Condition to clean the tex file
         if clean_tex:
-            cleanTexFile(usegraph_base)
+            cleanTexFile(rslts_dir, usegraph_base)
 
             #if the user wants to save the results, so we initialize the tex file with a new array
             if save_results_tex:
-                 initTexFile(usegraph_base)
+                 initTexFile(rslts_dir, usegraph_base)
                  #7 by default -> some infos about use graph + precision, recall, fscore
-                 beginTabular(usegraph_base, 7)
+                 beginTabular(rslts_dir, usegraph_base, 8)
                  #add default tags
-                 addDefaultTagsIntoTabular(usegraph_base)
+                 addDefaultTagsIntoTabular(rslts_dir, usegraph_base)
 
         if debug_mode:
             print("actual usegraph: {0}".format(usegraph_choosen))
@@ -208,9 +213,9 @@ def main():
 
         for mutation_operator in list_mutation_operators:
 
-            Thread(target=computePropagation, args=(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, nb_batch, nb_split_tests, save_results_csv, save_results_tex)).start()
+            Thread(target=computePropagation, args=(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, rslts_dir, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, nb_batch, nb_split_tests, save_results_csv, save_results_tex)).start()
 
-def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, nb_batch, nb_split_tests, save_results_csv, save_results_tex):
+def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, rslts_dir, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, nb_batch, nb_split_tests, save_results_csv, save_results_tex):
 
     if debug_mode:
         print("actual mutation operator: {0}".format(mutation_operator))
@@ -287,10 +292,10 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
 
     if save_results_csv:
         #Write results in a CSV file -> algorithm_choosen, use_graph.id, use_graph.dir, precision, recall, fscore
-        writeIntoCSVFile((dir, algorithm_choosen, usegraph_choosen, mutation_operator, round(precision_to_return, 2), round(recall_to_return, 2), round(fscore_to_return, 2)))
+        writeIntoCSVFile((dir, rslts_dir, algorithm_choosen, usegraph_choosen, use_graph.nb_batch, mutation_operator, round(precision_to_return, 2), round(recall_to_return, 2), round(fscore_to_return, 2)))
     if save_results_tex:
         #Write results in a Tex file
-        writeIntoTexFile(usegraph_base, (dir, algorithm_choosen, usegraph_choosen, mutation_operator, round(precision_to_return, 2), round(recall_to_return, 2), round(fscore_to_return, 2)))
+        writeIntoTexFile(rslts_dir, usegraph_base, (dir, algorithm_choosen, usegraph_choosen, use_graph.nb_batch, mutation_operator, round(precision_to_return, 2), round(recall_to_return, 2), round(fscore_to_return, 2)))
 
 if __name__ == '__main__':
     main()
