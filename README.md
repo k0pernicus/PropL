@@ -3,9 +3,14 @@
 **PropL** is a project of bugs prediction with machine learning, f of *Vincenzo Musco*.  
 The **PropL** software is written with Python2.7 and Python3.4.
 
-Published article soon.
+*   [Files](#files)
+*   [Results](#results)
+*   [Scientific paper](#scientific_paper)
+*   [Contacts](#contacts)
 
-###Results
+###<a name="files"></a>Files
+
+###<a name="results"></a>Results
 
 | Project     | Mutant operator | F-score init. | F-score learn.     |
 |-------------|-----------------|---------------|--------------------|
@@ -50,18 +55,14 @@ Published article soon.
 | Spojo       | ROR             | 0.29          | **0.80**           |
 | Spojo       | UOI             | 0.00          | **0.65**           |
 
-###TODO list
 
-*   [ ] Export weights in XML format
-*   [ ] Good Git repository
-  *   [x] libs/basic_stat_lib : OK (doc + comments)
-  *   [x] libs/graph_visualization : OK (doc + comments)
-  *   [x] libs/learning_lib : OK (doc + comments)
-  *   [x] libs/testing_lib : OK (doc + comments)
-  *   [x] libs/tex_lib : OK (doc + comments)
-  *   [x] libs/use_graph_lib
-  *   [x] libs/utils_lib
-  *   [x] libs/xml_lib
-  *   [x] libs/xml_parsing_lib
-  *   [x] propl
-  *   [ ] compute_basename
+###<a name="scientific_paper"></a>Scientific paper
+
+Soon.
+
+###<a name="contacts"></a>Contacts
+
+*   Developer : Antonin Carette (antonin[dot]carette[at]etudiant[dot]univ-lille1[dot]fr)
+*   First supervisor : Philippe Preux (philippe[dot]preux[at]inria[dot]fr)
+*   Second supervisor : Martin Monperrus (martin[dot]monperrus[at]univ-lille1[dot]fr)
+*   Third supervisor : Vincenzo Musco (vincenzo[dot]musco[at]inria[dot]fr) 
