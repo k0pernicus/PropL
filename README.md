@@ -1,14 +1,14 @@
 #PropL project
 
-**PropL** is a project of bugs prediction with machine learning, f of *Vincenzo Musco*.  
+**PropL** is a project of bugs prediction with machine learning, following works of *Vincenzo Musco*.  
 The **PropL** software is written with Python2.7 and Python3.4.
 
-*   [Files](#files)
 *   [Results](#results)
-*   [Scientific paper](#scientific_paper)
+*   [Scientific papers](#scientific_papers)
+*   [Files](#files)
+*   [Dependencies](#dependencies)
+*   [How to use?](#how_to_use)
 *   [Contacts](#contacts)
-
-###<a name="files"></a>Files
 
 ###<a name="results"></a>Results
 
@@ -55,10 +55,40 @@ The **PropL** software is written with Python2.7 and Python3.4.
 | Spojo       | ROR             | 0.29          | **0.80**           |
 | Spojo       | UOI             | 0.00          | **0.65**           |
 
+###<a name="scientific_papers"></a>Scientific papers
 
-###<a name="scientific_paper"></a>Scientific paper
+*   [Initial work of *Vincenzo Musco*](https://hal.inria.fr/hal-01120913)
+*   [The learning approach - **soon**]()
 
-Soon.
+###<a name="files"></a>Files
+
+*   compute-basename.py : Program to compute f-scores with the algorithm of *Vincenzo Musco* (F-score init.).
+*   propl.py : Program to compute f-scores with the learning approach (F-score learn.).
+*   libs/
+    *   basic_stat_lib.py : Some functions to make some stats (compute precision, recall, f-score, etc...)
+    *   graph_visualization.py : Program (Python2.7) to visualize impacted nodes in a .graphml file
+    *   learning_lib.py : Some learning algorithms
+    *   testing_lib.py : Some functions to test the learning algorithm choose on tests sample
+    *   tex_lib.py : Library to write results in a tex file
+    *   use_graph_lib.py : Object which represents a use graph (see the definition of a use graph in the recent paper of *Vincenzo Musco*)
+    *   utils_lib.py : Some functions to chunk a list, write into a CSV file, etc...
+    *   xml_lib.py : Personal XML library to load and give an appreciation on the XML document (valid or not)
+    *   xml_parsing_lib.py : Personal XML library to parse XML documents from *Vincenzo Musco*
+    *   exceptions/
+        *   FailToLoad.py
+        *   NoArgument.py
+        *   RunError.py
+
+###<a name="dependencies"></a>Dependencies
+
+    *   **networkx** for *Python2.7*/*Python3.4*
+    *   **numpy** for *Python2.7*/*Python3.7*
+    *   **matplotlib** for *Python2.7* only
+
+###<a name="how_to_use"></a>How to use?
+
+    *   In the root directory : ```python3.4 propl.py <your_test_directory> <number_of_tests> [--option]```
+    *   For help : ```python3.4 prop.py --help```
 
 ###<a name="contacts"></a>Contacts
 
