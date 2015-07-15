@@ -93,21 +93,25 @@ def main():
         print(help())
         sys.exit()
 
+    #active the debugging mod
     if "--debug" in sys.argv:
         debug_mode = True
     else:
         debug_mode = False
 
+    #active the visualization of impacted nodes
     if "--visu" in sys.argv:
         visualization = True
     else:
         visualization = False
 
+    #active a mod to have many informations about usefull edges (for impacted nodes), stats, etc...
     if "--infos" in sys.argv:
         infos = True
     else:
         infos = False
 
+    #active a mod to verify and confirm the XML structure of each usefull file
     if "--tests_xml" in sys.argv:
         tests_xml_files = True
     else:
@@ -120,6 +124,7 @@ def main():
     else:
         nb_batch = 1
 
+    #option to specify the number of slices to do (take one of them to make some tests)
     if "--nb_split_tests" in sys.argv:
         nb_split_tests = int(sys.argv[sys.argv.index("--nb_split_tests") + 1])
     else:
@@ -129,19 +134,24 @@ def main():
         rslts_dir = sys.argv[sys.argv.index("--rslts_dir") + 1]
     else:
         rslts_dir = "Rslts_propl/"
+
+    #option to clean the csv file before to save results in
     if "--clean_csv" in sys.argv:
         cleanCSVFile()
 
+    #option to clean the tex file before to save results in
     if "--clean_tex" in sys.argv:
         clean_tex = True
     else:
         clean_tex = False
 
+    #option to save results in csv file
     if "--save_csv" in sys.argv:
         save_results_csv = True
     else:
         save_results_csv = False
 
+    #option to save results in tex file
     if "--save_tex" in sys.argv:
         save_results_tex = True
     else:
@@ -220,10 +230,11 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
     if debug_mode:
         print("actual mutation operator: {0}".format(mutation_operator))
 
+    #List which contains precisions computed for the project
     list_precisions = []
-
+    #List which contains recalls computed for the project
     list_recalls = []
-
+    #List which contains f-scores computed for the project
     list_fscores = []
 
     for i in range(0, nb_of_tests):
