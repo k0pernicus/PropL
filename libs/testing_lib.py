@@ -132,11 +132,11 @@ def doSomeTests(usegraph):
                 if usegraph.debug_mode:
                    print("random_propagation {0}".format(random_propagation))
 
-                #if the random number is <= weight_node, the propagation of the bug is acceptable!
-                if random_propagation <= weight_node :
+                #if the random number is <= weight_edge, the propagation of the bug is acceptable!
+                if random_propagation <= weight_edge :
 
                     if usegraph.debug_mode:
-                       print("\trandom_propagation <= weight of source_node_name ({0})".format(weight_node))
+                       print("\trandom_propagation <= weight of source_node_name ({0})".format(weight_edge))
 
                     #if not 'nt' -> it's a test node!!!!!! WE DID IT! \o/
                     if not 'nt' in source_node_id:
@@ -162,7 +162,7 @@ def doSomeTests(usegraph):
                 else:
 
                     if usegraph.debug_mode:
-                       print("\trandom_propagation > weight of source_node_name ({0})".format(weight_node))
+                       print("\trandom_propagation > weight of source_node_name ({0})".format(weight_edge))
 
                        visited_nodes.append(source_node_id)
 
