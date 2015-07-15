@@ -195,7 +195,7 @@ def returnSomeInfosAboutTestFiles(base_path, mutant_files, cases_name, mutants_t
             #failing and hanging tests are considered as fail tests
 
             #failing_tests
-            for failing_tests in root.findall("failing")
+            for failing_tests in root.findall("failing"):
                 for case_failing_test in failing_tests:
                     case_id = cases_name[case_failing_test.text]['id']
                     if not case_id in global_tree[node_id]:
