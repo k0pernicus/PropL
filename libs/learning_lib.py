@@ -17,7 +17,7 @@ def f_weight(f_weight_algo, t):
         return 1 / t
     if f_weight_algo == "1/square_t":
         return 1 / math.pow(t, 2)
-    if f_weight_algo == "1/log_square_t":
+    if f_weight_algo == "1/square_log_t":
         return 1 / math.pow(math.log(t + 3000), 2)
 
     #1/log(t) -> default
