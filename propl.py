@@ -80,6 +80,7 @@ def help():
     \t--nb_split_tests <nbr>: to declare the proportion of learning tests (1/10 by default)\n\
     \t--usegraph <file>: run the program only for the usegraph <file>\n\
     \t--all_usegraphs: run the program for all usegraphs (default)\n\
+    \t--f_weight <function>: run the program with a custom f_weight (1/log_t, 1/t, 1/square_t, 1/log_square_t)\n\
     \t--rslts_dir <dir>: the directory to save results of tests\n\
     \t--save_tex: to save results in a tex file\n\
     \t--save_csv: to save results in a CSV file\n\
@@ -129,6 +130,11 @@ def main():
         nb_split_tests = int(sys.argv[sys.argv.index("--nb_split_tests") + 1])
     else:
         nb_split_tests = 10
+
+    if "--f_weight" in sys.argv:
+        f_weight_algo = sys.argv[sys.argv.index("--f_weight") + 1]
+    else:
+        f_weight_algo = "1/log_t"
 
     if "--rslts_dir" in sys.argv:
         rslts_dir = sys.argv[sys.argv.index("--rslts_dir") + 1]
@@ -223,9 +229,9 @@ def main():
 
         for mutation_operator in list_mutation_operators:
 
-            Thread(target=computePropagation, args=(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, rslts_dir, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, nb_batch, nb_split_tests, save_results_csv, save_results_tex)).start()
+            Thread(target=computePropagation, args=(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, rslts_dir, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, nb_batch, f_weight_algo, nb_split_tests, save_results_csv, save_results_tex)).start()
 
-def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, rslts_dir, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, nb_batch, nb_split_tests, save_results_csv, save_results_tex):
+def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, rslts_dir, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, nb_batch, f_weight_algo, nb_split_tests, save_results_csv, save_results_tex):
 
     if debug_mode:
         print("actual mutation operator: {0}".format(mutation_operator))
@@ -248,9 +254,9 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
         if "dicho_online_opt" in use_graph.id:
             dichotomicOnlineOptimization(use_graph)
         elif "min_max_online_opt" in use_graph.id:
-            minAndMaxOnlineOptimization(use_graph)
+            minAndMaxOnlineOptimization(use_graph, f_weight_algo)
         elif "update_all_edges_online_opt" in use_graph.id:
-            updateAllEdgesOnlineOptimization(use_graph)
+            updateAllEdgesOnlineOptimization(use_graph, f_weight_algo)
         elif "tag_on_usefull_edges" in use_graph.id:
             tagEachUsefullEdgesOptimization(use_graph)
 
