@@ -268,7 +268,7 @@ def dichotomicOnlineOptimization(usegraph):
         if usegraph.debug_mode:
             print("Computing time (dichotomicOnlineOptimization) for batch {0}: {1} seconds".format(batch, end_algo - begin_algo))
 
-def minAndMaxOnlineOptimization(usegraph):
+def minAndMaxOnlineOptimization(usegraph, f_weight_algo):
     """
     Abstract: Method to compute probabilities on edges, using a 'min and max' algorithm\
     The min and max approach consists in up the minimal weight of edges, if the interesting path is not available (by a random opening).
@@ -282,8 +282,7 @@ def minAndMaxOnlineOptimization(usegraph):
 
         complexRepresentation = getComplexRepresentationForMutants(usegraph)
 
-        #t to 1000 -> 1/log(t) == 0.33333 (1rst test)
-        t = 1000
+        t = 1
 
         #reset usefull_edges
         usegraph.usefull_edges = []
@@ -360,10 +359,10 @@ def minAndMaxOnlineOptimization(usegraph):
                                 actual_weight = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]]
 
                                 #if the minimal value of the edge is lower than 1...
-                                if (actual_weight + (1 / math.log(t))) < 1:
+                                if (actual_weight + f_weight(f_weight_algo, t)) < 1:
 
                                     #put weight up to the minimal edge
-                                    usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] += (1 / math.log(t))
+                                    usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] += f_weight(f_weight_algo, t)
 
                                 else:
 
@@ -383,7 +382,7 @@ def minAndMaxOnlineOptimization(usegraph):
         if usegraph.debug_mode:
             print("Computing time (minAndMaxOnlineOptimization) for batch {0}: {1} seconds".format(batch, end_algo - begin_algo))
 
-def updateAllEdgesOnlineOptimization(usegraph):
+def updateAllEdgesOnlineOptimization(usegraph, f_weight_algo):
     """
     Abstract: Method to compute probabilities on edges, using an algorithm which update all edges in a path between source mutation and test
     usegraph: The usegraph object to compute weights
@@ -396,8 +395,7 @@ def updateAllEdgesOnlineOptimization(usegraph):
 
         complexRepresentation = getComplexRepresentationForMutants(usegraph)
 
-        #t to 1000 -> 1/log(t) == 0.33333 (1rst test)
-        t = 1000
+        t = 1
 
         #reset usefull_edges
         usegraph.usefull_edges = []
@@ -478,8 +476,8 @@ def updateAllEdgesOnlineOptimization(usegraph):
 
                                 actual_weight = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]]
 
-                                if (actual_weight + (1 / math.log(t))) < 1:
-                                    usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] += (1 / math.log(t))
+                                if (actual_weight + f_weight(f_weight_algo, t)) < 1:
+                                    usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] += f_weight(f_weight_algo, t)
                                 else:
                                     usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] = 1
 
