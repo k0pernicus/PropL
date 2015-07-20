@@ -7,6 +7,22 @@ import random
 #SIMPLE ALGORITHMS#
 ###################
 
+def f_weight(f_weight_algo, t):
+    """
+    Abstract: Function to return a weight based with t
+    """
+    if f_weight_algo == "1/log_t":
+        return 1 / math.log(t + 3000)
+    if f_weight_algo == "1/t":
+        return 1 / t
+    if f_weight_algo == "1/square_t":
+        return 1 / math.pow(t, 2)
+    if f_weight_algo == "1/log_square_t":
+        return 1 / math.pow(math.log(t + 3000), 2)
+
+    #1/log(t) -> default
+    return 1/math.log(t + 3000)
+
 def getMinEdgeFrom(paths, usegraph):
     """
     Abstract: Function to return the id of the edge which have the minimal weight
