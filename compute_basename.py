@@ -268,7 +268,9 @@ def doSomeStats(dict_exp, mutant_id_to_node_name, node_name_to_targets):
     return list_precision[median_list_precision], list_recall[median_list_recall], list_fscore[median_list_fscore]
 
 if __name__ == "__main__":
-
+    """
+        Program to verify the results from Vincenzo Musco in his thesis.
+    """
     path = sys.argv[1]
 
     if '--debug' in sys.argv:
