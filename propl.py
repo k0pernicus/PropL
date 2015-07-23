@@ -260,13 +260,10 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
         elif "tag_on_usefull_edges" in use_graph.id:
             tagEachUsefullEdgesOptimization(use_graph)
 
-        # if use_graph.id == "constraints_batch_opt":
-        #     constraintsBatchOptimization(use_graph)
-
         if visualization:
             use_graph.visualize()
         if infos:
-            getSomeStats(use_graph)
+            getSomeInfos(use_graph)
 
         precision_tmp, recall_tmp, fscore_tmp = doSomeTests(use_graph)
 
