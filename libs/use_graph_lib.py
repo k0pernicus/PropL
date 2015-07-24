@@ -335,6 +335,9 @@ class UseGraph(object):
 
         number_of_mutants_file = len(mutants_filename_table)
 
+        #Shuffle the table (avoid the sort problem in the table)
+        random.shuffle(mutants_filename_table)
+
         #split the list in number_split_tests
         size_of_mutants_filename_table = len(mutants_filename_table)
         nb_split = round(size_of_mutants_filename_table / self.number_split_tests)
