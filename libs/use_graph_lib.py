@@ -335,7 +335,7 @@ class UseGraph(object):
 
         number_of_mutants_file = len(mutants_filename_table)
 
-        #Shuffle the table (avoid the sort problem in the table)
+        #Shuffle the table (avoid the sort problem in the table, and really make a uniform learning approach)
         random.shuffle(mutants_filename_table)
 
         #split the list in number_split_tests
