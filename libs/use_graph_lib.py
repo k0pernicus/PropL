@@ -250,11 +250,10 @@ class UseGraph(object):
             self.all_edges_id[data_edge['id']] = {"source" : self.all_nodes_name[source_edge]['id'], "target" : self.all_nodes_name[target_edge]['id']}
             #we store an arbitrary weight to the edge
             #tag_on_usefull_edges will put a probability to 1 on each edge which is usefull -> initialization to 0
-            if self.id == "tag_on_usefull_edges" :
-                self.all_weights[self.all_nodes_position_in_weights_matrix[self.all_nodes_name[source_edge]['id']]][self.all_nodes_position_in_weights_matrix[self.all_nodes_name[target_edge]['id']]] = 0
-            #others will put a computed proba (based on 1 / log(x*t)) -> initialization to 0.5
-            else:
-                self.all_weights[self.all_nodes_position_in_weights_matrix[self.all_nodes_name[source_edge]['id']]][self.all_nodes_position_in_weights_matrix[self.all_nodes_name[target_edge]['id']]] = 0.5
+
+            #Init the weights matrix
+            self.all_weights[self.all_nodes_position_in_weights_matrix[self.all_nodes_name[source_edge]['id']]][self.all_nodes_position_in_weights_matrix[self.all_nodes_name[target_edge]['id']]] = 0
+
             #we keep the source (a, b) of the edge
             self.all_edges_name[(self.all_nodes_name[source_edge]['id'], self.all_nodes_name[target_edge]['id'])] = {"id" : data_edge['id']}
             #store all target
