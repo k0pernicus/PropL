@@ -132,6 +132,11 @@ def main():
     else:
         nb_split_tests = 10
 
+    if "--weight" in sys.argv:
+        default_weight = float(sys.argv[sys.argv.index("--weight") + 1])
+    else:
+        default_weight = 0
+
     if "--f_weight" in sys.argv:
         f_weight_algo = sys.argv[sys.argv.index("--f_weight") + 1]
     else:
@@ -230,9 +235,9 @@ def main():
 
         for mutation_operator in list_mutation_operators:
 
-            Thread(target=computePropagation, args=(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, rslts_dir, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, nb_batch, f_weight_algo, nb_split_tests, save_results_csv, save_results_tex)).start()
+            Thread(target=computePropagation, args=(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, rslts_dir, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, nb_batch, default_weight, f_weight_algo, nb_split_tests, save_results_csv, save_results_tex)).start()
 
-def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, rslts_dir, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, nb_batch, f_weight_algo, nb_split_tests, save_results_csv, save_results_tex):
+def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, rslts_dir, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, nb_batch, default_weight, f_weight_algo, nb_split_tests, save_results_csv, save_results_tex):
 
     if debug_mode:
         print("actual mutation operator: {0}".format(mutation_operator))
@@ -247,7 +252,7 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
     for i in range(0, nb_of_tests):
 
         #Creation of the use graph
-        use_graph = UseGraph("{0}/{1}--{2}".format(usegraph_choosen, mutation_operator, algorithm_choosen), test_directory, usegraph_choosen, mutation_operator, nb_batch, debug_mode, nb_split_tests)
+        use_graph = UseGraph("{0}/{1}--{2}".format(usegraph_choosen, mutation_operator, algorithm_choosen), test_directory, usegraph_choosen, mutation_operator, default_weight, nb_batch, debug_mode, nb_split_tests)
 
         #Run
         use_graph.run()
