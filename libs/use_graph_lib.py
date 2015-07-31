@@ -254,7 +254,7 @@ class UseGraph(object):
             #tag_on_usefull_edges will put a probability to 1 on each edge which is usefull -> initialization to 0
 
             #Init the weights matrix
-            self.all_weights[self.all_nodes_position_in_weights_matrix[self.all_nodes_name[source_edge]['id']]][self.all_nodes_position_in_weights_matrix[self.all_nodes_name[target_edge]['id']]] = 0
+            self.all_weights[self.all_nodes_position_in_weights_matrix[self.all_nodes_name[source_edge]['id']]][self.all_nodes_position_in_weights_matrix[self.all_nodes_name[target_edge]['id']]] = self.default_weight
 
             #we keep the source (a, b) of the edge
             self.all_edges_name[(self.all_nodes_name[source_edge]['id'], self.all_nodes_name[target_edge]['id'])] = {"id" : data_edge['id']}
