@@ -79,6 +79,7 @@ def help():
     \t--nb_batch <nbr>: to declare the number of tests to do\n\
     \t--nb_split_tests <nbr>: to declare the proportion of learning tests (1/10 by default)\n\
     \t--usegraph <file>: run the program only for the usegraph <file>\n\
+    \t--algorithm <algo>: run the program with the algorithm choosen - the algorithm must be a string which represents the function to execute on data\n\
     \t--all_usegraphs: run the program for all usegraphs (default)\n\
     \t--weight <nbr>: run the program with default weight equals to <nbr>\n\
     \t--f_weight <function>: run the program with a custom f_weight (1/log_t, 1/t, 1/square_t, 1/log_square_t)\n\
@@ -190,14 +191,24 @@ def main():
             if os.path.isfile(path_file) and not xml_doc in not_authorized_files:
                 print(isValidXMLDocuments(path_file))
 
-    print("#### Algorithms available")
-    for algo in algorithms_available:
-        print("# {0}".format(algo))
-    # print("# constraints_batch_opt")
+    if not '--algorithm' in sys.argv:
+        print("#### Algorithms available")
+        for algo in algorithms_available:
+            print("# {0}".format(algo))
 
-    algorithm_choosen = input("Which one? ")
-
-    print("")
+        algorithm_choosen = input("Which one? ")
+        print("")
+    else:
+        algorithm_choosen = sys.argv[sys.argv.index("--algorithm") + 1]
+        print("Algorithm \"{0}\" choosen... ".format(algorithm_choosen), end="")
+        if algorithm_choosen in algorithms_available:
+            print("ok!")
+        else:
+            print("failure!")
+            print("Please to execute the program with one of this available algorithm:")
+            for algo in algorithms_available:
+                print("\t{0}".format(algo))
+            sys.exit()
 
     if not algorithm_choosen in algorithms_available:
         print("ERROR : Not a correct algorithm...")
