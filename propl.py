@@ -80,7 +80,7 @@ def help():
     \t--nb_split_tests <nbr>: to declare the proportion of learning tests (1/10 by default)\n\
     \t--usegraph <file>: run the program only for the usegraph <file>\n\
     \t--all_usegraphs: run the program for all usegraphs (default)\n\
-    \t--weight <nbr>: run the program with default weight equals to <nbr>\n\
+    \t--weight <nbr>: run the program with default weight equals to <nbr> (0 by default)\n\
     \t--f_weight <function>: run the program with a custom f_weight (1/log_t, 1/t, 1/square_t, 1/log_square_t)\n\
     \t--rslts_dir <dir>: the directory to save results of tests\n\
     \t--save_tex: to save results in a tex file\n\
