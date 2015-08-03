@@ -96,31 +96,35 @@ def parseMutations(mutations_document, debug_mode = False):
     Return a dictionary of mutants id -> name + from + to
     """
 
-    tree = ET.parse(mutations_document)
-    root = tree.getroot()
+    try:
+        tree = ET.parse(mutations_document)
+        root = tree.getroot()
 
-    hash_mutants_table = {}
+        hash_mutants_table = {}
 
-    mutations_table = {}
+        mutations_table = {}
 
-    #for each mutant list in the mutations XML file
-    for mutants_list in root.findall("mutants"):
+        #for each mutant list in the mutations XML file
+        for mutants_list in root.findall("mutants"):
 
-        for mutant in mutants_list:
+            for mutant in mutants_list:
 
-            #if mutant is viable...
-            if mutant.get('viable'):
-                mutant_name = mutant.get('in')
-                if not mutant_name in hash_mutants_table:
-                    hash_mutants_table[mutant_name] = {'list_mutants' : []}
-                #a mutant id is mxxx, xxx = number of the mutant in the file
-                mutant_id = "m{0}".format(mutant.get('id').split('_')[1])
-                mutations_table[mutant_id] = {'name': mutant_name, 'from' : mutant.get("from"), 'to' : mutant.get("to"), 'impacted_tests' : []}
-                hash_mutants_table[mutant_name]['list_mutants'].append(mutant_id)
-                if debug_mode:
-                    print("Mutant {0} ({1}) has been added...".format(mutant_name, mutant_id))
+                #if mutant is viable...
+                if mutant.get('viable'):
+                    mutant_name = mutant.get('in')
+                    if not mutant_name in hash_mutants_table:
+                        hash_mutants_table[mutant_name] = {'list_mutants' : []}
+                    #a mutant id is mxxx, xxx = number of the mutant in the file
+                    mutant_id = "m{0}".format(mutant.get('id').split('_')[1])
+                    mutations_table[mutant_id] = {'name': mutant_name, 'from' : mutant.get("from"), 'to' : mutant.get("to"), 'impacted_tests' : []}
+                    hash_mutants_table[mutant_name]['list_mutants'].append(mutant_id)
+                    if debug_mode:
+                        print("Mutant {0} ({1}) has been added...".format(mutant_name, mutant_id))
 
-    return hash_mutants_table, mutations_table
+        return hash_mutants_table, mutations_table
+
+    except Exception as e:
+        print("ERROR with file {0} : {1}",mutations_document,e)
 
 def joinMutantAndImpactedTests(mutant_file, mutations_table, case_name_to_id, available_mutants, debug_mode = False):
     """

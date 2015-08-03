@@ -88,6 +88,8 @@ The stochastic software is being developed.
 
 ###<a name="how_to_use_it"></a>How to use it?
 
+You can use the script written in **bash** : ```chmod +x run.sh && ./run.sh directory_test usegraph_x.graphml directory_to_store_results```, or...
+
 *   In the root directory : ```python3.4 propl.py <your_test_directory> <number_of_tests> [--option]```
 *   For help : ```python3.4 prop.py --help```
 
