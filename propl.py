@@ -260,6 +260,8 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
     #List which contains f-scores computed for the project
     list_fscores = []
 
+    print("Test directory for {1} : {0}".format(test_directory, mutation_operator))
+
     for i in range(0, nb_of_tests):
 
         #Creation of the use graph
