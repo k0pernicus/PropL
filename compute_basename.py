@@ -1,3 +1,5 @@
+#Python3.4 - Antonin Carette
+
 import networkx as nx
 import xml.etree.ElementTree as ET
 
