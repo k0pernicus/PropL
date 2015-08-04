@@ -1,8 +1,9 @@
 import os
+import json
 
 name_dir = "env_stored"
-
 def createPathDir():
+
 
     """
         Method to create the path dir to store the environnment file
@@ -16,7 +17,13 @@ def getEnv(usegraph_object):
         Method to get the environnment of your program
         usegraph_object : The usegraph to get some informations (the environnment)
     """
-    pass
+    usegraph_type = usegraph_object.usegraph_choosen
+    usegraph_name = usegraph_object.id
+    usegraph_path = usegraph_object.path_file
+    usegraph_edges = usegraph_object.usefull_edges
+    usegraph_weights_matrix = usegraph_object.all_weights
+
+    return json.dump([usegraph_type, usegraph_name, usegraph_path, usegraph_edges, usegraph_weights_matrix])
 
 def storeIntoFile():
     """
