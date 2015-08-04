@@ -1,3 +1,5 @@
+#Python3.4 - Antonin Carette
+
 class NoArgument(Exception):
     """
     Base class for "no argument..." exceptions

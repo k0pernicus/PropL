@@ -1,3 +1,5 @@
+#Python3.4 - Antonin Carette
+
 import random
 from libs.xml_parsing_lib import returnSomeInfosAboutTestFiles
 from libs.basic_stat_lib import computePrecision

@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+#Python2 - Antonin Carette
+
 import sys
 
 import matplotlib.pyplot as plt

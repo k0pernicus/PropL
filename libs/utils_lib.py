@@ -1,3 +1,5 @@
+#Python3.4 - Antonin Carette
+
 import csv
 
 path = "results_antonin.csv"

@@ -1,3 +1,5 @@
+#Python3.4 - Antonin Carette
+
 class FailToLoad(Exception):
     """
     Base class for "fail to load..." exceptions

@@ -1,3 +1,5 @@
+#Python3.4 - Antonin Carette
+
 def computePrecision(true_positive, false_positive):
     """
     Abstract: Simple function to compute the precision of some examples

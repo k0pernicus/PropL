@@ -1,3 +1,5 @@
+#Python3.4 - Antonin Carette
+
 class RunError(Exception):
     """
     Base class for "run error..." exceptions

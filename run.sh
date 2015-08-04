@@ -4,6 +4,8 @@
 # Third parameter is the results directory to save results in
 # After, the algorithm used
 
+#Bash - Antonin Carette
+
 bool=false
 for d in $1/*
 do

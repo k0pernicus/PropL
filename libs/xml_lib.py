@@ -1,3 +1,5 @@
+#Python3.4 - Antonin Carette
+
 import os
 
 from libs.exceptions.FailToLoad import FailToLoad
