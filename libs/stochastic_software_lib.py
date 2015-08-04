@@ -29,7 +29,15 @@ def storeIntoFile():
     """
         Method to save the environnment of your program into a file
     """
-    pass
+    createPathDir()
+
+    #The name of the file is the current time
+    current_time = time.asctime( time.localtime(time.time()) ).replace(" ", "_")
+
+    #Open the file & store data in
+    f = open("current_time", 'w')
+    f.write(getEnv())
+    f.close()
 
 def loadFromFile():
     """
