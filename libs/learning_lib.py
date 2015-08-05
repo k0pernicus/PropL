@@ -228,29 +228,33 @@ def dichotomicOnlineOptimization(usegraph):
                 #we look for all fields/methods...
                 for node in usegraph.all_cases_id[test_id]['nodes']:
 
+                    id_node = usegraph.all_nodes_id[node]
+
                     try:
-                        #if the node and the mutant are not available as source and target of the path, we add them in the data structure (in the usegraph object)
-                        if (not node in usegraph.all_paths) or (not mutant in usegraph.all_paths[node]):
-                            #verification node is presents in all paths
-                            if not node in usegraph.all_paths:
-                                usegraph.all_paths[node] = {}
-                            #verification mutant is presents in all paths with "node" as source
-                            if not mutant in usegraph.all_paths[node][mutant]:
-                                usegraph.all_paths[node][mutant] = []
-                            #add in the data structure edges in available paths
-                            for p in nx.all_simple_paths(usegraph.graph, usegraph.all_nodes_id[node], mutant):
-                                usegraph.all_paths[node][mutant].append(p)
 
-                        paths = usegraph.all_paths[node][mutant]
+                        #verification node is presents in all paths
+                        if not id_node in usegraph.all_paths:
+                            usegraph.all_paths[id_node] = {}
 
-                        for one_path in paths:
+                        #verification mutant is presents in all paths with "node" as source
+                        if not mutant in usegraph.all_paths[id_node]:
+                            usegraph.all_paths[id_node][mutant] = []
+                        # else:
+                        #     print("No need to compute paths for {0} and {1}...".format(id_node, mutant))
+
+                        #add in the data structure edges in available paths
+                        if len(usegraph.all_paths[id_node][mutant]) == 0:
+                            for p in nx.all_simple_paths(usegraph.graph, id_node, mutant):
+                                usegraph.all_paths[id_node][mutant].append(getExistingPathsFrom(p))
+
+                        for one_path in usegraph.all_paths[id_node][mutant]:
 
                             #for each simple path...
                             #transform 'one_path' ([node1, node2, node3, ...] in list of paths [(node1, node2), (node2, node3), ...])
                             simple_path = getExistingPathsFrom(one_path)
 
                             #for each edge...
-                            for edge in simple_path:
+                            for edge in one_path:
 
                                 #transform the edge 'id -> (source, target)' as '(source, target) -> id'
                                 edge = usegraph.transform_edge_name_as_edge_id(edge)
@@ -312,25 +316,28 @@ def minAndMaxOnlineOptimization(usegraph, f_weight_algo):
 
                     global_probability_to_propagate = 0
 
+                    id_node = usegraph.all_nodes_id[node]
+
                     try:
 
-                        #if the node and the mutant are not available as source and target of the path, we add them in the data structure (in the usegraph object)
-                        if (not node in usegraph.all_paths) or (not mutant in usegraph.all_paths[node]):
-                            #verification node is presents in all paths
-                            if not node in usegraph.all_paths:
-                                usegraph.all_paths[node] = {}
-                            #verification mutant is presents in all paths with "node" as source
-                            if not mutant in usegraph.all_paths[node][mutant]:
-                                usegraph.all_paths[node][mutant] = []
-                            #add in the data structure edges in available paths
-                            for p in nx.all_simple_paths(usegraph.graph, usegraph.all_nodes_id[node], mutant):
-                                usegraph.all_paths[node][mutant].append(p)
+                        #verification node is presents in all paths
+                        if not id_node in usegraph.all_paths:
+                            usegraph.all_paths[id_node] = {}
 
-                        paths = usegraph.all_paths[node][mutant]
+                        #verification mutant is presents in all paths with "node" as source
+                        if not mutant in usegraph.all_paths[id_node]:
+                            usegraph.all_paths[id_node][mutant] = []
+                        # else:
+                        #     print("No need to compute paths for {0} and {1}...".format(id_node, mutant))
+
+                        #add in the data structure edges in available paths
+                        if len(usegraph.all_paths[id_node][mutant]) == 0:
+                            for p in nx.all_simple_paths(usegraph.graph, id_node, mutant):
+                                usegraph.all_paths[id_node][mutant].append(getExistingPathsFrom(p))
 
                         if len(paths) != 0:
 
-                            for one_path in paths:
+                            for one_path in usegraph.all_paths[id_node][mutant]:
 
                                 #for each simple path...
                                 #transform 'one_path' ([node1, node2, node3, ...] in list of paths [(node1, node2), (node2, node3), ...])
@@ -339,7 +346,7 @@ def minAndMaxOnlineOptimization(usegraph, f_weight_algo):
                                 probability_of_the_path = 1
 
                                 # compute usefull edges and the probability to propagate
-                                for edge in simple_path:
+                                for edge in one_path:
 
                                     edge = usegraph.transform_edge_name_as_edge_id(edge)
 
@@ -436,32 +443,31 @@ def updateAllEdgesOnlineOptimization(usegraph, f_weight_algo):
 
                     all_simple_paths = []
 
+                    id_node = usegraph.all_nodes_id[node]
+
                     try:
 
-                        #if the node and the mutant are not available as source and target of the path, we add them in the data structure (in the usegraph object)
-                        if (not node in usegraph.all_paths) or (not mutant in usegraph.all_paths[node]):
-                            #verification node is presents in all paths
-                            if not node in usegraph.all_paths:
-                                usegraph.all_paths[node] = {}
-                            #verification mutant is presents in all paths with "node" as source
-                            if not mutant in usegraph.all_paths[node][mutant]:
-                                usegraph.all_paths[node][mutant] = []
-                            #add in the data structure edges in available paths
-                            for p in nx.all_simple_paths(usegraph.graph, usegraph.all_nodes_id[node], mutant):
-                                usegraph.all_paths[node][mutant].append(p)
+                        #verification node is presents in all paths
+                        if not id_node in usegraph.all_paths:
+                            usegraph.all_paths[id_node] = {}
 
-                        paths = usegraph.all_paths[node][mutant]
+                        #verification mutant is presents in all paths with "node" as source
+                        if not mutant in usegraph.all_paths[id_node]:
+                            usegraph.all_paths[id_node][mutant] = []
+                        # else:
+                        #     print("No need to compute paths for {0} and {1}...".format(id_node, mutant))
 
-                        for one_path in paths:
+                        #add in the data structure edges in available paths
+                        if len(usegraph.all_paths[id_node][mutant]) == 0:
+                            for p in nx.all_simple_paths(usegraph.graph, id_node, mutant):
+                                usegraph.all_paths[id_node][mutant].append(getExistingPathsFrom(p))
 
-                            #for each simple path...
-                            #transform 'one_path' ([node1, node2, node3, ...] in list of paths [(node1, node2), (node2, node3), ...])
-                            simple_path = getExistingPathsFrom(one_path)
+                        for one_path in usegraph.all_paths[id_node][mutant]:
 
                             probability_of_the_path = 1
 
                             # compute usefull edges and the probability to propagate
-                            for edge in simple_path:
+                            for edge in one_path:
 
                                 edge = usegraph.transform_edge_name_as_edge_id(edge)
 
@@ -555,30 +561,33 @@ def tagEachUsefullEdgesOptimization(usegraph):
 
                     all_simple_paths = []
 
+                    id_node = usegraph.all_nodes_id[node]
+
                     try:
 
-                        #if the node and the mutant are not available as source and target of the path, we add them in the data structure (in the usegraph object)
-                        if (not node in usegraph.all_paths) or (not mutant in usegraph.all_paths[node]):
-                            #verification node is presents in all paths
-                            if not node in usegraph.all_paths:
-                                usegraph.all_paths[node] = {}
-                            #verification mutant is presents in all paths with "node" as source
-                            if not mutant in usegraph.all_paths[node][mutant]:
-                                usegraph.all_paths[node][mutant] = []
-                            #add in the data structure edges in available paths
-                            for p in nx.all_simple_paths(usegraph.graph, usegraph.all_nodes_id[node], mutant):
-                                usegraph.all_paths[node][mutant].append(p)
+                        #verification node is presents in all paths
+                        if not id_node in usegraph.all_paths:
+                            usegraph.all_paths[id_node] = {}
 
-                        paths = usegraph.all_paths[node][mutant]
+                        #verification mutant is presents in all paths with "node" as source
+                        if not mutant in usegraph.all_paths[id_node]:
+                            usegraph.all_paths[id_node][mutant] = []
+                        # else:
+                        #     print("No need to compute paths for {0} and {1}...".format(id_node, mutant))
 
-                        for one_path in paths:
+                        #add in the data structure edges in available paths
+                        if len(usegraph.all_paths[id_node][mutant]) == 0:
+                            for p in nx.all_simple_paths(usegraph.graph, id_node, mutant):
+                                usegraph.all_paths[id_node][mutant].append(getExistingPathsFrom(p))
+
+                        for one_path in usegraph.all_paths[id_node][mutant]:
 
                             #for each simple path...
                             #transform 'one_path' ([node1, node2, node3, ...] in list of paths [(node1, node2), (node2, node3), ...])
                             simple_path = getExistingPathsFrom(one_path)
 
                             # compute usefull edges and the probability to propagate
-                            for edge in simple_path:
+                            for edge in one_path:
 
                                 edge = usegraph.transform_edge_name_as_edge_id(edge)
 
