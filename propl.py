@@ -3,6 +3,8 @@
 import sys
 import os
 
+import libs.settings_lib
+
 from threading import Thread
 
 #from libs.xml_lib import load_xml_document
@@ -261,6 +263,10 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
     list_recalls = []
     #List which contains f-scores computed for the project
     list_fscores = []
+
+    #initialize the global table for paths
+    #This global table will be shared by all usegraph, and reduce the time to compute each path
+    libs.settings_lib.init()
 
     print("Test directory for {1} : {0}".format(test_directory, mutation_operator))
 
