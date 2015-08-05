@@ -27,7 +27,7 @@ def getEnv(usegraph_object):
 
     return json.dump([usegraph_type, usegraph_name, usegraph_path, usegraph_edges, usegraph_weights_matrix])
 
-def storeIntoFile():
+def storeIntoFile(usegraph_object):
     """
         Method to save the environnment of your program into a file
     """
@@ -37,8 +37,8 @@ def storeIntoFile():
     current_time = time.asctime( time.localtime(time.time()) ).replace(" ", "_")
 
     #Open the file & store data in
-    f = open("current_time", 'w')
-    f.write(getEnv())
+    f = open("{0}/{1}".format(current_time, usegraph_object.id), 'w')
+    f.write(getEnv(usegraph_object))
     f.close()
 
 def loadFromFile():
