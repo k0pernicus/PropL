@@ -5,6 +5,7 @@ __pycache__/
 exemples/
 tests/
 Rslts_propl/
+Rslts_propl_BACKUP/
 test_graph_generation_OLD
 table_verif.md
 TODOList.md
