@@ -208,6 +208,7 @@ def dichotomicOnlineOptimization(usegraph):
     for batch in range(0, usegraph.nb_batch):
 
         if usegraph.debug_mode:
+            need_to_compute_path = 0
             begin_algo = time.time()
 
         #get the complex representation for each mutant in the usegraph
@@ -246,9 +247,10 @@ def dichotomicOnlineOptimization(usegraph):
 
                         #add in the data structure edges in available paths
                         if len(libs.settings_lib.paths[id_node][mutant]) == 0:
-                            print("Need to compute for {0}...".format(usegraph.mutation_operator))
                             for p in nx.all_simple_paths(usegraph.graph, id_node, mutant):
                                 libs.settings_lib.paths[id_node][mutant].append(getExistingPathsFrom(p))
+                            if usegraph.debug_mode:
+                                need_to_compute_path += 1
 
                         for one_path in libs.settings_lib.paths[id_node][mutant]:
 
@@ -282,9 +284,8 @@ def dichotomicOnlineOptimization(usegraph):
 
         if usegraph.debug_mode:
             end_algo = time.time()
-
-        if usegraph.debug_mode:
             print("Computing time (dichotomicOnlineOptimization) for batch {0}: {1} seconds".format(batch, end_algo - begin_algo))
+            print("Need to compute {0} times paths for project {1}".format(need_to_compute_path, usegraph.mutation_operator))
 
 def minAndMaxOnlineOptimization(usegraph, f_weight_algo):
     """
@@ -297,6 +298,7 @@ def minAndMaxOnlineOptimization(usegraph, f_weight_algo):
 
         if usegraph.debug_mode:
             begin_algo = time.time()
+            need_to_compute_path = 0
 
         complexRepresentation = getComplexRepresentationForMutants(usegraph)
 
@@ -335,9 +337,10 @@ def minAndMaxOnlineOptimization(usegraph, f_weight_algo):
 
                         #add in the data structure edges in available paths
                         if len(libs.settings_lib.paths[id_node][mutant]) == 0:
-                            print("Need to compute for {0}...".format(usegraph.mutation_operator))
                             for p in nx.all_simple_paths(usegraph.graph, id_node, mutant):
                                 libs.settings_lib.paths[id_node][mutant].append(getExistingPathsFrom(p))
+                            if debug_mode:
+                                need_to_compute_path += 1
 
                         if len(paths) != 0:
 
@@ -409,9 +412,8 @@ def minAndMaxOnlineOptimization(usegraph, f_weight_algo):
 
         if usegraph.debug_mode:
             end_algo = time.time()
-
-        if usegraph.debug_mode:
             print("Computing time (minAndMaxOnlineOptimization) for batch {0}: {1} seconds".format(batch, end_algo - begin_algo))
+            print("Need to compute {0} times paths for project {1}".format(need_to_compute_path, usegraph.mutation_operator))
 
 def updateAllEdgesOnlineOptimization(usegraph, f_weight_algo):
     """
@@ -422,6 +424,7 @@ def updateAllEdgesOnlineOptimization(usegraph, f_weight_algo):
     for batch in range(0, usegraph.nb_batch):
 
         if usegraph.debug_mode:
+            need_to_compute_path = 0
             begin_algo = time.time()
 
         complexRepresentation = getComplexRepresentationForMutants(usegraph)
@@ -458,14 +461,10 @@ def updateAllEdgesOnlineOptimization(usegraph, f_weight_algo):
                         #verification mutant is presents in all paths with "node" as source
                         if not mutant in libs.settings_lib.paths[id_node]:
                             libs.settings_lib.paths[id_node][mutant] = []
-                        # else:
-                        #     print("No need to compute paths for {0} and {1}...".format(id_node, mutant))
-
-                        #add in the data structure edges in available paths
-                        if len(libs.settings_lib.paths[id_node][mutant]) == 0:
-                            print("Need to compute for {0}...".format(usegraph.mutation_operator))
                             for p in nx.all_simple_paths(usegraph.graph, id_node, mutant):
                                 libs.settings_lib.paths[id_node][mutant].append(getExistingPathsFrom(p))
+                            if usegraph.debug_mode:
+                                need_to_compute_path += 1
 
                         for one_path in libs.settings_lib.paths[id_node][mutant]:
 
@@ -532,9 +531,8 @@ def updateAllEdgesOnlineOptimization(usegraph, f_weight_algo):
 
         if usegraph.debug_mode:
             end_algo = time.time()
-
-        if usegraph.debug_mode:
             print("Computing time (updateAllEdgesOnlineOptimization) for batch {0}: {1} seconds".format(batch, end_algo - begin_algo))
+            print("Need to compute {0} times paths for project {1}".format(need_to_compute_path, usegraph.mutation_operator))
 
 def tagEachUsefullEdgesOptimization(usegraph):
     """
@@ -545,6 +543,7 @@ def tagEachUsefullEdgesOptimization(usegraph):
     for batch in range(0, usegraph.nb_batch):
 
         if usegraph.debug_mode:
+            need_to_compute_path = 0
             begin_algo = time.time()
 
         complexRepresentation = getComplexRepresentationForMutants(usegraph)
@@ -582,9 +581,10 @@ def tagEachUsefullEdgesOptimization(usegraph):
 
                         #add in the data structure edges in available paths
                         if len(libs.settings_lib.paths[id_node][mutant]) == 0:
-                            print("Need to compute for {0}...".format(usegraph.mutation_operator))
                             for p in nx.all_simple_paths(usegraph.graph, id_node, mutant):
                                 libs.settings_lib.paths[id_node][mutant].append(getExistingPathsFrom(p))
+                            if usegraph.debug_mode:
+                                need_to_compute_path += 1
 
                         for one_path in libs.settings_lib.paths[id_node][mutant]:
 
@@ -619,6 +619,5 @@ def tagEachUsefullEdgesOptimization(usegraph):
 
         if usegraph.debug_mode:
             end_algo = time.time()
-
-        if usegraph.debug_mode:
             print("Computing time (tagEachUsefullEdgesOptimization) for batch {0}: {1} seconds".format(batch, end_algo - begin_algo))
+            print("Need to compute {0} times paths for project {1}".format(need_to_compute_path, usegraph.mutation_operator))
