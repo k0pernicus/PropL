@@ -246,6 +246,7 @@ def dichotomicOnlineOptimization(usegraph):
 
                         #add in the data structure edges in available paths
                         if len(libs.settings_lib.paths[id_node][mutant]) == 0:
+                            print("Need to compute for {0}...".format(usegraph.mutation_operator))
                             for p in nx.all_simple_paths(usegraph.graph, id_node, mutant):
                                 libs.settings_lib.paths[id_node][mutant].append(getExistingPathsFrom(p))
 
@@ -334,6 +335,7 @@ def minAndMaxOnlineOptimization(usegraph, f_weight_algo):
 
                         #add in the data structure edges in available paths
                         if len(libs.settings_lib.paths[id_node][mutant]) == 0:
+                            print("Need to compute for {0}...".format(usegraph.mutation_operator))
                             for p in nx.all_simple_paths(usegraph.graph, id_node, mutant):
                                 libs.settings_lib.paths[id_node][mutant].append(getExistingPathsFrom(p))
 
@@ -461,6 +463,7 @@ def updateAllEdgesOnlineOptimization(usegraph, f_weight_algo):
 
                         #add in the data structure edges in available paths
                         if len(libs.settings_lib.paths[id_node][mutant]) == 0:
+                            print("Need to compute for {0}...".format(usegraph.mutation_operator))
                             for p in nx.all_simple_paths(usegraph.graph, id_node, mutant):
                                 libs.settings_lib.paths[id_node][mutant].append(getExistingPathsFrom(p))
 
@@ -579,6 +582,7 @@ def tagEachUsefullEdgesOptimization(usegraph):
 
                         #add in the data structure edges in available paths
                         if len(libs.settings_lib.paths[id_node][mutant]) == 0:
+                            print("Need to compute for {0}...".format(usegraph.mutation_operator))
                             for p in nx.all_simple_paths(usegraph.graph, id_node, mutant):
                                 libs.settings_lib.paths[id_node][mutant].append(getExistingPathsFrom(p))
 
