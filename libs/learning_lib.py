@@ -413,6 +413,8 @@ def updateAllEdgesOnlineOptimization(usegraph, f_weight_algo):
 
     for batch in range(0, usegraph.nb_batch):
 
+        print("Batch {0} / {1} for {2}".format(batch, usegraph.nb_batch, usegraph.mutation_operator))
+
         if usegraph.debug_mode:
             need_to_compute_path = 0
             begin_algo = time.time()
