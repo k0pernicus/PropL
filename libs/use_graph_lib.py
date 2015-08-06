@@ -62,9 +62,6 @@ class UseGraph(object):
         self.all_nodes_position_in_weights_matrix = {}
         #all weights between two nodes
         self.all_weights = np.zeros(0)
-        #all available paths between two nodes
-        #This data structure is represents by : {'source' : {'target' : [edges], 'target' : [edges]}, 'source' : ...}
-        self.all_paths = {}
         #default weight for initialization
         self.default_weight = default_weight
         #Number of batchs
