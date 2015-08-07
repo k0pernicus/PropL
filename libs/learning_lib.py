@@ -543,8 +543,12 @@ def tagEachUsefullEdgesOptimization(usegraph):
         #reset usefull_edges
         usegraph.usefull_edges = []
 
+        nb_mutant = 0
+
         #for each mutant
         for mutant in complexRepresentation:
+
+            #print("mutant {0}/{1} for {2}...".format(nb_mutant, len(complexRepresentation), usegraph.mutation_operator), end="")
 
             #we get the list of test failed
             test_representation = complexRepresentation[mutant]
@@ -603,6 +607,8 @@ def tagEachUsefullEdgesOptimization(usegraph):
 
                         if usegraph.debug_mode:
                             print("ERROR: {0} not found...".format(node))
+
+            nb_mutant += 1
 
         if usegraph.debug_mode:
             end_algo = time.time()
