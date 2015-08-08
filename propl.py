@@ -248,9 +248,17 @@ def main():
 
         list_mutation_operators = [mut for mut in list_mutation_dir if not mut in not_authorized_files]
 
-        for mutation_operator in list_mutation_operators:
-
-            Thread(target=computePropagation, args=(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, rslts_dir, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, nb_batch, default_weight, f_weight_algo, nb_split_tests, save_results_csv, save_results_tex)).start()
+        if "--mutator" in sys.argv:
+            index = sys.argv.index("--mutator") + 1
+            while not "--" in sys.argv[index]:
+                arg = sys.argv[index]
+                for mutation_operator in list_mutation_operators:
+                    if arg in mutation_operator:
+                        Thread(target=computePropagation, args=(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, rslts_dir, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, nb_batch, default_weight, f_weight_algo, nb_split_tests, save_results_csv, save_results_tex)).start()
+                index += 1
+        else:
+            for mutation_operator in list_mutation_operators:
+                Thread(target=computePropagation, args=(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, rslts_dir, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, nb_batch, default_weight, f_weight_algo, nb_split_tests, save_results_csv, save_results_tex)).start()
 
 def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_directory, rslts_dir, usegraph_choosen, mutation_operator, debug_mode, visualization, infos, nb_batch, default_weight, f_weight_algo, nb_split_tests, save_results_csv, save_results_tex):
 
