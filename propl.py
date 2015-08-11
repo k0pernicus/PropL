@@ -2,6 +2,7 @@
 
 import sys
 import os
+import datetime
 
 import libs.settings_lib
 
@@ -271,6 +272,8 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
     list_recalls = []
     #List which contains f-scores computed for the project
     list_fscores = []
+    #List which contains time to compute mutants
+    list_times = []
 
     #initialize the global table for paths
     #This global table will be shared by all usegraph, and reduce the time to compute each path
@@ -286,6 +289,8 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
         #Run
         use_graph.run()
 
+        time_begin = datetime.datetime.now()
+
         if "dicho_online_opt" in use_graph.id:
             dichotomicOnlineOptimization(use_graph)
         elif "min_max_online_opt" in use_graph.id:
@@ -294,6 +299,10 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
             updateAllEdgesOnlineOptimization(use_graph, f_weight_algo)
         elif "tag_on_usefull_edges" in use_graph.id:
             tagEachUsefullEdgesOptimization(use_graph)
+
+        time_end = datetime.datetime.now()
+
+        time_tmp = time_end - time_begin
 
         if visualization:
             use_graph.visualize()
@@ -305,20 +314,24 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
         list_precisions.append(precision_tmp)
         list_recalls.append(recall_tmp)
         list_fscores.append(fscore_tmp)
+        list_times.append(time_tmp)
 
-        print("Test {0} for {1}... ok!".format(i, use_graph.id))
+        print("Test {0} for {1}... ok ({2})!".format(i, use_graph.id, time_tmp))
 
     list_precisions.sort()
     list_recalls.sort()
     list_fscores.sort()
+    list_times.sort()
 
     len_list_precisions = len(list_precisions)
     len_list_recalls = len(list_recalls)
     len_list_fscores = len(list_fscores)
+    len_list_times = len(list_times)
 
     median_list_precisions = round(len_list_precisions / 2)
     median_list_recalls = round(len_list_recalls / 2)
     median_list_fscores = round(len_list_fscores / 2)
+    median_list_times = round(len_list_times / 2)
 
     if len_list_precisions % 2 != 0:
         precision_to_return = (list_precisions[median_list_precisions] + list_precisions[median_list_precisions + 1]) / 2
@@ -335,7 +348,12 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
     else:
         fscore_to_return = list_fscores[median_list_fscores]
 
-    print("usegraph {0}: P {1} / R {2} / F {3}".format(use_graph.id, precision_to_return, recall_to_return, fscore_to_return))
+    if len_list_times % 2 != 0:
+        time_to_return = (list_times[median_list_times] + list_times[median_list_times + 1]) / 2
+    else:
+        time_to_return = list_times[median_list_times]
+
+    print("usegraph {0}: P {1} / R {2} / F {3} / T {4}".format(use_graph.id, precision_to_return, recall_to_return, fscore_to_return, time_to_return))
 
     dir = test_directory.split("/")[-2]
 
