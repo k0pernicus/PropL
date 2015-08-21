@@ -173,10 +173,10 @@ def returnTheMutantNode(mutant_file):
     try:
         tree = ET.parse(mutant_file)
         root = tree.getroot()
+        return "m{0}".format(root.get('id').split('_')[1])
     except Exception as e:
         print("ERROR FOR THE MUTANT FILE {0} : {1}".format(mutant_file, e))
-
-    return "m{0}".format(root.get('id').split('_')[1])
+        return "None"
 
 def returnSomeInfosAboutTestFiles(base_path, mutant_files, cases_name, mutants_table, nodes_name, debug_mode):
     """
