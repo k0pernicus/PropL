@@ -431,7 +431,7 @@ def updateAllEdgesOnlineOptimization(usegraph, f_weight_algo):
         #for each mutant
         for mutant in complexRepresentation:
 
-            print("Mutant {0}/{1} for {2}... ".format(nb_mutant, len(complexRepresentation), usegraph.mutation_operator), end="")
+            #print("Mutant {0}/{1} for {2}... ".format(nb_mutant, len(complexRepresentation), usegraph.mutation_operator), end="")
 
             #we get the list of test failed
             test_representation = complexRepresentation[mutant]
@@ -525,7 +525,7 @@ def updateAllEdgesOnlineOptimization(usegraph, f_weight_algo):
             #Update the tick for each mutant
             t += 1
 
-            print("done!")
+            #print("done!")
 
             nb_mutant += 1
 
