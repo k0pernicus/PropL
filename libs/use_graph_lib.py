@@ -3,6 +3,7 @@
 import os
 import time
 import random
+import sys
 
 import networkx as nx
 import numpy as np
@@ -313,9 +314,21 @@ class UseGraph(object):
                     node_id = self.all_nodes_name[mutant_name]['id']
                     self.nodes_for_tests.append(node_id)
                 except:
-                    print("[{0}] ERROR: Node {1} (name {2}) (for tests) not found...".format(self.mutation_operator, mutant_node, mutant_name))
+                    if "--save_log" in sys.argv:
+                        f = open("errors.log", "a")
+                        f.write("[{0}] ERROR: Node {1} (name {2}) (for tests) not found...\n".format(self.mutation_operator, mutant_node, mutant_name))
+                        f.close()
+                    else:
+                        print("[{0}] ERROR: Node {1} (name {2}) (for tests) not found...".format(self.mutation_operator, mutant_node, mutant_name))
             else:
-                print("[{0}] ERROR with file {1} in {2}".format(self.mutation_operator, mutant_file_test, base_dir))
+                if "--save_log" in sys.argv:
+                    f = open("errors.log", "a")
+                    f.write("[{0}] ERROR with file {1} in {2}\n".format(self.mutation_operator, mutant_file_test, base_dir))
+                    f.close()
+                else:
+                    print("[{0}] ERROR with file {1} in {2}".format(self.mutation_operator, mutant_file_test, base_dir))
+
+        print("[{0}] Final number of tests: {1}".format(self.mutation_operator, len(self.nodes_for_tests)))
 
     def initWeightsMatrix(self):
         """
