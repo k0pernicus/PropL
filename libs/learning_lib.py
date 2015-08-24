@@ -511,8 +511,8 @@ def updateAllEdgesOnlineOptimization(usegraph, f_weight_algo):
 
                                 actual_weight = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]]
 
-                                if (actual_weight + f_weight(f_weight_algo, t)) < 1:
-                                    usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] += f_weight(f_weight_algo, t)
+                                if (actual_weight * f_weight(f_weight_algo, t)) < 1:
+                                    usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] *= f_weight(f_weight_algo, t)
                                 else:
                                     usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] = 1
 
