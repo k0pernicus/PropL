@@ -86,7 +86,7 @@ def help():
     \t--usegraph <file>: run the program only for the usegraph <file>\n\
     \t--algorithm <algo>: run the program with the algorithm choosen - the algorithm must be a string which represents the function to execute on data\n\
     \t--all_usegraphs: run the program for all usegraphs (default)\n\
-    \t--weight <nbr>: run the program with default weight equals to <nbr> (0 by default)\n\
+    \t--weight <nbr>: run the program with default weight equals to <nbr> (0.5 by default)\n\
     \t--f_weight <function>: run the program with a custom f_weight (1/log_t, 1/t, 1/square_t, 1/log_square_t)\n\
     \t--rslts_dir <dir>: the directory to save results of tests\n\
     \t--save_tex: to save results in a tex file\n\
@@ -141,7 +141,7 @@ def main():
     if "--weight" in sys.argv:
         default_weight = float(sys.argv[sys.argv.index("--weight") + 1])
     else:
-        default_weight = 0
+        default_weight = 0.5
 
     if "--f_weight" in sys.argv:
         f_weight_algo = sys.argv[sys.argv.index("--f_weight") + 1]
