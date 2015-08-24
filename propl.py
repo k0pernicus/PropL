@@ -166,6 +166,11 @@ def main():
     else:
         clean_tex = False
 
+    if "--clean_log" in sys.argv:
+        f = open("errors.log", "w")
+        f.truncate()
+        f.close()
+
     #option to save results in csv file
     if "--save_csv" in sys.argv:
         save_results_csv = True
