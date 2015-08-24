@@ -305,14 +305,17 @@ class UseGraph(object):
         for mutant_file_test in self.files_for_tests:
             #store id of nodes available for tests
             mutant_node = returnTheMutantNode("{0}/{1}".format(base_dir, mutant_file_test))
-            try:
-                node_id = self.all_nodes_name[self.mutants[mutant_node]['name']]['id']
-                if self.debug_mode:
-                    print("{0} -> {1} add as mutant test (file {2})...".format(self.id, self.mutants[mutant_node]['name'], mutant_file_test))
-                self.nodes_for_tests.append(node_id)
-            except:
-                if self.debug_mode:
-                    print("{0} not found...".format(mutant_node))
+            if mutant_node != "None":
+                #if self.debug_mode:
+                #    print("{0} -> {1} add as mutant test (file {2})...".format(self.id, self.mutants[mutant_node]['name'], mutant_file_test))
+                try:
+                    mutant_name = self.mutants[mutant_node]['name']
+                    node_id = self.all_nodes_name[mutant_name]['id']
+                    self.nodes_for_tests.append(node_id)
+                except:
+                    print("[{0}] ERROR: Node {1} (name {2}) (for tests) not found...".format(self.mutation_operator, mutant_node, mutant_name))
+            else:
+                print("[{0}] ERROR with file {1} in {2}".format(self.mutation_operator, mutant_file_test, base_dir))
 
     def initWeightsMatrix(self):
         """
@@ -338,6 +341,13 @@ class UseGraph(object):
 
         number_of_mutants_file = len(mutants_filename_table)
 
+        #If the number of mutants file is > 600, take the first 600 elements and save it - the next elements are lost.
+        if number_of_mutants_file > 600:
+            mutants_filename_table = mutants_filename_table[:600]
+            number_of_mutants_file = len(mutants_filename_table)
+
+        print("[{0}] Number of mutants file : {1}".format(self.mutation_operator, number_of_mutants_file))
+
         #Shuffle the table (avoid the sort problem in the table, and really make a uniform learning approach)
         random.shuffle(mutants_filename_table)
 
@@ -353,10 +363,11 @@ class UseGraph(object):
 
         #pop a random entry -> for tests
         self.files_for_tests = mutants_filename_table_splitted.pop(position_to_pop)
-
         #add other files into files_to_learn
         for mutant_filename in mutants_filename_table_splitted:
             self.files_to_learn += mutant_filename
+
+        print("[{0}] Number of learning files {1} / Number of testing files {2}".format(self.mutation_operator, len(self.files_to_learn), len(self.files_for_tests)))
 
         if self.debug_mode:
             print("{0} -> ({1} tests for {2} learning files) / {3}".format(self.id, len(self.files_for_tests), len(self.files_to_learn), number_of_mutants_file))
