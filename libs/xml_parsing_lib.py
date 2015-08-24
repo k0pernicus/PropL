@@ -199,7 +199,11 @@ def returnSomeInfosAboutTestFiles(base_path, mutant_files, cases_name, mutants_t
             node_id = nodes_name[mutants_table[mutant_id]['name']]['id']
 
             if not node_id in global_tree:
-                global_tree[node_id] = []
+                global_tree[node_id] = {}
+
+            len_global_tree = len(global_tree[node_id])
+
+            global_tree[node_id][len_global_tree] = []
 
             #failing and hanging tests are considered as fail tests
 
@@ -207,15 +211,15 @@ def returnSomeInfosAboutTestFiles(base_path, mutant_files, cases_name, mutants_t
             for failing_tests in root.findall("failing"):
                 for case_failing_test in failing_tests:
                     case_id = cases_name[case_failing_test.text]['id']
-                    if not case_id in global_tree[node_id]:
-                        global_tree[node_id].append(case_id)
+                    if not case_id in global_tree[node_id][len_global_tree]:
+                        global_tree[node_id][len_global_tree].append(case_id)
 
             #hanging_tests
             for hanging_tests in root.findall("hanging"):
                 for case_hanging_test in hanging_tests:
                     case_id = cases_name[case_hanging_test.text]['id']
-                    if not case_id in global_tree[node_id]:
-                        global_tree[node_id].append(case_id)
+                    if not case_id in global_tree[node_id][len_global_tree]:
+                        global_tree[node_id][len_global_tree].append(case_id)
 
         except:
             if debug_mode:
