@@ -148,7 +148,11 @@ def doSomeTests(usegraph):
 
         #put an empty list if the node is not a key in the learning tree
         if not node in tree:
-            tree[node] = []
+            tree[node] = {}
+
+        single_position = len(tree[node])
+
+        tree[node][single_position] = []
 
         #nodes_stack is a stack of visited nodes
         nodes_stack = []
@@ -182,6 +186,8 @@ def doSomeTests(usegraph):
                 #the weight of the interesting edge
                 weight_edge = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source_node_id]][usegraph.all_nodes_position_in_weights_matrix[active_node_id]]
 
+                #print("weight between {0} and {1} : {2}".format(source_node_id, active_node_id, weight_edge))
+
                 #get the random_propagation...
                 random_propagation = random.uniform(0,1)
 
@@ -198,8 +204,8 @@ def doSomeTests(usegraph):
                     if not 'nt' in source_node_id:
 
                         #add it in the list of impacted tests if he's not in the list already
-                        if not source_node_id in tree[node]:
-                            tree[node].append(source_node_id)
+                        if not source_node_id in tree[node][single_position]:
+                            tree[node][single_position].append(source_node_id)
 
                         if usegraph.debug_mode:
                            print("\t{0} saved!".format(source_node_name))
