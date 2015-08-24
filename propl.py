@@ -93,6 +93,8 @@ def help():
     \t--save_csv: to save results in a CSV file\n\
     \t--clean_tex: to clean the tex file before to write in\n\
     \t--clean_csv: to clean the CSV file before to write in\n\
+    \t--save_log: to save errors parsing, joining, etc... in a errors.log file\n\
+    \t--clean_log: to clean errors.log file\n\
     "
 
 def main():
