@@ -411,6 +411,8 @@ def updateAllEdgesOnlineOptimization(usegraph, f_weight_algo):
     usegraph: The usegraph object to compute weights
     """
 
+    t = 1
+
     for batch in range(0, usegraph.nb_batch):
 
         print("Batch {0} / {1} for {2}".format(batch, usegraph.nb_batch, usegraph.mutation_operator))
@@ -420,8 +422,6 @@ def updateAllEdgesOnlineOptimization(usegraph, f_weight_algo):
             begin_algo = time.time()
 
         complexRepresentation = getComplexRepresentationForMutants(usegraph)
-
-        t = 1
 
         #reset usefull_edges
         usegraph.usefull_edges = []
