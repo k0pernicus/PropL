@@ -24,8 +24,8 @@ def f_weight(f_weight_algo, t):
     if f_weight_algo == "1/square_log_t":
         return 1 / math.pow(math.log(t + 3000), 2)
 
-    #1/log(t) -> default
-    return 1/math.log(t + 3000)
+    #Return 0.995 by default -> value < 1 and, for each time, the definitive value will converge
+    return 0.995
 
 def getMinEdgeFrom(paths, usegraph):
     """
