@@ -146,7 +146,8 @@ def main():
     if "--f_weight" in sys.argv:
         f_weight_algo = sys.argv[sys.argv.index("--f_weight") + 1]
     else:
-        f_weight_algo = "1/log_t"
+        #default algorithm to compute weights
+        f_weight_algo = ""
 
     if "--rslts_dir" in sys.argv:
         rslts_dir = sys.argv[sys.argv.index("--rslts_dir") + 1]
