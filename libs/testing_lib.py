@@ -34,49 +34,103 @@ def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_
         print("TREE_TEST {0}".format(tree_test))
         print("TREE LEARNED {0}".format(tree_learned))
 
-    #true_positive is a positive test found, which is positive too
-    true_positive = 0
+    precision_to_return = 0
 
-    #false_positive is a positive test found, which is not positive
-    false_positive = 0
+    recall_to_return = 0
 
-    #false_negative is a negative test found, which is positive
-    false_negative = 0
+    fscore_to_return = 0
 
-    #impacted tests for tree test
-    tree_test_impacted_tests = []
+    list_precisions = []
 
-    #impacted tests for tree learned
-    tree_learned_impacted_tests = []
+    list_recalls = []
+
+    list_fscores = []
 
     #for each node in tree_test, see all impacted test and add it in tree_test_impacted_tests
     for node in tree_test:
-        for impacted_test in tree_test[node]:
-            tree_test_impacted_tests.append(impacted_test.split('-')[0])
 
-    #for each node in tree_learned, see all impacted test and add it in tree_learned_impacted_tests
-    for node in tree_learned:
-        for impacted_test in tree_learned[node]:
-            tree_learned_impacted_tests.append(impacted_test.split('-')[0])
+        true_positive = 0
 
-    #remove duplications
-    tree_test_impacted_tests = list(set(tree_test_impacted_tests))
-    tree_learned_impacted_tests = list(set(tree_learned_impacted_tests))
+        false_positive = 0
 
-    #compute precision, recall and fscore
-    for node in tree_learned_impacted_tests:
-        if node in tree_test_impacted_tests:
-            true_positive += 1
+        false_negative = 0
 
-    false_positive = len(tree_learned_impacted_tests) - true_positive
-    false_negative = len(tree_test_impacted_tests) - true_positive
+        list_for_tree_learned = []
 
-    precision = computePrecision(true_positive, false_positive)
-    recall = computeRecall(true_positive, false_negative)
-    fscore = computeFScore(precision, recall)
+        list_for_tree_tested = []
+
+        for i in range(0, len(tree_test[node])):
+
+            list_for_tree_tested += tree_test[node][i]
+
+            list_for_tree_learned += tree_learned[node][i]
+
+        len_items_available_testing = len(list_for_tree_tested)
+
+        len_items_available_learning = len(list_for_tree_learned)
+
+        for i in range(0, len_items_available_testing):
+            list_for_tree_tested[i] = list_for_tree_tested[i].split('-')[0]
+
+        for i in range(0, len_items_available_learning):
+            list_for_tree_learned[i] = list_for_tree_learned[i].split('-')[0]
+
+        list_for_tree_tested = list(set(list_for_tree_tested))
+
+        list_for_tree_learned = list(set(list_for_tree_learned))
+
+        print("TESTING : {0}".format(list_for_tree_tested))
+
+        print("LEARNING : {0}".format(list_for_tree_learned))
+
+        for impacted_test in list_for_tree_tested:
+            if impacted_test in list_for_tree_learned:
+                true_positive += 1
+
+        false_positive = len_items_available_learning - true_positive
+        false_negative = len_items_available_testing - true_positive
+
+        precision = computePrecision(true_positive, false_positive)
+        recall = computeRecall(true_positive, false_negative)
+        fscore = computeFScore(precision, recall)
+
+        list_precisions.append(precision)
+        list_recalls.append(recall)
+        list_fscores.append(fscore)
+
+    list_precisions.sort()
+    list_recalls.sort()
+    list_fscores.sort()
+
+    len_list_precisions = len(list_precisions)
+    len_list_recalls = len(list_recalls)
+    len_list_fscores = len(list_fscores)
+
+    print("LEN P: {0}".format(len_list_precisions))
+    print("LEN R: {0}".format(len_list_recalls))
+    print("LEN F: {0}".format(len_list_fscores))
+
+    median_list_precisions = round(len_list_precisions / 2)
+    median_list_recalls = round(len_list_recalls / 2)
+    median_list_fscores = round(len_list_fscores / 2)
+
+    if len_list_precisions % 2 == 0:
+        precision_to_return = (list_precisions[median_list_precisions] + list_precisions[median_list_precisions - 1]) / 2
+    else:
+        precision_to_return = list_precisions[median_list_precisions]
+
+    if len_list_recalls % 2 == 0:
+        recall_to_return = (list_recalls[median_list_recalls] + list_recalls[median_list_recalls - 1]) / 2
+    else:
+        recall_to_return = list_recalls[median_list_recalls]
+
+    if len_list_fscores % 2 == 0:
+        fscore_to_return = (list_fscores[median_list_fscores] + list_fscores[median_list_fscores - 1]) / 2
+    else:
+        fscore_to_return = list_fscores[median_list_fscores]
 
     #return them
-    return precision, recall, fscore
+    return precision_to_return, recall_to_return, fscore_to_return
 
 def doSomeTests(usegraph):
     """
