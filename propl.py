@@ -341,23 +341,23 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
     median_list_fscores = round(len_list_fscores / 2)
     median_list_times = round(len_list_times / 2)
 
-    if len_list_precisions % 2 != 0:
-        precision_to_return = (list_precisions[median_list_precisions] + list_precisions[median_list_precisions + 1]) / 2
+    if len_list_precisions % 2 == 0:
+        precision_to_return = (list_precisions[median_list_precisions] + list_precisions[median_list_precisions - 1]) / 2
     else:
         precision_to_return = list_precisions[median_list_precisions]
 
-    if len_list_recalls % 2 != 0:
-        recall_to_return = (list_recalls[median_list_recalls] + list_recalls[median_list_recalls + 1]) / 2
+    if len_list_recalls % 2 == 0:
+        recall_to_return = (list_recalls[median_list_recalls] + list_recalls[median_list_recalls - 1]) / 2
     else:
         recall_to_return = list_recalls[median_list_recalls]
 
-    if len_list_fscores % 2 != 0:
-        fscore_to_return = (list_fscores[median_list_fscores] + list_fscores[median_list_fscores + 1]) / 2
+    if len_list_fscores % 2 == 0:
+        fscore_to_return = (list_fscores[median_list_fscores] + list_fscores[median_list_fscores - 1]) / 2
     else:
         fscore_to_return = list_fscores[median_list_fscores]
 
-    if len_list_times % 2 != 0:
-        time_to_return = (list_times[median_list_times] + list_times[median_list_times + 1]) / 2
+    if len_list_times % 2 == 0:
+        time_to_return = (list_times[median_list_times] + list_times[median_list_times - 1]) / 2
     else:
         time_to_return = list_times[median_list_times]
 
