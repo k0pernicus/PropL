@@ -143,13 +143,13 @@ def main():
     if "--weight" in sys.argv:
         default_weight = float(sys.argv[sys.argv.index("--weight") + 1])
     else:
-        default_weight = 0.5
+        default_weight = 0
 
     if "--f_weight" in sys.argv:
         f_weight_algo = sys.argv[sys.argv.index("--f_weight") + 1]
     else:
         #default algorithm to compute weights
-        f_weight_algo = ""
+        f_weight_algo = "default"
 
     if "--rslts_dir" in sys.argv:
         rslts_dir = sys.argv[sys.argv.index("--rslts_dir") + 1]
