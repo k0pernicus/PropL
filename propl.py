@@ -99,6 +99,7 @@ def help():
     \t--save_log: to save errors parsing, joining, etc... in a errors.log file\n\
     \t--clean_log: to clean errors.log file\n\
     \t--brink: to compute prediction with brink\n\
+    \t--fscore05: to compute fscore with prediction ++\n\
     "
 
 def main():
