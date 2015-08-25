@@ -6,6 +6,7 @@ from libs.xml_parsing_lib import returnSomeInfosAboutTestFiles
 from libs.basic_stat_lib import computePrecision
 from libs.basic_stat_lib import computeRecall
 from libs.basic_stat_lib import computeFScore
+from libs.basic_stat_lib import computeAverage
 
 def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_table, nodes_name, tree_learned, debug_mode):
     """
@@ -134,8 +135,12 @@ def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_
     else:
         fscore_to_return = list_fscores[median_list_fscores]
 
+    average_precision = computeAverage(list_precisions)
+    average_recall = computeAverage(list_recalls)
+    average_fscore = computeAverage(list_fscores)
+
     #return them
-    return precision_to_return, recall_to_return, fscore_to_return
+    return precision_to_return, recall_to_return, fscore_to_return, average_precision, average_recall, average_fscore
 
 def doSomeTests(usegraph):
     """
@@ -232,7 +237,7 @@ def doSomeTests(usegraph):
                        visited_nodes.append(source_node_id)
 
     #compute the precision, the recall and the f-score!
-    precision_compt, recall_comp, fscore_comp = isAlgorithmGoodBetween(usegraph.path_file, usegraph.mutation_operator, usegraph.files_for_tests, usegraph.all_cases_name, usegraph.mutants, usegraph.all_nodes_name, tree, usegraph.debug_mode)
+    precision_compt, recall_comp, fscore_comp, ave_precision, ave_recall, ave_fscore = isAlgorithmGoodBetween(usegraph.path_file, usegraph.mutation_operator, usegraph.files_for_tests, usegraph.all_cases_name, usegraph.mutants, usegraph.all_nodes_name, tree, usegraph.debug_mode)
 
     #return the precision, the recall and the f-score
-    return precision_compt, recall_comp, fscore_comp
+    return precision_compt, recall_comp, fscore_comp, ave_precision, ave_recall, ave_fscore
