@@ -8,6 +8,9 @@ from libs.basic_stat_lib import computeRecall
 from libs.basic_stat_lib import computeFScore
 from libs.basic_stat_lib import computeAverage
 
+#get the brink...
+brink = 0.5
+
 def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_table, nodes_name, tree_learned, debug_mode):
     """
     Function to match the learning results with the principal results of the usegraph.
@@ -142,7 +145,7 @@ def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_
     #return them
     return precision_to_return, recall_to_return, fscore_to_return, average_precision, average_recall, average_fscore
 
-def doSomeTests(usegraph):
+def doSomeTestsWithoutBrink(usegraph):
     """
     Function to build a learning tree, and return the precision, the recall and the f-score
     usegraph: The usegraph to build the learning tree
@@ -233,6 +236,99 @@ def doSomeTests(usegraph):
 
                     if usegraph.debug_mode:
                        print("\trandom_propagation > weight of source_node_name ({0})".format(weight_edge))
+
+                       visited_nodes.append(source_node_id)
+
+    #compute the precision, the recall and the f-score!
+    precision_compt, recall_comp, fscore_comp, ave_precision, ave_recall, ave_fscore = isAlgorithmGoodBetween(usegraph.path_file, usegraph.mutation_operator, usegraph.files_for_tests, usegraph.all_cases_name, usegraph.mutants, usegraph.all_nodes_name, tree, usegraph.debug_mode)
+
+    #return the precision, the recall and the f-score
+    return precision_compt, recall_comp, fscore_comp, ave_precision, ave_recall, ave_fscore
+
+def doSomeTestsWithBrink(usegraph):
+    """
+    Function to build a learning tree, and return the precision, the recall and the f-score
+    usegraph: The usegraph to build the learning tree
+    """
+
+    #the learning tree is a simple dictionary, which each key is a node, and the value is a list of impacted tests
+    tree = {}
+
+    for (node, mutation_position) in usegraph.nodes_for_tests:
+
+        if usegraph.debug_mode:
+            print("node {0}".format(node))
+
+        #put an empty list if the node is not a key in the learning tree
+        if not node in tree:
+            tree[node] = {}
+
+        tree[node][mutation_position] = []
+
+        #nodes_stack is a stack of visited nodes
+        nodes_stack = []
+
+        #all visited nodes for a source node
+        visited_nodes = []
+
+        nodes_stack.append(node)
+
+        visited_nodes.append(node)
+
+        #if the stack is empty, we finish...
+        while len(nodes_stack) != 0:
+
+            active_node_id = nodes_stack.pop()
+
+            #get the node name by the id
+            active_node_name = usegraph.all_nodes_id[active_node_id]
+
+            if usegraph.debug_mode:
+               print("active_node_name {0} / successors {1}".format(active_node_name, usegraph.all_nodes_name[active_node_name]['sources']))
+
+            for source_node_id in usegraph.all_nodes_name[active_node_name]['sources']:
+
+                #get the source node name of the node name id
+                source_node_name = usegraph.all_nodes_id[source_node_id]
+
+                if usegraph.debug_mode:
+                   print("\tsource_node_name {0}".format(source_node_name))
+
+                #the weight of the interesting edge
+                weight_edge = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source_node_id]][usegraph.all_nodes_position_in_weights_matrix[active_node_id]]
+
+                #print("weight between {0} and {1} : {2}".format(source_node_id, active_node_id, weight_edge))
+
+                if brink <= weight_edge :
+
+                    if usegraph.debug_mode:
+                       print("\tbrink <= weight of source_node_name ({0})".format(weight_edge))
+
+                    #if not 'nt' -> it's a test node!!!!!! WE DID IT! \o/
+                    if not 'nt' in source_node_id:
+
+                        #add it in the list of impacted tests if he's not in the list already
+                        if not source_node_id in tree[node][mutation_position]:
+                            tree[node][mutation_position].append(source_node_id)
+
+                        if usegraph.debug_mode:
+                           print("\t{0} saved!".format(source_node_name))
+
+                    #else, add the node in the list to study it later
+                    else:
+
+                        if not source_node_id in visited_nodes:
+
+                            if usegraph.debug_mode:
+                               print("\t{0} append...".format(source_node_name))
+
+                            nodes_stack.append(source_node_id)
+                            visited_nodes.append(source_node_id)
+
+                else:
+
+                    if usegraph.debug_mode:
+                       print("\tbrink > weight of source_node_name ({0})".format(weight_edge))
 
                        visited_nodes.append(source_node_id)
 
