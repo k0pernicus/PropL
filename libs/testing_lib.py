@@ -70,6 +70,10 @@ def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_
             for i in range(0, len_items_available_testing):
                 list_for_tree_tested[i] = list_for_tree_tested[i].split('-')[0]
 
+            if "--dev_testing" in sys.argv:
+                print("LIST TESTED: {0}".format(list_for_tree_tested))
+                print("(BEFORE) LIST LEARNED: {0} ----- ".format(list_for_tree_learned), end="")
+
             true_positive = 0
 
             false_positive = 0
@@ -89,6 +93,11 @@ def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_
             precision = computePrecision(true_positive, false_positive)
             recall = computeRecall(true_positive, false_negative)
             fscore = computeFScore(precision, recall)
+
+            if "--dev_testing" in sys.argv:
+                print("(AFTER) LIST LEARNED: {0}".format(list_for_tree_learned))
+                print("TP {0} / FP {1} / FN {2}".format(true_positive, false_positive, false_negative))
+                print("P {0} / R {1} / F {2}".format(precision, recall, fscore))
 
             list_precisions.append(precision)
             list_recalls.append(recall)
