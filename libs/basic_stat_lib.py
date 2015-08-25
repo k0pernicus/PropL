@@ -36,3 +36,21 @@ def computeFScore(precision, recall):
     if (precision + recall) == 0:
         return 0
     return 2 * ((precision * recall) / (precision + recall))
+
+def computeAverage(list):
+    """
+    Abstract: Simple function to compute the average of elements in the list
+    list: A list of integer of float elements
+    """
+
+    len_list = len(list)
+
+    #if the list is empty, return 0
+    if len_list == 0:
+        return 0
+    
+    #else, compute the average score
+    sum_elements = 0
+    for element in list:
+        sum_elements += element
+    return sum_elements / len_list
