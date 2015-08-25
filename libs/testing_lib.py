@@ -237,7 +237,7 @@ def doSomeTests(usegraph):
                        visited_nodes.append(source_node_id)
 
     #compute the precision, the recall and the f-score!
-    precision_compt, recall_comp, fscore_comp = isAlgorithmGoodBetween(usegraph.path_file, usegraph.mutation_operator, usegraph.files_for_tests, usegraph.all_cases_name, usegraph.mutants, usegraph.all_nodes_name, tree, usegraph.debug_mode)
+    precision_compt, recall_comp, fscore_comp, ave_precision, ave_recall, ave_fscore = isAlgorithmGoodBetween(usegraph.path_file, usegraph.mutation_operator, usegraph.files_for_tests, usegraph.all_cases_name, usegraph.mutants, usegraph.all_nodes_name, tree, usegraph.debug_mode)
 
     #return the precision, the recall and the f-score
-    return precision_compt, recall_comp, fscore_comp
+    return precision_compt, recall_comp, fscore_comp, ave_precision, ave_recall, ave_fscore
