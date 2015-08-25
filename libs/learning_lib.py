@@ -11,10 +11,15 @@ import libs.settings_lib
 #SIMPLE ALGORITHMS#
 ###################
 
-def f_weight(f_weight_algo, t):
+def f_weight(f_weight_algo, n_batch = 0, nb_mutants = 0):
     """
     Abstract: Function to return a weight based with t
     """
+    if f_weight_algo == "default":
+        #Default function : 'c' / (nb_batch * nb_mutants) where 'c' = (40 / (540 / nb_mutants))
+        c = (40 / (540 / nb_mutants))
+        r = (c / (n_batch * nb_mutants))
+        return r
     if f_weight_algo == "1/log_t":
         return 1 / math.log(t + 3000)
     if f_weight_algo == "1/t":
@@ -24,8 +29,13 @@ def f_weight(f_weight_algo, t):
     if f_weight_algo == "1/square_log_t":
         return 1 / math.pow(math.log(t + 3000), 2)
 
-    #Return 0.995 by default -> value < 1 and, for each time, the definitive value will converge
-    return 1.005
+    #Default function : 'c' / (nb_batch * nb_mutants) where 'c' = (40 / (540 / nb_mutants))
+    c = (40 / (540 / nb_mutants))
+    r = (c / (n_batch * nb_mutants))
+    print("DEFAULT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    print(r)
+
+    return r
 
 def getMinEdgeFrom(paths, usegraph):
     """
@@ -289,7 +299,7 @@ def minAndMaxOnlineOptimization(usegraph, f_weight_algo):
     usegraph: The usegraph object to compute weights
     """
 
-    for batch in range(0, usegraph.nb_batch):
+    for batch in range(1, usegraph.nb_batch + 1):
 
         if usegraph.debug_mode:
             begin_algo = time.time()
@@ -411,11 +421,9 @@ def updateAllEdgesOnlineOptimization(usegraph, f_weight_algo):
     usegraph: The usegraph object to compute weights
     """
 
-    t = 1
+    for batch in range(1, usegraph.nb_batch + 1):
 
-    for batch in range(0, usegraph.nb_batch):
-
-        print("Batch {0} / {1} for {2}".format(batch, usegraph.nb_batch, usegraph.mutation_operator))
+        #print("Batch {0} / {1} for {2}".format(batch, usegraph.nb_batch, usegraph.mutation_operator))
 
         if usegraph.debug_mode:
             need_to_compute_path = 0
@@ -423,10 +431,10 @@ def updateAllEdgesOnlineOptimization(usegraph, f_weight_algo):
 
         complexRepresentation = getComplexRepresentationForMutants(usegraph)
 
+        nb_mutants = len(complexRepresentation)
+
         #reset usefull_edges
         usegraph.usefull_edges = []
-
-        nb_mutant = 1
 
         #for each mutant
         for mutant in complexRepresentation:
@@ -511,8 +519,8 @@ def updateAllEdgesOnlineOptimization(usegraph, f_weight_algo):
 
                                 actual_weight = usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]]
 
-                                if (actual_weight * f_weight(f_weight_algo, t)) < 1:
-                                    usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] *= f_weight(f_weight_algo, t)
+                                if (actual_weight + f_weight(f_weight_algo, n_batch = batch, nb_mutants = nb_mutants)) < 1:
+                                    usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] += f_weight(f_weight_algo, n_batch = batch, nb_mutants = nb_mutants)
                                 else:
                                     usegraph.all_weights[usegraph.all_nodes_position_in_weights_matrix[source]][usegraph.all_nodes_position_in_weights_matrix[target]] = 1
 
@@ -520,14 +528,6 @@ def updateAllEdgesOnlineOptimization(usegraph, f_weight_algo):
 
                         if usegraph.debug_mode:
                             print("ERROR: {0} not found...".format(node))
-
-
-            #Update the tick for each mutant
-            t += 1
-
-            #print("done!")
-
-            nb_mutant += 1
 
         if usegraph.debug_mode:
             end_algo = time.time()
@@ -617,6 +617,7 @@ def tagEachUsefullEdgesOptimization(usegraph):
                             print("ERROR: {0} not found...".format(node))
 
             nb_mutant += 1
+
 
         if usegraph.debug_mode:
             end_algo = time.time()
