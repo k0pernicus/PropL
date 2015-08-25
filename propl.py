@@ -242,15 +242,19 @@ def main():
 
         #Condition to clean the tex file
         if clean_tex:
-            cleanTexFile(rslts_dir, usegraph_base)
+            cleanTexFile("median", rslts_dir, usegraph_base)
+            cleanTexFile("average", rslts_dir, usegraph_base)
 
             #if the user wants to save the results, so we initialize the tex file with a new array
             if save_results_tex:
-                 initTexFile(rslts_dir, usegraph_base)
+                 initTexFile("median", rslts_dir, usegraph_base)
+                 initTexFile("average", rslts_dir, usegraph_base)
                  #7 by default -> some infos about use graph + precision, recall, fscore
-                 beginTabular(rslts_dir, usegraph_base, 8)
+                 beginTabular("median", rslts_dir, usegraph_base, 8)
+                 beginTabular("average", rslts_dir, usegraph_base, 8)
                  #add default tags
-                 addDefaultTagsIntoTabular(rslts_dir, usegraph_base)
+                 addDefaultTagsIntoTabular("median", rslts_dir, usegraph_base)
+                 addDefaultTagsIntoTabular("average", rslts_dir, usegraph_base)
 
         if debug_mode:
             print("actual usegraph: {0}".format(usegraph_choosen))
