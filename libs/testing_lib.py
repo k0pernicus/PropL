@@ -51,7 +51,7 @@ def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_
     for node in tree_test:
 
         for mutation_position in tree_test[node]:
-            
+
             list_for_tree_learned = tree_learned[node][mutation_position]
 
             list_for_tree_tested = tree_test[node][mutation_position]
