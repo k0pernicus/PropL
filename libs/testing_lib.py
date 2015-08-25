@@ -1,5 +1,6 @@
 #Python3.4 - Antonin Carette
 
+import sys
 import random
 from libs.xml_parsing_lib import returnSomeInfosAboutTestFiles
 from libs.basic_stat_lib import computePrecision
@@ -49,54 +50,49 @@ def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_
     #for each node in tree_test, see all impacted test and add it in tree_test_impacted_tests
     for node in tree_test:
 
-        true_positive = 0
+        for mutation_position in tree_test[node]:
+            
+            list_for_tree_learned = tree_learned[node][mutation_position]
 
-        false_positive = 0
+            list_for_tree_tested = tree_test[node][mutation_position]
 
-        false_negative = 0
+            if (len(tree_learned[node]) != len(tree_test[node])):
+                print("ERROR : lengths between tree learned and tree tested are differents! {0} for learning / {1} for testing".format(len(tree_learned[node]), len(tree_test[node])))
+                sys.exit()
 
-        list_for_tree_learned = []
+            len_items_available_learning = len(list_for_tree_learned)
 
-        list_for_tree_tested = []
+            len_items_available_testing = len(list_for_tree_tested)
 
-        for i in range(0, len(tree_test[node])):
+            for i in range(0, len_items_available_learning):
+                list_for_tree_learned[i] = list_for_tree_learned[i].split('-')[0]
 
-            list_for_tree_tested += tree_test[node][i]
+            for i in range(0, len_items_available_testing):
+                list_for_tree_tested[i] = list_for_tree_tested[i].split('-')[0]
 
-            list_for_tree_learned += tree_learned[node][i]
+            true_positive = 0
 
-        len_items_available_testing = len(list_for_tree_tested)
+            false_positive = 0
 
-        len_items_available_learning = len(list_for_tree_learned)
+            false_negative = 0
 
-        for i in range(0, len_items_available_testing):
-            list_for_tree_tested[i] = list_for_tree_tested[i].split('-')[0]
+            for impacted_test in list_for_tree_tested:
+                if impacted_test in list_for_tree_learned:
+                    true_positive += 1
+                    list_for_tree_learned.remove(impacted_test)
+                else:
+                    false_negative += 1
 
-        for i in range(0, len_items_available_learning):
-            list_for_tree_learned[i] = list_for_tree_learned[i].split('-')[0]
+            #Compute false positive as results still in the list
+            false_positive = len(list_for_tree_learned)
 
-        list_for_tree_tested = list(set(list_for_tree_tested))
+            precision = computePrecision(true_positive, false_positive)
+            recall = computeRecall(true_positive, false_negative)
+            fscore = computeFScore(precision, recall)
 
-        list_for_tree_learned = list(set(list_for_tree_learned))
-
-        print("TESTING : {0}".format(list_for_tree_tested))
-
-        print("LEARNING : {0}".format(list_for_tree_learned))
-
-        for impacted_test in list_for_tree_tested:
-            if impacted_test in list_for_tree_learned:
-                true_positive += 1
-
-        false_positive = len_items_available_learning - true_positive
-        false_negative = len_items_available_testing - true_positive
-
-        precision = computePrecision(true_positive, false_positive)
-        recall = computeRecall(true_positive, false_negative)
-        fscore = computeFScore(precision, recall)
-
-        list_precisions.append(precision)
-        list_recalls.append(recall)
-        list_fscores.append(fscore)
+            list_precisions.append(precision)
+            list_recalls.append(recall)
+            list_fscores.append(fscore)
 
     list_precisions.sort()
     list_recalls.sort()
@@ -141,7 +137,7 @@ def doSomeTests(usegraph):
     #the learning tree is a simple dictionary, which each key is a node, and the value is a list of impacted tests
     tree = {}
 
-    for node in usegraph.nodes_for_tests:
+    for (node, mutation_position) in usegraph.nodes_for_tests:
 
         if usegraph.debug_mode:
             print("node {0}".format(node))
@@ -150,9 +146,7 @@ def doSomeTests(usegraph):
         if not node in tree:
             tree[node] = {}
 
-        single_position = len(tree[node])
-
-        tree[node][single_position] = []
+        tree[node][mutation_position] = []
 
         #nodes_stack is a stack of visited nodes
         nodes_stack = []
@@ -204,8 +198,8 @@ def doSomeTests(usegraph):
                     if not 'nt' in source_node_id:
 
                         #add it in the list of impacted tests if he's not in the list already
-                        if not source_node_id in tree[node][single_position]:
-                            tree[node][single_position].append(source_node_id)
+                        if not source_node_id in tree[node][mutation_position]:
+                            tree[node][mutation_position].append(source_node_id)
 
                         if usegraph.debug_mode:
                            print("\t{0} saved!".format(source_node_name))
