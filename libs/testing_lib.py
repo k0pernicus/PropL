@@ -6,6 +6,7 @@ from libs.xml_parsing_lib import returnSomeInfosAboutTestFiles
 from libs.basic_stat_lib import computePrecision
 from libs.basic_stat_lib import computeRecall
 from libs.basic_stat_lib import computeFScore
+from libs.basic_stat_lib import computeAverage
 
 def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_table, nodes_name, tree_learned, debug_mode):
     """
