@@ -311,8 +311,9 @@ class UseGraph(object):
                 #    print("{0} -> {1} add as mutant test (file {2})...".format(self.id, self.mutants[mutant_node]['name'], mutant_file_test))
                 try:
                     mutant_name = self.mutants[mutant_node]['name']
+                    mutant_position = self.mutants[mutant_node]['to']
                     node_id = self.all_nodes_name[mutant_name]['id']
-                    self.nodes_for_tests.append(node_id)
+                    self.nodes_for_tests.append((node_id, mutant_position))
                 except:
                     if "--save_log" in sys.argv:
                         f = open("errors.log", "a")
