@@ -389,10 +389,10 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
 
     if save_results_csv:
         #Write results in a CSV file -> algorithm_choosen, use_graph.id, use_graph.dir, precision, recall, fscore
-        writeIntoCSVFile(("average", dir, rslts_dir, algorithm_choosen, usegraph_choosen, use_graph.nb_batch, mutation_operator, round(precision_to_return, 2), round(recall_to_return, 2), round(fscore_to_return, 2)))
+        writeIntoCSVFile(("average", dir, rslts_dir, algorithm_choosen, usegraph_choosen, use_graph.nb_batch, mutation_operator, round(average_precision_to_return, 2), round(average_recall_to_return, 2), round(average_fscore_to_return, 2)))
     if save_results_tex:
         #Write results in a Tex file
-        writeIntoTexFile("average", rslts_dir, usegraph_base, (dir, algorithm_choosen, usegraph_choosen, use_graph.nb_batch, mutation_operator, round(precision_to_return, 2), round(recall_to_return, 2), round(fscore_to_return, 2)))
+        writeIntoTexFile("average", rslts_dir, usegraph_base, (dir, algorithm_choosen, usegraph_choosen, use_graph.nb_batch, mutation_operator, round(average_precision_to_return, 2), round(average_recall_to_return, 2), round(average_fscore_to_return, 2)))
 
 
 if __name__ == '__main__':
