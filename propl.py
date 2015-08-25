@@ -36,6 +36,8 @@ from libs.tex_lib import closeTexFile
 from libs.tex_lib import writeIntoTexFile
 from libs.tex_lib import addDefaultTagsIntoTabular
 
+from libs.basic_stat_lib import computeAverage
+
 not_authorized_files = ['.DS_Store', '__init__.py']
 
 algorithms_available = ['dicho_online_opt', 'min_max_online_opt', 'update_all_edges_online_opt', 'tag_on_usefull_edges']
@@ -283,6 +285,10 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
     #List which contains time to compute mutants
     list_times = []
 
+    list_average_precisions = []
+    list_average_recalls = []
+    list_average_fscores = []
+
     #initialize the global table for paths
     #This global table will be shared by all usegraph, and reduce the time to compute each path
     libs.settings_lib.init()
@@ -317,12 +323,16 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
         if infos:
             getSomeInfos(use_graph)
 
-        precision_tmp, recall_tmp, fscore_tmp = doSomeTests(use_graph)
+        precision_tmp, recall_tmp, fscore_tmp, ave_precision, ave_recall, ave_fscore = doSomeTests(use_graph)
 
         list_precisions.append(precision_tmp)
         list_recalls.append(recall_tmp)
         list_fscores.append(fscore_tmp)
         list_times.append(time_tmp)
+
+        list_average_precisions.append(ave_precision)
+        list_average_recalls.append(ave_recall)
+        list_average_fscores.append(ave_fscore)
 
         print("Test {0} for {1}... ok ({2})!".format(i, use_graph.id, time_tmp))
 
@@ -361,16 +371,29 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
     else:
         time_to_return = list_times[median_list_times]
 
+    #AVERAGE SCORES
+    average_precision_to_return = computeAverage(list_average_precisions)
+    average_recall_to_return = computeAverage(list_average_recalls)
+    average_fscore_to_return = computeAverage(list_average_fscores) 
+
     print("usegraph {0}: P {1} / R {2} / F {3} / T {4}".format(use_graph.id, precision_to_return, recall_to_return, fscore_to_return, time_to_return))
 
     dir = test_directory.split("/")[-2]
 
     if save_results_csv:
         #Write results in a CSV file -> algorithm_choosen, use_graph.id, use_graph.dir, precision, recall, fscore
-        writeIntoCSVFile((dir, rslts_dir, algorithm_choosen, usegraph_choosen, use_graph.nb_batch, mutation_operator, round(precision_to_return, 2), round(recall_to_return, 2), round(fscore_to_return, 2)))
+        writeIntoCSVFile(("median", dir, rslts_dir, algorithm_choosen, usegraph_choosen, use_graph.nb_batch, mutation_operator, round(precision_to_return, 2), round(recall_to_return, 2), round(fscore_to_return, 2)))
     if save_results_tex:
         #Write results in a Tex file
-        writeIntoTexFile(rslts_dir, usegraph_base, (dir, algorithm_choosen, usegraph_choosen, use_graph.nb_batch, mutation_operator, round(precision_to_return, 2), round(recall_to_return, 2), round(fscore_to_return, 2)))
+        writeIntoTexFile("median", rslts_dir, usegraph_base, (dir, algorithm_choosen, usegraph_choosen, use_graph.nb_batch, mutation_operator, round(precision_to_return, 2), round(recall_to_return, 2), round(fscore_to_return, 2)))
+
+    if save_results_csv:
+        #Write results in a CSV file -> algorithm_choosen, use_graph.id, use_graph.dir, precision, recall, fscore
+        writeIntoCSVFile(("average", dir, rslts_dir, algorithm_choosen, usegraph_choosen, use_graph.nb_batch, mutation_operator, round(precision_to_return, 2), round(recall_to_return, 2), round(fscore_to_return, 2)))
+    if save_results_tex:
+        #Write results in a Tex file
+        writeIntoTexFile("average", rslts_dir, usegraph_base, (dir, algorithm_choosen, usegraph_choosen, use_graph.nb_batch, mutation_operator, round(precision_to_return, 2), round(recall_to_return, 2), round(fscore_to_return, 2)))
+
 
 if __name__ == '__main__':
     main()
