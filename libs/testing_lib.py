@@ -135,8 +135,12 @@ def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_
     else:
         fscore_to_return = list_fscores[median_list_fscores]
 
+    average_precision = computeAverage(list_precisions)
+    average_recall = computeAverage(list_recalls)
+    average_fscore = computeAverage(list_fscores)
+
     #return them
-    return precision_to_return, recall_to_return, fscore_to_return
+    return precision_to_return, recall_to_return, fscore_to_return, average_precision, average_recall, average_fscore
 
 def doSomeTests(usegraph):
     """
