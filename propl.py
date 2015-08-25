@@ -22,7 +22,8 @@ from libs.learning_lib import minAndMaxOnlineOptimization
 from libs.learning_lib import updateAllEdgesOnlineOptimization
 from libs.learning_lib import tagEachUsefullEdgesOptimization
 
-from libs.testing_lib import doSomeTests
+from libs.testing_lib import doSomeTestsWithBrink
+from libs.testing_lib import doSomeTestsWithoutBrink
 
 from libs.utils_lib import getSomeInfos
 from libs.utils_lib import writeIntoCSVFile
@@ -97,6 +98,7 @@ def help():
     \t--clean_csv: to clean the CSV file before to write in\n\
     \t--save_log: to save errors parsing, joining, etc... in a errors.log file\n\
     \t--clean_log: to clean errors.log file\n\
+    \t--brink: to compute prediction with brink\n\
     "
 
 def main():
@@ -327,7 +329,10 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
         if infos:
             getSomeInfos(use_graph)
 
-        precision_tmp, recall_tmp, fscore_tmp, ave_precision, ave_recall, ave_fscore = doSomeTests(use_graph)
+        if "--brink" in sys.argv:
+            precision_tmp, recall_tmp, fscore_tmp, ave_precision, ave_recall, ave_fscore = doSomeTestsWithBrink(use_graph)
+        else:
+            precision_tmp, recall_tmp, fscore_tmp, ave_precision, ave_recall, ave_fscore = doSomeTestsWithoutBrink(use_graph)
 
         list_precisions.append(precision_tmp)
         list_recalls.append(recall_tmp)
@@ -378,7 +383,7 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
     #AVERAGE SCORES
     average_precision_to_return = computeAverage(list_average_precisions)
     average_recall_to_return = computeAverage(list_average_recalls)
-    average_fscore_to_return = computeAverage(list_average_fscores) 
+    average_fscore_to_return = computeAverage(list_average_fscores)
 
     print("usegraph {0}: P {1} / R {2} / F {3} / T {4}".format(use_graph.id, precision_to_return, recall_to_return, fscore_to_return, time_to_return))
 
