@@ -6,10 +6,11 @@ from libs.xml_parsing_lib import returnSomeInfosAboutTestFiles
 from libs.basic_stat_lib import computePrecision
 from libs.basic_stat_lib import computeRecall
 from libs.basic_stat_lib import computeFScore
+from libs.basic_stat_lib import computeF05Score
 from libs.basic_stat_lib import computeAverage
 
 #get the brink...
-brink = 0.5
+brink = 0.1
 
 def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_table, nodes_name, tree_learned, debug_mode):
     """
@@ -96,7 +97,10 @@ def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_
 
             precision = computePrecision(true_positive, false_positive)
             recall = computeRecall(true_positive, false_negative)
-            fscore = computeFScore(precision, recall)
+            if "--fscore05" in sys.argv:
+                fscore = computeF05Score(precision, recall)
+            else:
+                fscore = computeFScore(precision, recall)
 
             if "--dev_testing" in sys.argv:
                 print("(AFTER) LIST LEARNED: {0}".format(list_for_tree_learned))
