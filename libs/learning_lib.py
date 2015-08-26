@@ -4,6 +4,8 @@ import networkx as nx
 import math
 import time
 import random
+import sys
+import datetime
 
 import libs.settings_lib
 
@@ -214,6 +216,8 @@ def dichotomicOnlineOptimization(usegraph):
     usegraph: The usegraph object to compute weights
     """
 
+    begin_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+
     #Number of batch to compute
     for batch in range(0, usegraph.nb_batch):
 
@@ -291,6 +295,13 @@ def dichotomicOnlineOptimization(usegraph):
             end_algo = time.time()
             print("Computing time (dichotomicOnlineOptimization) for batch {0}: {1} seconds".format(batch, end_algo - begin_algo))
             print("Need to compute {0} times paths for project {1}".format(need_to_compute_path, usegraph.mutation_operator))
+
+    if "--save_times" in sys.argv:
+        end_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+        path = "times/{0}.csv".format(usegraph.id.replace('/', '-').replace('.graphml', ''))
+        f = open(path, "a")
+        f.write("{0} -- {1}\n".format(begin_time, end_time))
+        f.close()
 
 def minAndMaxOnlineOptimization(usegraph, f_weight_algo):
     """
@@ -540,6 +551,8 @@ def tagEachUsefullEdgesOptimization(usegraph):
     usegraph: The usegraph object to compute weights
     """
 
+    begin_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+
     for batch in range(0, usegraph.nb_batch):
 
         if usegraph.debug_mode:
@@ -623,3 +636,10 @@ def tagEachUsefullEdgesOptimization(usegraph):
             end_algo = time.time()
             print("Computing time (tagEachUsefullEdgesOptimization) for batch {0}: {1} seconds".format(batch, end_algo - begin_algo))
             print("Need to compute {0} times paths for project {1}".format(need_to_compute_path, usegraph.mutation_operator))
+
+    if "--save_times" in sys.argv:
+        end_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+        path = "times/{0}.csv".format(usegraph.id.replace('/', '-').replace('.graphml', ''))
+        f = open(path, "a")
+        f.write("{0} -- {1}\n".format(begin_time, end_time))
+        f.close()
