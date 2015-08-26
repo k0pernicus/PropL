@@ -12,7 +12,9 @@ from libs.basic_stat_lib import computeAverage
 #get the brink...
 brink = 0.1
 
-def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_table, nodes_name, tree_learned, debug_mode):
+mann_whitney_dir = "mann_whitney/"
+
+def isAlgorithmGoodBetween(usegraph_name, algorithm_choosen, path, test_dir, files_for_tests, cases_name, mutants_table, nodes_name, tree_learned, debug_mode):
     """
     Function to match the learning results with the principal results of the usegraph.
     This function returns the precision, the recall and the f-score of the match.
@@ -111,6 +113,26 @@ def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_
             list_recalls.append(recall)
             list_fscores.append(fscore)
 
+    if "--mann_whitney" in sys.argv:
+        p_precisions = "{0}{1}_{2}_Precisions.csv".format(mann_whitney_dir, usegraph_name, algorithm_choosen)
+        p_recalls = "{0}{1}_{2}_Recalls.csv".format(mann_whitney_dir, usegraph_name, algorithm_choosen)
+        p_fscores = "{0}{1}_{2}_Fscores.csv".format(mann_whitney_dir, usegraph_name, algorithm_choosen)
+
+        f = open(p_precisions, "a")
+        for p in list_precisions:
+            f.write("{0}\n".format(p))
+        f.close()
+
+        f = open(p_recalls, "a")
+        for p in list_recalls:
+            f.write("{0}\n".format(p))
+        f.close()
+
+        f = open(p_fscores, "a")
+        for p in list_fscores:
+            f.write("{0}\n".format(p))
+        f.close()
+
     list_precisions.sort()
     list_recalls.sort()
     list_fscores.sort()
@@ -149,7 +171,7 @@ def isAlgorithmGoodBetween(path, test_dir, files_for_tests, cases_name, mutants_
     #return them
     return precision_to_return, recall_to_return, fscore_to_return, average_precision, average_recall, average_fscore
 
-def doSomeTestsWithoutBrink(usegraph):
+def doSomeTestsWithoutBrink(usegraph, algorithm_choosen):
     """
     Function to build a learning tree, and return the precision, the recall and the f-score
     usegraph: The usegraph to build the learning tree
@@ -244,12 +266,12 @@ def doSomeTestsWithoutBrink(usegraph):
                        visited_nodes.append(source_node_id)
 
     #compute the precision, the recall and the f-score!
-    precision_compt, recall_comp, fscore_comp, ave_precision, ave_recall, ave_fscore = isAlgorithmGoodBetween(usegraph.path_file, usegraph.mutation_operator, usegraph.files_for_tests, usegraph.all_cases_name, usegraph.mutants, usegraph.all_nodes_name, tree, usegraph.debug_mode)
+    precision_compt, recall_comp, fscore_comp, ave_precision, ave_recall, ave_fscore = isAlgorithmGoodBetween(usegraph.usegraph_choosen, algorithm_choosen, usegraph.path_file, usegraph.mutation_operator, usegraph.files_for_tests, usegraph.all_cases_name, usegraph.mutants, usegraph.all_nodes_name, tree, usegraph.debug_mode)
 
     #return the precision, the recall and the f-score
     return precision_compt, recall_comp, fscore_comp, ave_precision, ave_recall, ave_fscore
 
-def doSomeTestsWithBrink(usegraph):
+def doSomeTestsWithBrink(usegraph, algorithm_choosen):
     """
     Function to build a learning tree, and return the precision, the recall and the f-score
     usegraph: The usegraph to build the learning tree
@@ -337,7 +359,7 @@ def doSomeTestsWithBrink(usegraph):
                        visited_nodes.append(source_node_id)
 
     #compute the precision, the recall and the f-score!
-    precision_compt, recall_comp, fscore_comp, ave_precision, ave_recall, ave_fscore = isAlgorithmGoodBetween(usegraph.path_file, usegraph.mutation_operator, usegraph.files_for_tests, usegraph.all_cases_name, usegraph.mutants, usegraph.all_nodes_name, tree, usegraph.debug_mode)
+    precision_compt, recall_comp, fscore_comp, ave_precision, ave_recall, ave_fscore = isAlgorithmGoodBetween(usegraph.usegraph_choosen,algorithm_choosen, usegraph.path_file, usegraph.mutation_operator, usegraph.files_for_tests, usegraph.all_cases_name, usegraph.mutants, usegraph.all_nodes_name, tree, usegraph.debug_mode)
 
     #return the precision, the recall and the f-score
     return precision_compt, recall_comp, fscore_comp, ave_precision, ave_recall, ave_fscore
