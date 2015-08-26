@@ -331,9 +331,9 @@ def computePropagation(nb_of_tests, usegraph_base, algorithm_choosen, test_direc
             getSomeInfos(use_graph)
 
         if "--brink" in sys.argv:
-            precision_tmp, recall_tmp, fscore_tmp, ave_precision, ave_recall, ave_fscore = doSomeTestsWithBrink(use_graph)
+            precision_tmp, recall_tmp, fscore_tmp, ave_precision, ave_recall, ave_fscore = doSomeTestsWithBrink(use_graph, algorithm_choosen)
         else:
-            precision_tmp, recall_tmp, fscore_tmp, ave_precision, ave_recall, ave_fscore = doSomeTestsWithoutBrink(use_graph)
+            precision_tmp, recall_tmp, fscore_tmp, ave_precision, ave_recall, ave_fscore = doSomeTestsWithoutBrink(use_graph, algorithm_choosen)
 
         list_precisions.append(precision_tmp)
         list_recalls.append(recall_tmp)
